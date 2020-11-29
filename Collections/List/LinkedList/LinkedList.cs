@@ -67,7 +67,7 @@ namespace MuxLib.MUtility.Collections.List.LinkedList
         }
 
         IEnumerator IEnumerable.GetEnumerator()
-        {
+    {
             throw new System.NotImplementedException();
         }
     }
