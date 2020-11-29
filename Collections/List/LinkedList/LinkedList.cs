@@ -66,7 +66,23 @@ namespace MuxLib.MUtility.Collections.List.LinkedList
 
         public bool Remove(T item)
         {
-            throw new System.NotImplementedException();
+            Node<T> cur = _dummy_head;
+
+            while(cur.Next != null)
+            {
+                if (cur.Before.Data.Equals(item))
+                {
+                    cur.Next.Before = cur.Before;
+                    cur.Before.Next = cur.Next;
+
+                    // cur.Next = null; cur.Before = null;
+                    cur = null;
+                    return true;
+                }
+
+                cur = cur.Next;
+            }
+            return false;
         }
 
         public IEnumerator<T> GetEnumerator()
