@@ -6,8 +6,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Tree\" />
     <Folder Include="Map\" />
+    <Folder Include="Tree\BST\" />
+    <Folder Include="Tree\Trie\" />
   </ItemGroup>
 
 </Project>
