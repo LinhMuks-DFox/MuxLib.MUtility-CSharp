@@ -9,7 +9,6 @@
     <Folder Include="Map\" />
     <Folder Include="Tree\BST\" />
     <Folder Include="Tree\Trie\" />
-    <Folder Include="UnionFind\" />
   </ItemGroup>
 
 </Project>
