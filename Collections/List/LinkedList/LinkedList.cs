@@ -107,7 +107,8 @@ namespace MuxLib.MUtility.Collections.List.LinkedList
                     cur.Next.Before = cur.Before;
                     cur.Before.Next = cur.Next;
                     /* 1<->2<->3<->4 */
-                    cur.Next = null; cur.Before = null;
+                    cur.Next = null; 
+                    cur.Before = null;
                     return true;
                 }
 
