@@ -1,4 +1,6 @@
-﻿namespace MuxLib.MUtility.Collections.UnionFind
+﻿using System;
+
+namespace MuxLib.MUtility.Collections.UnionFind
 {
     public class UnionFind1 :
         Metas.ABClass.ABCUnionFind
