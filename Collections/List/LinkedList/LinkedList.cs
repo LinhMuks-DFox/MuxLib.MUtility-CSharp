@@ -31,6 +31,34 @@ namespace MuxLib.MUtility.Collections.List.LinkedList
             throw new System.NotImplementedException();
         }
 
+        public T Get(int index)
+        {
+            if (index < 0 || index >= _size)
+                throw new Errors.InvalidArgumentError($"Argument{index} is invalid.");
+
+            int mid = _size / 2;
+            if (index <= mid)
+            {
+                Node<T> cur = _dummy_head;
+                for (int i = 0; i < index + 1; i++)
+                {
+                    cur = cur.Next;
+                }
+
+                return cur.Data;
+            }
+            else // index > mid;
+            {
+                Node<T> cur = _tail;
+                for (int i = 0; i < (_size - index) + 1; i++)
+                {
+                    cur = cur.Before;
+                }
+
+                return cur.Data;
+            }
+        }
+
         public void RemoveAt(int index)
         {
             throw new System.NotImplementedException();
@@ -49,7 +77,7 @@ namespace MuxLib.MUtility.Collections.List.LinkedList
         public bool Contains(T item)
         {
             Node<T> cur = _dummy_head;
-            while(cur.Next != null)
+            while (cur.Next != null)
             {
                 if (cur.Data.Equals(item))
                     return true;
@@ -68,7 +96,7 @@ namespace MuxLib.MUtility.Collections.List.LinkedList
         {
             Node<T> cur = _dummy_head;
 
-            while(cur.Next != null)
+            while (cur.Next != null)
             {
                 if (cur.Before.Data.Equals(item))
                 {
@@ -91,7 +119,7 @@ namespace MuxLib.MUtility.Collections.List.LinkedList
         }
 
         IEnumerator IEnumerable.GetEnumerator()
-    {
+        {
             throw new System.NotImplementedException();
         }
     }
