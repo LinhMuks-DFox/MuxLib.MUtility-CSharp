@@ -13,7 +13,11 @@ namespace MuxLib.MUtility.Collections.List.LinkedList
 
         public bool IsReadOnly { set; get; } = false;
 
-        public T this[int index] { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
+        public T this[int index] 
+        {   
+            get => Get(index); 
+            set => throw new System.NotImplementedException(); 
+        }
 
         public LinkedList()
         {
@@ -37,7 +41,7 @@ namespace MuxLib.MUtility.Collections.List.LinkedList
                 throw new Errors.InvalidArgumentError($"Argument{index} is invalid.");
 
             int mid = _size / 2;
-            if (index <= mid)
+            if (index <= mid || index > 20)
             {
                 Node<T> cur = _dummy_head;
                 for (int i = 0; i < index + 1; i++)
@@ -102,9 +106,7 @@ namespace MuxLib.MUtility.Collections.List.LinkedList
                 {
                     cur.Next.Before = cur.Before;
                     cur.Before.Next = cur.Next;
-
-                    // cur.Next = null; cur.Before = null;
-                    cur = null;
+                    cur.Next = null; cur.Before = null;
                     return true;
                 }
 
