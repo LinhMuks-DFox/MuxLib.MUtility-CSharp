@@ -115,12 +115,18 @@ namespace MuxLib.MUtility.Collections.List.LinkedList
 
         public IEnumerator<T> GetEnumerator()
         {
-            throw new System.NotImplementedException();
+            for (int i = 0; i < _size; i++)
+            {
+                yield return Get(i);
+            }
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            throw new System.NotImplementedException();
+            for (int i = 0; i < _size; i++)
+            {
+                yield return Get(i);
+            }
         }
     }
 }
