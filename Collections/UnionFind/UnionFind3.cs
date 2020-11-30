@@ -5,12 +5,18 @@ namespace MuxLib.MUtility.Collections.UnionFind
     public class UnionFind3 : Metas.ABClass.ABCUnionFind
     {
         private readonly int[] _parent;
+        private readonly int[] _size;
 
         public UnionFind3(int size)
         {
             _parent = new int[size];
+            _size = new int[size];
             for (int i = 0; i < size; i++)
+            {
                 _parent[i] = i;
+                _size[i] = 1;
+            }
+            
         }
 
         public override int Size { get => _parent.Length; }
@@ -35,7 +41,18 @@ namespace MuxLib.MUtility.Collections.UnionFind
             int pRoot = Find(item_p), qRoot = Find(item_q);
             if (pRoot == qRoot)
                 return;
-            _parent[pRoot] = qRoot;
+
+            if (_size[pRoot] < _size[qRoot])
+            {
+                _parent[pRoot] = qRoot;
+                _size[qRoot] += _size[pRoot];
+            }
+            else 
+            {
+                _parent[qRoot] = pRoot;
+                _size[pRoot] += _size[qRoot];
+            }
+
         }
     }
 }
