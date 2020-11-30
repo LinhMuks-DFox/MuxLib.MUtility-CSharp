@@ -24,14 +24,16 @@
             return p;
         }
 
-        public override bool IsConnected(int item_p, int item_q)
-        {
-            throw new System.NotImplementedException();
-        }
+        public override bool IsConnected(int item_p, int item_q) => 
+            Find(item_p) == Find(item_q);
+        
 
         public override void UnionElements(int item_p, int item_q)
         {
-            throw new System.NotImplementedException();
+            int pRoot = Find(item_p), qRoot = Find(item_q);
+            if (pRoot == qRoot)
+                return;
+            _parent[pRoot] = qRoot;
         }
     }
 }
