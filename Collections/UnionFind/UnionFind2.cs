@@ -2,7 +2,7 @@
 {
     public class UnionFind2 : Metas.ABClass.ABCUnionFind
     {
-        private int[] _parent;
+        private readonly int[] _parent;
 
         public UnionFind2(int size)
         {
