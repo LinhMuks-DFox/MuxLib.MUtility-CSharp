@@ -1,10 +1,10 @@
 ﻿namespace MuxLib.MUtility.Collections.UnionFind
 {
-    public class UnionFind : Metas.ABClass.ABCUnionFind
+    public class UnionFind2 : Metas.ABClass.ABCUnionFind
     {
         private int[] _parent;
 
-        public UnionFind(int size)
+        public UnionFind2(int size)
         {
             _parent = new int[size];
             for (int i = 0; i < size; i++)
