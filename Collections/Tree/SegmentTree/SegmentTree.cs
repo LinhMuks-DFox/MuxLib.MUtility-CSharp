@@ -94,8 +94,8 @@ namespace MuxLib.MUtility.Collections.Tree
                 return _tree[tree_index];
 
             int mid = l + (r - l) / 2;
-            int left_tree_index = LeftChildOf(tree_index);
-            int right_tree_index = RightChildOf(tree_index);
+            int left_tree_index = LeftChildOf(tree_index), 
+                right_tree_index = RightChildOf(tree_index);
             if (query_l >= mid + 1)
                 return Query(right_tree_index, mid + 1, r, query_l, query_r);
             else if (query_r <= mid)
