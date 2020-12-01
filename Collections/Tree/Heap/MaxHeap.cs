@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MuxLib.MUtility.Collections.Heap
+namespace MuxLib.MUtility.Collections.Tree.Heap
 {
 
     /// <summary>
