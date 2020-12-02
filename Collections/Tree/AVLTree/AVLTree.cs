@@ -74,6 +74,21 @@ namespace MuxLib.MUtility.Collections.Tree.AVLTree
             }
             return true;
         }
+        
+        public bool IsBalanced()
+        {
+            return IsBalanced(_root);
+        }
+
+        private bool IsBalanced(AVLNode<K,V> node)
+        {
+            if (node == null)
+                return true;
+            int balanced_factor = GetBalanceFactor(node);
+            if (Math.Abs(balanced_factor) > 1)
+                return false;
+            return IsBalanced(node.Left) && IsBalanced(node.Right);
+        }
 
         private void InOrder(AVLNode<K, V> node, List<K> keys)
         {
