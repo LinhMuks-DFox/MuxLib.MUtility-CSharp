@@ -7,9 +7,9 @@ namespace MuxLib.MUtility.Collections.Tree.AVLTree
     {
         public K Key { get; set; }
         public V Value { get; set; }
-
         public AVLNode<K, V> Left { set; get; } = null;
         public AVLNode<K, V> Right { set; get; } = null;
+        public int Height { set; get; } = 1;
 
         public AVLNode(K key, V value)
         {
