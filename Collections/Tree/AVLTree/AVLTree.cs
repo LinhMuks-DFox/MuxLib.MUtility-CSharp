@@ -52,7 +52,9 @@ namespace MuxLib.MUtility.Collections.Tree.AVLTree
 
             // Balance maintenance
             if (balance_factor > 1 && GetBalanceFactor(node.Left) >= 0)
-               return RightRotate(node);
+                return RightRotate(node);
+            if (balance_factor < -1 && GetBalanceFactor(node.Right) <= 0)
+                return LeftRotate(node);
             return node;
 
         }
@@ -63,7 +65,7 @@ namespace MuxLib.MUtility.Collections.Tree.AVLTree
         //      z   T3                          T1 T2 T3 T4
         //     / \
         //    T1  T2
-        private AVLNode<K, V> RightRotate(AVLNode<K, V> y) 
+        private AVLNode<K, V> RightRotate(AVLNode<K, V> y)
         {
             AVLNode<K, V> x = y.Left, t3 = x.Right;
             x.Right = y; y.Left = t3;
@@ -74,7 +76,23 @@ namespace MuxLib.MUtility.Collections.Tree.AVLTree
             return x;
         }
 
-        private static int GetBalanceFactor(AVLNode<K,V> node)
+        //          y                                 x
+        //         / \                              /   \
+        //        T1  x         LeftRotate         y     z
+        //           / \        -------->         / \   / \
+        //          T2  z                        T1 T2 T3 T4
+        //             / \
+        //            T3  T4
+        private AVLNode<K, V> LeftRotate(AVLNode<K, V> y)
+        {
+            AVLNode<K, V> x = y.Right, T2 = x.Left;
+            x.Left = y; y.Right = T2;
+            y.Height = Math.Max(GetHeight(y.Left), GetHeight(y.Right)) + 1;
+            x.Height = Math.Max(GetHeight(x.Left), GetHeight(x.Right)) + 1;
+            return x;
+        }
+
+        private static int GetBalanceFactor(AVLNode<K, V> node)
         {
             if (node == null)
                 return 0;
@@ -85,20 +103,20 @@ namespace MuxLib.MUtility.Collections.Tree.AVLTree
         {
             List<K> keys = new List<K>();
             InOrder(_root, keys);
-            for(int i = 1; i < keys.Count; i++)
+            for (int i = 1; i < keys.Count; i++)
             {
                 if (keys[i - 1].CompareTo(keys[i]) > 0)
                     return false;
             }
             return true;
         }
-        
+
         public bool IsBalanced()
         {
             return IsBalanced(_root);
         }
 
-        private bool IsBalanced(AVLNode<K,V> node)
+        private bool IsBalanced(AVLNode<K, V> node)
         {
             if (node == null)
                 return true;
