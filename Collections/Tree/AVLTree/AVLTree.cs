@@ -73,6 +73,22 @@ namespace MuxLib.MUtility.Collections.Tree.AVLTree
             x.Height = Math.Max(GetHeight(x.Left), GetHeight(x.Right)) + 1;
             return x;
         }
+         
+        //          y                                 x
+        //         / \                              /   \
+        //        T1  x         LeftRotate         y     z
+        //           / \        -------->         / \   / \
+        //          T2  z                        T1 T2 T3 T4
+        //             / \
+        //            T3  T4
+        private AVLNode<K, V> LeftRotate(AVLNode<K, V> y)
+        {
+            AVLNode<K, V> x = y.Right, T2 = x.Left;
+            x.Left = y; y.Right = T2;
+            y.Height = Math.Max(GetHeight(y.Left), GetHeight(y.Right)) + 1;
+            x.Height = Math.Max(GetHeight(x.Left), GetHeight(x.Right)) + 1;
+            return x;
+        }
 
         private static int GetBalanceFactor(AVLNode<K,V> node)
         {
