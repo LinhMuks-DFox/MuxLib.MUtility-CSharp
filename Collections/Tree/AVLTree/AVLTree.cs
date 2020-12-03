@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MuxLib.MUtility.Collections.Tree.AVLTree
 {
@@ -52,8 +49,29 @@ namespace MuxLib.MUtility.Collections.Tree.AVLTree
             int balance_factor = GetBalanceFactor(node);
             if (Math.Abs(balance_factor) > 1)
                 Console.WriteLine("Unbalance: ", balance_factor);
+
+            // Balance maintenance
+            if (balance_factor > 1 && GetBalanceFactor(node.Left) >= 0)
+               return RightRotate(node);
             return node;
 
+        }
+        //          y                                x
+        //         / \                             /   \
+        //        x   T4        RightRotate       z     y
+        //       / \            -------->        / \   / \
+        //      z   T3                          T1 T2 T3 T4
+        //     / \
+        //    T1  T2
+        private AVLNode<K, V> RightRotate(AVLNode<K, V> y) 
+        {
+            AVLNode<K, V> x = y.Left, t3 = x.Right;
+            x.Right = y; y.Left = t3;
+
+            // Update Node's height
+            y.Height = Math.Max(GetHeight(y.Left), GetHeight(y.Right)) + 1;
+            x.Height = Math.Max(GetHeight(x.Left), GetHeight(x.Right)) + 1;
+            return x;
         }
 
         private static int GetBalanceFactor(AVLNode<K,V> node)
