@@ -52,7 +52,7 @@ namespace MuxLib.MUtility.Collections.Tree.AVLTree
                 Console.WriteLine($"Unbalance: {balance_factor}");
 #endif
             // Balance maintenance
-            
+
             // LL
             if (balance_factor > 1 && GetBalanceFactor(node.Left) >= 0)
                 return RightRotate(node);
@@ -60,14 +60,14 @@ namespace MuxLib.MUtility.Collections.Tree.AVLTree
             if (balance_factor < -1 && GetBalanceFactor(node.Right) <= 0)
                 return LeftRotate(node);
             // LR
-            if(balance_factor > 1 &&GetBalanceFactor(node.Left) < 0)
+            if (balance_factor > 1 && GetBalanceFactor(node.Left) < 0)
             {
-                node.Left =  LeftRotate(node.Left); // Convert to LL
+                node.Left = LeftRotate(node.Left); // Convert to LL
                 return RightRotate(node);
             }
 
             // RL
-            if(balance_factor < -1 && GetBalanceFactor(node.Right) > 0)
+            if (balance_factor < -1 && GetBalanceFactor(node.Right) > 0)
             {
                 node.Right = RightRotate(node); // Convert to RR
                 return LeftRotate(node);
@@ -182,6 +182,101 @@ namespace MuxLib.MUtility.Collections.Tree.AVLTree
                 return GetNode(node.Left, key);
             else
                 return GetNode(node.Right, key);
+        }
+
+        public V Remove(K key)
+        {
+            AVLNode<K, V> node = GetNode(_root, key);
+            if (node != null)
+            {
+                _root = Remove(_root, key);
+                return node.Value;
+            }
+            return default;
+        }
+
+        private AVLNode<K, V> Remove(AVLNode<K, V> node, K key)
+        {
+            if (node == null)
+                return null;
+
+            AVLNode<K, V> retNode;
+            if (key.CompareTo(node.Key) < 0)
+            {
+                node.Left = Remove(node.Left, key);
+                retNode = node;
+            }
+            else if (key.CompareTo(node.Key) > 0)
+            {
+                node.Right = Remove(node.Right, key);
+                retNode = node;
+            }
+            else
+            {
+                if (node.Left == null)
+                {
+                    AVLNode<K, V> right_node = node.Right;
+                    node.Right = null;
+                    _size--;
+                    retNode = right_node;
+                }
+                else if (node.Right == null)
+                {
+                    AVLNode<K, V> left_node = node.Left;
+                    node.Left = null;
+                    _size--;
+                    retNode = left_node;
+                }
+                else
+                {
+                    AVLNode<K, V> successor = Minimum(node.Right);
+                    successor.Left = node.Left;
+                    node.Left = node.Left = null;
+                    retNode = successor;
+                }
+            }
+            if (retNode == null)
+                return null;
+            retNode.Height = 1 + Math.Max(GetHeight(retNode.Left), GetHeight(retNode.Right));
+            int balanceFactor = GetBalanceFactor(retNode);
+
+            if (balanceFactor > 1 && GetBalanceFactor(retNode.Left) >= 0)
+                return RightRotate(retNode);
+
+            // RR
+            if (balanceFactor < -1 && GetBalanceFactor(retNode.Right) <= 0)
+                return LeftRotate(retNode);
+
+            // LR
+            if (balanceFactor > 1 && GetBalanceFactor(retNode.Left) < 0)
+            {
+                retNode.Left = LeftRotate(retNode.Left);
+                return RightRotate(retNode);
+            }
+
+            // RL
+            if (balanceFactor < -1 && GetBalanceFactor(retNode.Right) > 0)
+            {
+                retNode.Right = RightRotate(retNode.Right);
+                return LeftRotate(retNode);
+            }
+
+            return retNode;
+        }
+
+
+        private AVLNode<K, V> Minimum(AVLNode<K, V> node)
+        {
+            if (node.Left == null)
+                return node;
+            return Minimum(node.Left);
+        }
+
+        private AVLNode<K, V> Maximum(AVLNode<K, V> node)
+        {
+            if (node.Right == null)
+                return node;
+            return Maximum(node.Right);
         }
     }
 }
