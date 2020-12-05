@@ -49,23 +49,41 @@ namespace MuxLib.MUtility.Collections.Tree.AVLTree
             int balance_factor = GetBalanceFactor(node);
 #if DEBUG
             if (Math.Abs(balance_factor) > 1)
-                Console.WriteLine("Unbalance: ", balance_factor);
+                Console.WriteLine($"Unbalance: {balance_factor}");
 #endif
             // Balance maintenance
+            
+            // LL
             if (balance_factor > 1 && GetBalanceFactor(node.Left) >= 0)
                 return RightRotate(node);
+            // RR
             if (balance_factor < -1 && GetBalanceFactor(node.Right) <= 0)
                 return LeftRotate(node);
+            // LR
+            if(balance_factor > 1 &&GetBalanceFactor(node.Left) < 0)
+            {
+                node.Left =  LeftRotate(node.Left); // Convert to LL
+                return RightRotate(node);
+            }
+
+            // RL
+            if(balance_factor < -1 && GetBalanceFactor(node.Right) > 0)
+            {
+                node.Right = RightRotate(node); // Convert to RR
+                return LeftRotate(node);
+            }
             return node;
 
         }
-        //          y                                x
-        //         / \                             /   \
-        //        x   T4        RightRotate       z     y
-        //       / \            -------->        / \   / \
-        //      z   T3                          T1 T2 T3 T4
-        //     / \
-        //    T1  T2
+        /*
+            //          y                                x
+            //         / \                             /   \
+            //        x   T4        RightRotate       z     y
+            //       / \            -------->        / \   / \
+            //      z   T3                          T1 T2 T3 T4
+            //     / \
+            //    T1  T2
+        */
         private AVLNode<K, V> RightRotate(AVLNode<K, V> y)
         {
             AVLNode<K, V> x = y.Left, t3 = x.Right;
@@ -76,14 +94,15 @@ namespace MuxLib.MUtility.Collections.Tree.AVLTree
             x.Height = Math.Max(GetHeight(x.Left), GetHeight(x.Right)) + 1;
             return x;
         }
-
-        //          y                                 x
-        //         / \                              /   \
-        //        T1  x         LeftRotate         y     z
-        //           / \        -------->         / \   / \
-        //          T2  z                        T1 T2 T3 T4
-        //             / \
-        //            T3  T4
+        /*
+            //          y                                 x
+            //         / \                              /   \
+            //        T1  x         LeftRotate         y     z
+            //           / \        -------->         / \   / \
+            //          T2  z                        T1 T2 T3 T4
+            //             / \
+            //            T3  T4
+        */
         private AVLNode<K, V> LeftRotate(AVLNode<K, V> y)
         {
             AVLNode<K, V> x = y.Right, T2 = x.Left;
