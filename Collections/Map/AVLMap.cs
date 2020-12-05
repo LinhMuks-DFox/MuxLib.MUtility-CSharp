@@ -3,13 +3,13 @@ using MuxLib.MUtility.Collections.Metas.ABClass;
 using MuxLib.MUtility.Collections.Tree.AVLTree;
 namespace MuxLib.MUtility.Collections.Map
 {
-    public class Map<K, V>
+    public class AVLMap<K, V>
         : ABCMap<K, V>
         where K : IComparable
     {
         private AVLTree<K, V> _avl;
 
-        public Map()
+        public AVLMap()
         {
             _avl = new AVLTree<K, V>();
         }
