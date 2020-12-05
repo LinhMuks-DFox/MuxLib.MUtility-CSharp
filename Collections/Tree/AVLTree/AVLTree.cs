@@ -49,13 +49,29 @@ namespace MuxLib.MUtility.Collections.Tree.AVLTree
             int balance_factor = GetBalanceFactor(node);
 #if DEBUG
             if (Math.Abs(balance_factor) > 1)
-                Console.WriteLine("Unbalance: ", balance_factor);
+                Console.WriteLine($"Unbalance: {balance_factor}");
 #endif
             // Balance maintenance
+            
+            // LL
             if (balance_factor > 1 && GetBalanceFactor(node.Left) >= 0)
                 return RightRotate(node);
+            // RR
             if (balance_factor < -1 && GetBalanceFactor(node.Right) <= 0)
                 return LeftRotate(node);
+            // LR
+            if(balance_factor > 1 &&GetBalanceFactor(node.Left) < 0)
+            {
+                node.Left =  LeftRotate(node.Left); // Convert to LL
+                return RightRotate(node);
+            }
+
+            // RL
+            if(balance_factor < -1 && GetBalanceFactor(node.Right) > 0)
+            {
+                node.Right = RightRotate(node); // Convert to RR
+                return LeftRotate(node);
+            }
             return node;
 
         }
