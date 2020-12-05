@@ -230,8 +230,9 @@ namespace MuxLib.MUtility.Collections.Tree.AVLTree
                 else
                 {
                     AVLNode<K, V> successor = Minimum(node.Right);
+                    successor.Right = Remove(node.Right, successor.Key);
                     successor.Left = node.Left;
-                    node.Left = node.Left = null;
+                    node.Left = node.Right = null;
                     retNode = successor;
                 }
             }
