@@ -18,6 +18,8 @@ namespace MuxLib.MUtility.Collections.Tree.AVLTree
             _size = 0;
         }
 
+        public V this[K key] { get { return Get(key); } set { Set(key, value); } }
+
         private static int GetHeight(AVLNode<K, V> node)
         {
             if (node == null)
@@ -278,6 +280,11 @@ namespace MuxLib.MUtility.Collections.Tree.AVLTree
             if (node.Right == null)
                 return node;
             return Maximum(node.Right);
+        }
+
+        public bool Contains(K key)
+        {
+            return GetNode(_root, key) != null;
         }
     }
 }
