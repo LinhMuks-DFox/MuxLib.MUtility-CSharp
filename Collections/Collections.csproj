@@ -6,7 +6,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Tree\BST\" />
     <Folder Include="Tree\Trie\" />
   </ItemGroup>
 
