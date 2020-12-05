@@ -47,9 +47,10 @@ namespace MuxLib.MUtility.Collections.Tree.AVLTree
             // Update Height
             node.Height = 1 + Math.Max(GetHeight(node.Left), GetHeight(node.Right));
             int balance_factor = GetBalanceFactor(node);
+#if DEBUG
             if (Math.Abs(balance_factor) > 1)
                 Console.WriteLine("Unbalance: ", balance_factor);
-
+#endif
             // Balance maintenance
             if (balance_factor > 1 && GetBalanceFactor(node.Left) >= 0)
                 return RightRotate(node);
@@ -75,7 +76,7 @@ namespace MuxLib.MUtility.Collections.Tree.AVLTree
             x.Height = Math.Max(GetHeight(x.Left), GetHeight(x.Right)) + 1;
             return x;
         }
-         
+
         //          y                                 x
         //         / \                              /   \
         //        T1  x         LeftRotate         y     z
@@ -134,6 +135,34 @@ namespace MuxLib.MUtility.Collections.Tree.AVLTree
             InOrder(node.Left, keys);
             keys.Add(node.Key);
             InOrder(node.Right, keys);
+        }
+
+        public void Set(K key, V value)
+        {
+            AVLNode<K, V> node = GetNode(_root, key);
+            if (node == null)
+                throw new Errors.InvalidArgumentError($"{key} dose not exist");
+            node.Value = value;
+        }
+
+        public V Get(K key)
+        {
+            AVLNode<K, V> node = GetNode(_root, key);
+            if (node == null)
+                throw new Errors.InvalidArgumentError($"{key} dose not exist");
+            return node.Value;
+        }
+
+        private AVLNode<K, V> GetNode(AVLNode<K, V> node, K key)
+        {
+            if (node == null)
+                return null;
+            if (key.Equals(key))
+                return node;
+            else if (key.CompareTo(node.Key) < 0)
+                return GetNode(node.Left, key);
+            else
+                return GetNode(node.Right, key);
         }
     }
 }
