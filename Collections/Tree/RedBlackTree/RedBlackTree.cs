@@ -21,6 +21,7 @@ namespace MuxLib.MUtility.Collections.Tree.RedBlackTree
             }
         }
 
+
         private Node _root;
         private int _size;
 
@@ -28,6 +29,35 @@ namespace MuxLib.MUtility.Collections.Tree.RedBlackTree
         {
             _root = null;
             _size = 0;
+        }
+
+        public V this[K key]
+        {
+            get
+            {
+                Node node = FindNode(_root, key);
+                return node == null ? default : node.Value;
+            }
+            set
+            {
+                Node node = FindNode(_root, key);
+                if (node == null)
+                    throw new Errors.InvalidArgumentError($"{key} is dose not exist.");
+                node.Value = value;
+            }
+        }
+
+        private Node FindNode(Node node, K key)
+        {
+            if (node == null)
+                return null;
+
+            if (key.Equals(key))
+                return node;
+            else if (key.CompareTo(node.Key) < 0)
+                return FindNode(node.Left, key);
+            else
+                return FindNode(node.Right, key);
         }
 
         public int Size { get => _size; }
@@ -150,22 +180,6 @@ namespace MuxLib.MUtility.Collections.Tree.RedBlackTree
             return Minimum(node.Left);
         }
 
-        public K Maximum()
-        {
-            if (_size == 0)
-                throw new Errors.InvalidArgumentError("BST is empty");
-
-            return Maximum(_root).Key;
-        }
-
-
-        private Node Maximum(Node node)
-        {
-            if (node.Right == null)
-                return node;
-
-            return Maximum(node.Right);
-        }
 
         public K RemoveMin()
         {
@@ -191,33 +205,15 @@ namespace MuxLib.MUtility.Collections.Tree.RedBlackTree
         }
 
 
-        public K RemoveMax()
+        public V Remove(K key)
         {
-            K ret = Maximum();
-            _root = RemoveMax(_root);
-            return ret;
-        }
-
-
-        private Node RemoveMax(Node node)
-        {
-
-            if (node.Right == null)
+            Node node = FindNode(_root, key);
+            if (node != null)
             {
-                Node leftNode = node.Left;
-                node.Left = null;
-                _size--;
-                return leftNode;
+                _root = Remove(_root, key);
+                return node.Value;
             }
-
-            node.Right = RemoveMax(node.Right);
-            return node;
-        }
-
-
-        public void Remove(K key)
-        {
-            _root = Remove(_root, key);
+            return default;
         }
 
 
@@ -246,7 +242,6 @@ namespace MuxLib.MUtility.Collections.Tree.RedBlackTree
                     _size--;
                     return rightNode;
                 }
-
 
                 if (node.Right == null)
                 {
