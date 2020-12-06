@@ -5,8 +5,4 @@
     <RootNamespace>MuxLib.MUtility.Collections</RootNamespace>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Folder Include="Tree\Trie\" />
-  </ItemGroup>
-
 </Project>
