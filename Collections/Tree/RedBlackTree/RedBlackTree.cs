@@ -4,19 +4,20 @@ using System.Text;
 
 namespace MuxLib.MUtility.Collections.Tree.RedBlackTree
 {
-    public class RedBlackTree<E>
-        where E : IComparable
+    public class RedBlackTree<K, V>
+        where K : IComparable
     {
         private enum Color { Red, Black }
         private class Node
         {
-            public E e;
+            public K Key { set; get; }
+            public V Value { set; get; }
             public Node Left { set; get; } = null;
             public Node Right { set; get; } = null;
             public Color Color { set; get; } = Color.Red;
-            public Node(E e)
+            public Node(K key, V value)
             {
-                this.e = e;
+                Key = key;
             }
         }
 
@@ -31,55 +32,101 @@ namespace MuxLib.MUtility.Collections.Tree.RedBlackTree
 
         public int Size { get => _size; }
 
-        public bool isEmpty { get => _size == 0; }
+        public bool Empty { get => _size == 0; }
 
-        private bool IsRed(Node node)
+        private static bool IsRed(Node node)
         {
             if (node == null)
-                return false; // Black
-            return node.Color == Color.Red ? true : false;
+                return false; // Black(null node should be black.)
+            return node.Color == Color.Red;
         }
 
 
-        public void Add(E e)
+        public void Append(K key, V value)
         {
-            _root = Add(_root, e);
+            _root = Append(_root, key, value);
+            _root.Color = Color.Black;
         }
 
 
-        private Node Add(Node node, E e)
+        private Node Append(Node node, K key, V value)
         {
+
 
             if (node == null)
             {
                 _size++;
-                return new Node(e);
+                return new Node(key, value);
             }
 
-            if (e.CompareTo(node.e) < 0)
-                node.Left = Add(node.Left, e);
-            else if (e.CompareTo(node.e) > 0)
-                node.Right = Add(node.Right, e);
+            if (key.CompareTo(node.Key) < 0)
+                node.Left = Append(node.Left, key, value);
+            else if (key.CompareTo(node.Key) > 0)
+                node.Right = Append(node.Right, key, value);
+            else // key.CompareTo(node.key) == 0
+                node.Value = value;
+
+            if (IsRed(node.Right) && !IsRed(node.Left))
+                node = LeftRotate(node);
+
+            if (IsRed(node.Left) && IsRed(node.Left.Left))
+                node = RightRotate(node);
+
+            if (IsRed(node.Left) && IsRed(node.Right))
+                FlipColors(node);
 
             return node;
         }
 
+        private Node RightRotate(Node node)
+        {
 
-        public bool Contains(E e)
+            Node x = node.Left;
+            node.Left = x.Right;
+            x.Right = node;
+
+            x.Color = node.Color;
+            node.Color = Color.Red;
+
+            return x;
+        }
+        private Node LeftRotate(Node node)
+        {
+
+            Node x = node.Right;
+            node.Right = x.Left;
+            x.Left = node;
+
+            x.Color = node.Color;
+            node.Color = Color.Red;
+
+            return x;
+        }
+
+        private void FlipColors(Node node)
+        {
+
+            node.Color = Color.Red;
+            node.Left.Color = Color.Black;
+            node.Right.Color = Color.Black;
+        }
+
+
+        public bool Contains(K e)
         {
             return Contains(_root, e);
         }
 
 
-        private bool Contains(Node node, E e)
+        private bool Contains(Node node, K e)
         {
 
             if (node == null)
                 return false;
 
-            if (e.CompareTo(node.e) == 0)
+            if (e.CompareTo(node.Key) == 0)
                 return true;
-            else if (e.CompareTo(node.e) < 0)
+            else if (e.CompareTo(node.Key) < 0)
                 return Contains(node.Left, e);
             else // e.CompareTo(node.e) > 0
                 return Contains(node.Right, e);
@@ -87,12 +134,12 @@ namespace MuxLib.MUtility.Collections.Tree.RedBlackTree
 
 
 
-        public E Minimum()
+        public K Minimum()
         {
             if (_size == 0)
                 throw new Errors.InvalidArgumentError("BST is empty!");
 
-            return Minimum(_root).e;
+            return Minimum(_root).Key;
         }
 
 
@@ -103,12 +150,12 @@ namespace MuxLib.MUtility.Collections.Tree.RedBlackTree
             return Minimum(node.Left);
         }
 
-        public E Maximum()
+        public K Maximum()
         {
             if (_size == 0)
                 throw new Errors.InvalidArgumentError("BST is empty");
 
-            return Maximum(_root).e;
+            return Maximum(_root).Key;
         }
 
 
@@ -120,9 +167,9 @@ namespace MuxLib.MUtility.Collections.Tree.RedBlackTree
             return Maximum(node.Right);
         }
 
-        public E RemoveMin()
+        public K RemoveMin()
         {
-            E ret = Minimum();
+            K ret = Minimum();
             _root = RemoveMin(_root);
             return ret;
         }
@@ -144,9 +191,9 @@ namespace MuxLib.MUtility.Collections.Tree.RedBlackTree
         }
 
 
-        public E RemoveMax()
+        public K RemoveMax()
         {
-            E ret = Maximum();
+            K ret = Maximum();
             _root = RemoveMax(_root);
             return ret;
         }
@@ -168,26 +215,26 @@ namespace MuxLib.MUtility.Collections.Tree.RedBlackTree
         }
 
 
-        public void Remove(E e)
+        public void Remove(K key)
         {
-            _root = Remove(_root, e);
+            _root = Remove(_root, key);
         }
 
 
-        private Node Remove(Node node, E e)
+        private Node Remove(Node node, K key)
         {
 
             if (node == null)
                 return null;
 
-            if (e.CompareTo(node.e) < 0)
+            if (key.CompareTo(node.Key) < 0)
             {
-                node.Left = Remove(node.Left, e);
+                node.Left = Remove(node.Left, key);
                 return node;
             }
-            else if (e.CompareTo(node.e) > 0)
+            else if (key.CompareTo(node.Key) > 0)
             {
-                node.Right = Remove(node.Right, e);
+                node.Right = Remove(node.Right, key);
                 return node;
             }
             else
@@ -217,37 +264,6 @@ namespace MuxLib.MUtility.Collections.Tree.RedBlackTree
 
                 return successor;
             }
-        }
-
-
-        public override string ToString()
-        {
-            StringBuilder res = new StringBuilder();
-            GenerateBSTString(_root, 0, res);
-            return res.ToString();
-        }
-
-
-        private void GenerateBSTString(Node node, int depth, StringBuilder res)
-        {
-
-            if (node == null)
-            {
-                res.Append(GenerateDepthString(depth) + "null\n");
-                return;
-            }
-
-            res.Append(GenerateDepthString(depth) + node.e + "\n");
-            GenerateBSTString(node.Left, depth + 1, res);
-            GenerateBSTString(node.Right, depth + 1, res);
-        }
-
-        private string GenerateDepthString(int depth)
-        {
-            StringBuilder res = new StringBuilder();
-            for (int i = 0; i < depth; i++)
-                res.Append("--");
-            return res.ToString();
         }
     }
 }
