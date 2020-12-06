@@ -38,6 +38,18 @@ namespace MuxLib.MUtility.Collections.Tree.Trie
             }
         }
 
+        public bool Contains(string word)
+        {
+            Node cur = _root;
+            for (int i = 0; i < word.Length; ++i)
+            {
+                char c = word[i];
+                if (cur.Next.Get(c) == null)
+                    return false;
+                cur = cur.Next.Get(c);
+            }
+            return cur.IsWord;
+        }
 
 
     }

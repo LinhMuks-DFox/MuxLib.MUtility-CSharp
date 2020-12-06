@@ -4,7 +4,7 @@ using System.Text;
 
 namespace MuxLib.MUtility.Collections.Tree.RedBlackTree
 {
-    []
+#warning "Not Implemented"
     public class RedBlackTree<K, V>
         where K : IComparable
     {
