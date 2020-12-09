@@ -51,6 +51,19 @@ namespace MuxLib.MUtility.Collections.Tree.Trie
             return cur.IsWord;
         }
 
+        public bool IsPrefix(string prefix)
+        {
+            Node cur = _root;
+            for (int i = 0; i < prefix.Length; ++i)
+            {
+                char c = prefix[i];
+                if (cur.Next.Get(c) == null)
+                    return false;
+                cur = cur.Next.Get(c);
+            }
+            return true;
+        }
+
 
     }
 }

@@ -16,7 +16,7 @@ namespace MuxLib.MUtility.Collections.List.ArrayList
 
         public bool IsReadOnly { set; get; } = false;
 
-        public TData this[int index] 
+        public TData this[int index]
         {
             get => Get(index);
             set => Set(index, value);
@@ -38,7 +38,7 @@ namespace MuxLib.MUtility.Collections.List.ArrayList
         {
             _size = 0;
             _data = new TData[datas.Length];
-            for(int i = 0; i < datas.Length; i++)
+            for (int i = 0; i < datas.Length; i++)
             {
                 _data[i] = datas[i];
             }
@@ -54,7 +54,7 @@ namespace MuxLib.MUtility.Collections.List.ArrayList
             _data[index] = item;
         }
 
-        private void Resize(int new_size) 
+        private void Resize(int new_size)
         {
             try
             {
@@ -81,7 +81,7 @@ namespace MuxLib.MUtility.Collections.List.ArrayList
 
         public int IndexOf(TData item)
         {
-            for(int i = 0; i < _size; i++) 
+            for (int i = 0; i < _size; i++)
             {
                 if (_data[i].Equals(item))
                     return i;
@@ -234,10 +234,10 @@ namespace MuxLib.MUtility.Collections.List.ArrayList
             StringBuilder sb = new StringBuilder();
             sb.Append($"MuxLib.MUtility.Collection.List.ArrayList<{typeof(TData)}> Object");
             sb.Append("{");
-            for(int i = 0; i < _size; i++)
+            for (int i = 0; i < _size; i++)
             {
                 sb.Append(_data[i].ToString());
-                if(i!= _size - 1) 
+                if (i != _size - 1)
                 {
                     sb.Append(", ");
                 }

@@ -86,7 +86,7 @@ namespace MuxLib.MUtility.Collections.Tree.AVLTree
             //     / \
             //    T1  T2
         */
-        private AVLNode<K, V> RightRotate(AVLNode<K, V> y)
+        private static AVLNode<K, V> RightRotate(AVLNode<K, V> y)
         {
             AVLNode<K, V> x = y.Left, t3 = x.Right;
             x.Right = y; y.Left = t3;
@@ -105,7 +105,7 @@ namespace MuxLib.MUtility.Collections.Tree.AVLTree
             //             / \
             //            T3  T4
         */
-        private AVLNode<K, V> LeftRotate(AVLNode<K, V> y)
+        private static AVLNode<K, V> LeftRotate(AVLNode<K, V> y)
         {
             AVLNode<K, V> x = y.Right, T2 = x.Left;
             x.Left = y; y.Right = T2;
@@ -178,7 +178,7 @@ namespace MuxLib.MUtility.Collections.Tree.AVLTree
         {
             if (node == null)
                 return null;
-            if (key.Equals(key))
+            if (key.Equals(node.Key))
                 return node;
             else if (key.CompareTo(node.Key) < 0)
                 return GetNode(node.Left, key);

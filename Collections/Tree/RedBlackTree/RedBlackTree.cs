@@ -19,6 +19,7 @@ namespace MuxLib.MUtility.Collections.Tree.RedBlackTree
             public Node(K key, V value)
             {
                 Key = key;
+                Value = value;
             }
         }
 
