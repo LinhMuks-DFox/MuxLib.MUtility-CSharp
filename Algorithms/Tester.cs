@@ -1,18 +1,12 @@
 ﻿using System;
 using MuxLib.MUtility.Algorithms.Sorter;
 using MuxLib.MUtility.Algorithms.Scaler;
-namespace Algorithms
+namespace MuxLib.MUtility.Algorithms
 {
     public static class Tester
     {
         const int size = 100000;
-        static void Main(string[] args)
-        {
-            TestHeapSorter();
-            TestSelectionSorter();
-        }
-
-        static void TestHeapSorter()
+        public static void TestHeapSorter()
         {
             SorterScaler<int> scaler = new SorterScaler<int>();
             Random random = new Random(666);
@@ -26,7 +20,7 @@ namespace Algorithms
             Console.WriteLine($"\tHeapSorter well done?:{heapSorter.IsSorted(arr, true)}");
         }
 
-        static void TestSelectionSorter()
+        public static void TestSelectionSorter()
         {
             SorterScaler<int> scaler = new SorterScaler<int>();
             Random random = new Random(666);
