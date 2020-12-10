@@ -1,10 +1,9 @@
 ﻿using System;
-using MuxLib.MUtility.Collections.Tree.AVLTree;
 using MuxLib.MUtility.Algorithms.Sorter;
 using MuxLib.MUtility.Algorithms.Scaler;
-namespace tester
+namespace Algorithms
 {
-    class Program
+    public static class Tester
     {
         const int size = 100000;
         static void Main(string[] args)

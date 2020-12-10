@@ -5,9 +5,12 @@ VisualStudioVersion = 16.0.30717.126
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Collections", "Collections.csproj", "{21D56D47-0040-401D-8E4D-62584F423778}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Algorithms", "..\Algorithms\Algorithms.csproj", "{75A0F0A1-2CB9-4816-96D4-47E9B1E9042D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Algorithms", "..\Algorithms\Algorithms.csproj", "{75A0F0A1-2CB9-4816-96D4-47E9B1E9042D}"
+	ProjectSection(ProjectDependencies) = postProject
+		{21D56D47-0040-401D-8E4D-62584F423778} = {21D56D47-0040-401D-8E4D-62584F423778}
+	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "tester", "..\tester\tester.csproj", "{D084CFA3-C22B-4821-9A3A-079D550F5DDB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "tester", "..\tester\tester.csproj", "{D084CFA3-C22B-4821-9A3A-079D550F5DDB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
