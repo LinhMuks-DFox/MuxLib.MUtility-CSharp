@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using MuxLib.MUtility.Collections.Metas.ABClass;
-using MuxLib.MUtility.Collections.Heap;
+using MuxLib.MUtility.Collections.Tree.Heap;
 namespace MuxLib.MUtility.Collections.Queue
 {
     public class PriorityQueue<E> : ABCQueue<E>

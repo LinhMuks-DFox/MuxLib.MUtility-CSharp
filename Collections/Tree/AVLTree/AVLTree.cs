@@ -29,7 +29,7 @@ namespace MuxLib.MUtility.Collections.Tree.AVLTree
 
         public void Append(K key, V value)
         {
-            Append(_root, key, value);
+            _root = Append(_root, key, value);
         }
 
         private AVLNode<K, V> Append(AVLNode<K, V> node, K key, V value)

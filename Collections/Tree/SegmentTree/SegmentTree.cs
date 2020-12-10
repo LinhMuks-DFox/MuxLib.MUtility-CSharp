@@ -80,7 +80,7 @@ namespace MuxLib.MUtility.Collections.Tree
 
         public T Query(int query_l, int query_r)
         {
-            if (query_l < 0 || query_l >= _data.Length 
+            if (query_l < 0 || query_l >= _data.Length
                     || query_r < 0 || query_r >= _data.Length ||
                         query_l > query_r) /*Border Check*/
                 throw new InvalidArgumentError($"Index ({query_l}, {query_r}) is invalid");
@@ -94,7 +94,7 @@ namespace MuxLib.MUtility.Collections.Tree
                 return _tree[tree_index];
 
             int mid = l + (r - l) / 2;
-            int left_tree_index = LeftChildOf(tree_index), 
+            int left_tree_index = LeftChildOf(tree_index),
                 right_tree_index = RightChildOf(tree_index);
             if (query_l >= mid + 1)
                 return Query(right_tree_index, mid + 1, r, query_l, query_r);
@@ -123,13 +123,13 @@ namespace MuxLib.MUtility.Collections.Tree
         /// </summary>
         /// <param name="index"></param>
         /// <param name="new_ele"></param>        
-        public void Updata(int index, T new_ele)
+        public void Update(int index, T new_ele)
         {
             if (index < 0 || index >= _data.Length)
                 throw new InvalidArgumentError($"Index:{index} is invalid.");
             _data[index] = new_ele;
             Update(0, 0, _data.Length - 1, index, new_ele);
-            
+
         }
 
         private void Update(int tree_index, int l, int r, int index, T ele)
