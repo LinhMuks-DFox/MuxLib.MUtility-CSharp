@@ -2,7 +2,7 @@
 
 namespace MuxLib.MUtility.Collections.Tree.AVLTree
 {
-    internal class AVLNode<K, V>
+    internal sealed class AVLNode<K, V>
         where K : IComparable
     {
         public K Key { get; set; }

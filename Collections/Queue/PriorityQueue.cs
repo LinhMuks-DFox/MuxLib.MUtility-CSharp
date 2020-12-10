@@ -4,7 +4,7 @@ using MuxLib.MUtility.Collections.Metas.ABClass;
 using MuxLib.MUtility.Collections.Tree.Heap;
 namespace MuxLib.MUtility.Collections.Queue
 {
-    public class PriorityQueue<E> : ABCQueue<E>
+    public sealed class PriorityQueue<E> : ABCQueue<E>
         where E : IComparable
     {
         public override int Size { get => _maxHeap.Size; }

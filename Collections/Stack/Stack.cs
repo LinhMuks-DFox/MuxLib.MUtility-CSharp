@@ -5,8 +5,8 @@ using System.Text;
 
 namespace MuxLib.MUtility.Collections.Stack
 {
-    public class Stack<T>
-        :ABCStack<T>
+    public sealed class Stack<T>
+        : ABCStack<T>
     {
         private ArrayList<T> _array;
         public override bool Empty => _array.Count == 0;

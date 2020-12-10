@@ -3,7 +3,7 @@ using MuxLib.MUtility.Collections.Metas.ABClass;
 using MuxLib.MUtility.Collections.Tree.AVLTree;
 namespace MuxLib.MUtility.Collections.Set
 {
-    public class AVLSet<E>
+    public sealed class AVLSet<E>
         : ABCSet<E>
         where E : IComparable
     {

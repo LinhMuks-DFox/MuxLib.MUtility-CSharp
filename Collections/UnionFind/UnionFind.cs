@@ -1,6 +1,6 @@
 ﻿namespace MuxLib.MUtility.Collections.UnionFind
 {
-    public class UnionFind : Metas.ABClass.ABCUnionFind
+    public sealed class UnionFind : Metas.ABClass.ABCUnionFind
     {
         private readonly int[] _parent;
         // private readonly int[] _size;

@@ -3,7 +3,7 @@ using MuxLib.MUtility.Collections.Metas.ABClass;
 using MuxLib.MUtility.Collections.Tree.AVLTree;
 namespace MuxLib.MUtility.Collections.Map
 {
-    public class AVLMap<K, V>
+    public sealed class AVLMap<K, V>
         : ABCMap<K, V>
         where K : IComparable
     {

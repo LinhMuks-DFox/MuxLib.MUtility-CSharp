@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace MuxLib.MUtility.Collections.Tree.AVLTree
 {
-    public class AVLTree<K, V>
+    public sealed class AVLTree<K, V>
         where K : IComparable
     {
         private AVLNode<K, V> _root;

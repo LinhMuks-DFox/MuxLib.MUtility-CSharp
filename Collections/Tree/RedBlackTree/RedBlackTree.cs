@@ -4,7 +4,7 @@ using System.Text;
 
 namespace MuxLib.MUtility.Collections.Tree.RedBlackTree
 {
-    public class RedBlackTree<K, V>
+    public sealed class RedBlackTree<K, V>
         where K : IComparable
     {
         private enum Color { Red, Black }

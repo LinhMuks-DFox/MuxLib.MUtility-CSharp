@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 namespace MuxLib.MUtility.Collections.Tree.BST
 {
-    public class BST<E> where E : IComparable
+    public sealed class BST<E> where E : IComparable
     {
 
         private class Node

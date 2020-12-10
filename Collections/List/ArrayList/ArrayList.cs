@@ -5,7 +5,7 @@ using System.Text;
 
 namespace MuxLib.MUtility.Collections.List.ArrayList
 {
-    public class ArrayList<TData> : IList<TData>, ICollection<TData>
+    public sealed class ArrayList<TData> : IList<TData>, ICollection<TData>
     {
         private TData[] _data;
         private int _size;

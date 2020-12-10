@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using MuxLib.MUtility.Collections.Metas.ABClass;
 namespace MuxLib.MUtility.Collections.Queue
 {
-    public class LoopQueue<T> : ABCQueue<T>
+    public sealed class LoopQueue<T> : ABCQueue<T>
     {
         private T[] _data;
         private int _front, _tail;

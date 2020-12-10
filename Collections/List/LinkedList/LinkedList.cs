@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace MuxLib.MUtility.Collections.List.LinkedList
 {
-    public class LinkedList<T> : IList<T>
+    public sealed class LinkedList<T> : IList<T>
     {
         private int _size;
         private Node<T> _dummy_head;
@@ -13,10 +13,10 @@ namespace MuxLib.MUtility.Collections.List.LinkedList
 
         public bool IsReadOnly { set; get; } = false;
 
-        public T this[int index] 
-        {   
-            get => Get(index); 
-            set => throw new System.NotImplementedException(); 
+        public T this[int index]
+        {
+            get => Get(index);
+            set => throw new System.NotImplementedException();
         }
 
         public LinkedList()
@@ -107,7 +107,7 @@ namespace MuxLib.MUtility.Collections.List.LinkedList
                     cur.Next.Before = cur.Before;
                     cur.Before.Next = cur.Next;
                     /* 1<->2<->3<->4 */
-                    cur.Next = null; 
+                    cur.Next = null;
                     cur.Before = null;
                     return true;
                 }

@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace MuxLib.MUtility.Collections.Errors
 {
-    public class InvalidArgumentError
-        :Exception
+    public sealed class InvalidArgumentError
+        : Exception
     {
         public InvalidArgumentError() : base() { }
 

@@ -1,7 +1,7 @@
 ﻿using MuxLib.MUtility.Collections.Map;
 namespace MuxLib.MUtility.Collections.Tree.Trie
 {
-    public class Trie
+    public sealed class Trie
     {
         private class Node
         {

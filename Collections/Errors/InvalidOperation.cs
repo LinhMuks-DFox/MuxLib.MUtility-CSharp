@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace MuxLib.MUtility.Collections.Errors
 {
-    public class InvalidOperation
-    :Exception
+    public sealed class InvalidOperation
+    : Exception
     {
         public InvalidOperation() : base() { }
         public InvalidOperation(string msg) : base() { }
