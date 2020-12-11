@@ -5,9 +5,27 @@ namespace MuxLib.MUtility.Collections.List.LinkedList
 {
     public sealed class LinkedList<T> : IList<T>
     {
+
+        private class Node
+        {
+            public T Data { set; get; } = default;
+
+            public Node Next { set; get; } = null;
+
+            public Node Before { set; get; } = null;
+
+            public Node() { }
+
+            public Node(Node next, Node prev, T data) => (Next, Before, Data)
+                                                            = (next, prev, data);
+
+            public Node(T data) { Data = data; }
+
+            public Node(Node next, Node prev) => (Next, Before) = (next, prev);
+        }
         private int _size;
-        private Node<T> _dummy_head;
-        private Node<T> _tail;
+        private Node _dummy_head;
+        private Node _tail;
 
         public int Count { get => _size; }
 
@@ -21,8 +39,8 @@ namespace MuxLib.MUtility.Collections.List.LinkedList
 
         public LinkedList()
         {
-            _size = 0; _dummy_head = new Node<T>();
-            _tail = new Node<T>(null, _dummy_head);
+            _size = 0; _dummy_head = new Node();
+            _tail = new Node(null, _dummy_head);
         }
 
         public int IndexOf(T item)
@@ -43,7 +61,7 @@ namespace MuxLib.MUtility.Collections.List.LinkedList
             int mid = _size / 2;
             if (index <= mid || index > 20)
             {
-                Node<T> cur = _dummy_head;
+                Node cur = _dummy_head;
                 for (int i = 0; i < index + 1; i++)
                 {
                     cur = cur.Next;
@@ -53,7 +71,7 @@ namespace MuxLib.MUtility.Collections.List.LinkedList
             }
             else // index > mid;
             {
-                Node<T> cur = _tail;
+                Node cur = _tail;
                 for (int i = 0; i < (_size - index) + 1; i++)
                 {
                     cur = cur.Before;
@@ -80,7 +98,7 @@ namespace MuxLib.MUtility.Collections.List.LinkedList
 
         public bool Contains(T item)
         {
-            Node<T> cur = _dummy_head;
+            Node cur = _dummy_head;
             while (cur.Next != null)
             {
                 if (cur.Data.Equals(item))
@@ -98,7 +116,7 @@ namespace MuxLib.MUtility.Collections.List.LinkedList
 
         public bool Remove(T item)
         {
-            Node<T> cur = _dummy_head;
+            Node cur = _dummy_head;
 
             while (cur.Next != null)
             {

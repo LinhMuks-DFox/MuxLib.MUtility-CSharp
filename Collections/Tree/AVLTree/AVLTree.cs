@@ -6,7 +6,21 @@ namespace MuxLib.MUtility.Collections.Tree.AVLTree
     public sealed class AVLTree<K, V>
         where K : IComparable
     {
-        private AVLNode<K, V> _root;
+        private class Node
+        {
+            public K Key { get; set; }
+            public V Value { get; set; }
+            public Node Left { set; get; } = null;
+            public Node Right { set; get; } = null;
+            public int Height { set; get; } = 1;
+
+            public Node(K key, V value)
+            {
+                Key = key; Value = value;
+            }
+        }
+
+        private Node _root;
         private int _size;
 
         public int Size { get => _size; }
@@ -20,7 +34,7 @@ namespace MuxLib.MUtility.Collections.Tree.AVLTree
 
         public V this[K key] { get { return Get(key); } set { Set(key, value); } }
 
-        private static int GetHeight(AVLNode<K, V> node)
+        private static int GetHeight(Node node)
         {
             if (node == null)
                 return 0;
@@ -32,12 +46,12 @@ namespace MuxLib.MUtility.Collections.Tree.AVLTree
             _root = Append(_root, key, value);
         }
 
-        private AVLNode<K, V> Append(AVLNode<K, V> node, K key, V value)
+        private Node Append(Node node, K key, V value)
         {
             if (node == null)
             {
                 _size++;
-                return new AVLNode<K, V>(key, value);
+                return new Node(key, value);
             }
 
             if (key.CompareTo(node.Key) < 0)
@@ -86,9 +100,9 @@ namespace MuxLib.MUtility.Collections.Tree.AVLTree
             //     / \
             //    T1  T2
         */
-        private static AVLNode<K, V> RightRotate(AVLNode<K, V> y)
+        private static Node RightRotate(Node y)
         {
-            AVLNode<K, V> x = y.Left, t3 = x.Right;
+            Node x = y.Left, t3 = x.Right;
             x.Right = y; y.Left = t3;
 
             // Update Node's height
@@ -105,9 +119,9 @@ namespace MuxLib.MUtility.Collections.Tree.AVLTree
             //             / \
             //            T3  T4
         */
-        private static AVLNode<K, V> LeftRotate(AVLNode<K, V> y)
+        private static Node LeftRotate(Node y)
         {
-            AVLNode<K, V> x = y.Right, T2 = x.Left;
+            Node x = y.Right, T2 = x.Left;
             x.Left = y; y.Right = T2;
             y.Height = Math.Max(GetHeight(y.Left), GetHeight(y.Right)) + 1;
             x.Height = Math.Max(GetHeight(x.Left), GetHeight(x.Right)) + 1;
@@ -115,7 +129,7 @@ namespace MuxLib.MUtility.Collections.Tree.AVLTree
         }
 
 
-        private static int GetBalanceFactor(AVLNode<K, V> node)
+        private static int GetBalanceFactor(Node node)
         {
             if (node == null)
                 return 0;
@@ -139,7 +153,7 @@ namespace MuxLib.MUtility.Collections.Tree.AVLTree
             return IsBalanced(_root);
         }
 
-        private bool IsBalanced(AVLNode<K, V> node)
+        private bool IsBalanced(Node node)
         {
             if (node == null)
                 return true;
@@ -149,7 +163,7 @@ namespace MuxLib.MUtility.Collections.Tree.AVLTree
             return IsBalanced(node.Left) && IsBalanced(node.Right);
         }
 
-        private void InOrder(AVLNode<K, V> node, List<K> keys)
+        private void InOrder(Node node, List<K> keys)
         {
             if (node == null)
                 return;
@@ -160,7 +174,7 @@ namespace MuxLib.MUtility.Collections.Tree.AVLTree
 
         public void Set(K key, V value)
         {
-            AVLNode<K, V> node = GetNode(_root, key);
+            Node node = GetNode(_root, key);
             if (node == null)
                 throw new Errors.InvalidArgumentError($"{key} dose not exist");
             node.Value = value;
@@ -168,13 +182,13 @@ namespace MuxLib.MUtility.Collections.Tree.AVLTree
 
         public V Get(K key)
         {
-            AVLNode<K, V> node = GetNode(_root, key);
+            Node node = GetNode(_root, key);
             if (node == null)
                 throw new Errors.InvalidArgumentError($"{key} dose not exist");
             return node.Value;
         }
 
-        private AVLNode<K, V> GetNode(AVLNode<K, V> node, K key)
+        private Node GetNode(Node node, K key)
         {
             if (node == null)
                 return null;
@@ -188,7 +202,7 @@ namespace MuxLib.MUtility.Collections.Tree.AVLTree
 
         public V Remove(K key)
         {
-            AVLNode<K, V> node = GetNode(_root, key);
+            Node node = GetNode(_root, key);
             if (node != null)
             {
                 _root = Remove(_root, key);
@@ -197,12 +211,12 @@ namespace MuxLib.MUtility.Collections.Tree.AVLTree
             return default;
         }
 
-        private AVLNode<K, V> Remove(AVLNode<K, V> node, K key)
+        private Node Remove(Node node, K key)
         {
             if (node == null)
                 return null;
 
-            AVLNode<K, V> retNode;
+            Node retNode;
             if (key.CompareTo(node.Key) < 0)
             {
                 node.Left = Remove(node.Left, key);
@@ -217,21 +231,21 @@ namespace MuxLib.MUtility.Collections.Tree.AVLTree
             {
                 if (node.Left == null)
                 {
-                    AVLNode<K, V> right_node = node.Right;
+                    Node right_node = node.Right;
                     node.Right = null;
                     _size--;
                     retNode = right_node;
                 }
                 else if (node.Right == null)
                 {
-                    AVLNode<K, V> left_node = node.Left;
+                    Node left_node = node.Left;
                     node.Left = null;
                     _size--;
                     retNode = left_node;
                 }
                 else
                 {
-                    AVLNode<K, V> successor = Minimum(node.Right);
+                    Node successor = Minimum(node.Right);
                     successor.Right = Remove(node.Right, successor.Key);
                     successor.Left = node.Left;
                     node.Left = node.Right = null;
@@ -268,14 +282,14 @@ namespace MuxLib.MUtility.Collections.Tree.AVLTree
         }
 
 
-        private AVLNode<K, V> Minimum(AVLNode<K, V> node)
+        private Node Minimum(Node node)
         {
             if (node.Left == null)
                 return node;
             return Minimum(node.Left);
         }
 
-        private AVLNode<K, V> Maximum(AVLNode<K, V> node)
+        private Node Maximum(Node node)
         {
             if (node.Right == null)
                 return node;
