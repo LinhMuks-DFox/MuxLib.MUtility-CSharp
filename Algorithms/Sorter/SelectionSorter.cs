@@ -1,6 +1,6 @@
 ﻿namespace MuxLib.MUtility.Algorithms.Sorter
 {
-    public sealed class SelectionSorter<T> : Metas.Sorter<T>
+    internal sealed class SelectionSorter<T> : Metas.Sorter<T>
         where T : System.IComparable
     {
 
