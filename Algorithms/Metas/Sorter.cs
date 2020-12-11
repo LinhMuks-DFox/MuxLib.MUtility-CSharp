@@ -6,16 +6,16 @@
         public abstract void Sort(T[] arr);
 
         public bool Less(T v, T w)
-        => v.CompareTo(w) < 0;
+            => v.CompareTo(w) < 0;
 
-        public virtual void Swap(T[] arr, int i, int j)
+        public static void Swap(T[] arr, int i, int j)
         {
             T t = arr[i];
             arr[i] = arr[j];
             arr[j] = t;
         }
 
-        public virtual void Show(T[] arr)
+        public static void Show(T[] arr)
         {
             System.Console.WriteLine("{");
             for (int i = 0; i < arr.Length; i++)
@@ -27,7 +27,7 @@
             System.Console.WriteLine("}");
         }
 
-        public virtual bool IsSorted(T[] arr, bool big_to_small = false)
+        public static bool IsSorted(T[] arr, bool big_to_small = false)
         {
             if (big_to_small)
             {
