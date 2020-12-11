@@ -24,7 +24,7 @@ namespace MuxLib.MUtility.Collections.Tree.AVLTree
 
         public delegate int CompareElements(K key1, K key2);
 
-        private CompareElements _compare;
+        private CompareElements Compare { get; }
 
         private int _size;
 
@@ -32,9 +32,10 @@ namespace MuxLib.MUtility.Collections.Tree.AVLTree
         public bool IsEmpty { get => Size == 0; }
         private Node _root;
 
-        public GenericAVLTree()
+        public GenericAVLTree(CompareElements compare)
         {
             _root = null; _size = 0;
+            Compare = compare;
         }
 
         public V this[K key]
@@ -69,7 +70,7 @@ namespace MuxLib.MUtility.Collections.Tree.AVLTree
                 return null;
             if (key.Equals(node.Key))
                 return node;
-            else if (_compare(key, node.Key) < 0)
+            else if (Compare(key, node.Key) < 0)
                 return GetNode(node.Left, key);
             else
                 return GetNode(node.Right, key);
@@ -118,9 +119,9 @@ namespace MuxLib.MUtility.Collections.Tree.AVLTree
                 return new Node(key, value);
             }
 
-            if (_compare(key, node.Key) < 0)
+            if (Compare(key, node.Key) < 0)
                 node.Left = Append(node.Left, key, value);
-            else if (_compare(key, node.Key) > 0)
+            else if (Compare(key, node.Key) > 0)
                 node.Right = Append(node.Right, key, value);
             else
                 node.Value = value;
@@ -164,12 +165,12 @@ namespace MuxLib.MUtility.Collections.Tree.AVLTree
                 return null;
 
             Node retNode;
-            if (_compare(key, node.Key) < 0)
+            if (Compare(key, node.Key) < 0)
             {
                 node.Left = Remove(node.Left, key);
                 retNode = node;
             }
-            else if (_compare(key, node.Key) > 0)
+            else if (Compare(key, node.Key) > 0)
             {
                 node.Right = Remove(node.Right, key);
                 retNode = node;
