@@ -44,22 +44,16 @@ namespace MuxLib.MUtility.Collections.Table
             _size = 0;
             _M = Capacities[_capacityIndex];
             _hashTable = new SortedDictionary<K, V>[_M];
-            for (int i = 0; i < _M; ++i)
-                _hashTable[i] = new SortedDictionary<K, V>();
+            for (int i = 0; i < _M; ++i) _hashTable[i] = new SortedDictionary<K, V>();
         }
 
         public V this[K key]
         {
-            get
-            {
-                return _hashTable[Hash(key)][key];
-            }
-
+            get => _hashTable[Hash(key)][key];
             set
             {
                 SortedDictionary<K, V> map = _hashTable[Hash(key)];
-                if (map.ContainsKey(key))
-                    throw new Errors.InvalidOperation($"{key} dose not exist");
+                if (map.ContainsKey(key)) throw new Errors.InvalidOperation($"{key} dose not exist");
                 map[key] = value;
             }
         }
@@ -79,8 +73,7 @@ namespace MuxLib.MUtility.Collections.Table
                 map.Add(key, value);
                 _size++;
 
-                if (_size >= UpperTol * _M &&
-                    _capacityIndex + 1 < Capacities.Length)
+                if (_size >= UpperTol * _M && _capacityIndex + 1 < Capacities.Length)
                 {
                     _capacityIndex++;
                     Resize(2 * _M);

@@ -31,9 +31,7 @@ namespace MuxLib.MUtility.Collections.Queue
 
         public override T Dequeue()
         {
-            if (Empty)
-                throw new
-                    Errors.InvalidArgumentError("Can not dequeue from an empty queue");
+            if (Empty) throw new Errors.InvalidArgumentError("Can not dequeue from an empty queue");
             T ret = _data[_front];
             // GC.Collect(0, GCCollectionMode.Default);
             _front = (_front + 1) % _data.Length;
@@ -53,8 +51,7 @@ namespace MuxLib.MUtility.Collections.Queue
 
         public override T Peek()
         {
-            if (Empty) throw new
-                Errors.InvalidArgumentError("Can not get_front from an empty queue");
+            if (Empty) throw new Errors.InvalidArgumentError("Can not get_front from an empty queue");
             return _data[_front];
         }
         private void Resize(int new_capacity)
