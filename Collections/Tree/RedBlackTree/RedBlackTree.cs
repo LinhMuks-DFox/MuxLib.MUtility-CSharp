@@ -109,7 +109,7 @@ namespace MuxLib.MUtility.Collections.Tree.RedBlackTree
             return node;
         }
 
-        private Node RightRotate(Node node)
+        private static Node RightRotate(Node node)
         {
 
             Node x = node.Left;
@@ -121,7 +121,7 @@ namespace MuxLib.MUtility.Collections.Tree.RedBlackTree
 
             return x;
         }
-        private Node LeftRotate(Node node)
+        private static Node LeftRotate(Node node)
         {
 
             Node x = node.Right;
@@ -134,7 +134,7 @@ namespace MuxLib.MUtility.Collections.Tree.RedBlackTree
             return x;
         }
 
-        private void FlipColors(Node node)
+        private static void FlipColors(Node node)
         {
 
             node.Color = Color.Red;
@@ -164,31 +164,12 @@ namespace MuxLib.MUtility.Collections.Tree.RedBlackTree
         }
 
 
-
-        public K Minimum()
-        {
-            if (_size == 0)
-                throw new Errors.InvalidArgumentError("BST is empty!");
-
-            return Minimum(_root).Key;
-        }
-
-
         private Node Minimum(Node node)
         {
             if (node.Left == null)
                 return node;
             return Minimum(node.Left);
         }
-
-
-        public K RemoveMin()
-        {
-            K ret = Minimum();
-            _root = RemoveMin(_root);
-            return ret;
-        }
-
 
         private Node RemoveMin(Node node)
         {
