@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-namespace MuxLib.MUtility.Collections.Map
+namespace MuxLib.MUtility.Collections.Table
 {
     public sealed class HashTable<K, V>
     {
