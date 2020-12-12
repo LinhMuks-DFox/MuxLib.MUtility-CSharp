@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace MuxLib.MUtility.Collections.List.LinkedList
 {
-    public sealed class LinkedList<T> : IList<T>
+    public sealed class LinkedList<T> : IList<T> /*Untested*/
     {
 
         private class Node
