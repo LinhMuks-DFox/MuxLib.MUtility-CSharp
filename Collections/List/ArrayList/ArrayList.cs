@@ -5,9 +5,9 @@ using System.Text;
 
 namespace MuxLib.MUtility.Collections.List.ArrayList
 {
-    public sealed class ArrayList<TData> : IList<TData>, ICollection<TData>
+    public sealed class ArrayList<T> : IList<T>, ICollection<T>
     {
-        private TData[] _data;
+        private T[] _data;
         private int _size;
         public bool IsEmpty { get => Count == 0; }
 
@@ -16,7 +16,7 @@ namespace MuxLib.MUtility.Collections.List.ArrayList
 
         public bool IsReadOnly { set; get; } = false;
 
-        public TData this[int index]
+        public T this[int index]
         {
             get => Get(index);
             set => Set(index, value);
@@ -25,26 +25,26 @@ namespace MuxLib.MUtility.Collections.List.ArrayList
         public ArrayList()
         {
             _size = 0;
-            _data = new TData[500];
+            _data = new T[500];
         }
 
         public ArrayList(int capacity)
         {
             _size = 0;
-            _data = new TData[capacity];
+            _data = new T[capacity];
         }
 
-        public ArrayList(TData[] datas)
+        public ArrayList(T[] datas)
         {
             _size = 0;
-            _data = new TData[datas.Length];
+            _data = new T[datas.Length];
             for (int i = 0; i < datas.Length; i++)
             {
                 _data[i] = datas[i];
             }
         }
 
-        public void Set(int index, TData item)
+        public void Set(int index, T item)
         {
             if (IsReadOnly)
                 throw new Errors.InvalidOperation("Can not set item into a ReadOnly ArrayList");
@@ -58,7 +58,7 @@ namespace MuxLib.MUtility.Collections.List.ArrayList
         {
             try
             {
-                TData[] new_data = new TData[new_size];
+                T[] new_data = new T[new_size];
                 for (int i = 0; i < _size; i++)
                     new_data[i] = _data[i];
                 _data = null; _data = new_data;
@@ -79,7 +79,7 @@ namespace MuxLib.MUtility.Collections.List.ArrayList
             return -1;
         }
 
-        public int IndexOf(TData item)
+        public int IndexOf(T item)
         {
             for (int i = 0; i < _size; i++)
             {
@@ -89,7 +89,7 @@ namespace MuxLib.MUtility.Collections.List.ArrayList
             return -1;
         }
 
-        public void Insert(int index, TData item)
+        public void Insert(int index, T item)
         {
             if (IsReadOnly)
                 throw new Errors.InvalidOperation("Can not insert item into a ReadOnly ArrayList");
@@ -117,14 +117,14 @@ namespace MuxLib.MUtility.Collections.List.ArrayList
             CheckResize();
         }
 
-        public void Add(TData item)
+        public void Add(T item)
         {
             if (IsReadOnly)
                 throw new Errors.InvalidOperation("Can not Add item into a ReadOnly ArrayList");
             Insert(Count, item);
         }
 
-        public void AddFirst(TData item)
+        public void AddFirst(T item)
         {
             if (IsReadOnly)
                 throw new Errors.InvalidOperation("Can not Add item into a ReadOnly ArrayList");
@@ -136,10 +136,10 @@ namespace MuxLib.MUtility.Collections.List.ArrayList
             if (IsReadOnly)
                 throw new Errors.InvalidOperation("Can not Clear item into a ReadOnly ArrayList");
             _size = 0;
-            _data = new TData[_data.Length];
+            _data = new T[_data.Length];
         }
 
-        public bool Contains(TData item)
+        public bool Contains(T item)
         {
             for (int i = 0; i < _data.Length; i++)
                 if (_data[i].Equals(item))
@@ -147,7 +147,7 @@ namespace MuxLib.MUtility.Collections.List.ArrayList
             return false;
         }
 
-        public void CopyTo(TData[] array, int arrayIndex)
+        public void CopyTo(T[] array, int arrayIndex)
         {
             if (arrayIndex < 0 || arrayIndex >= _size)
                 throw new Errors.InvalidArgumentError($"Argument:{arrayIndex} is invalid");
@@ -155,7 +155,7 @@ namespace MuxLib.MUtility.Collections.List.ArrayList
                 array[i] = _data[i];
         }
 
-        public bool Remove(TData item)
+        public bool Remove(T item)
         {
             if (IsReadOnly)
                 throw new Errors.InvalidOperation("Can not Remove item into a ReadOnly ArrayList");
@@ -169,13 +169,13 @@ namespace MuxLib.MUtility.Collections.List.ArrayList
             return false;
         }
 
-        public TData Remove(int index)
+        public T Remove(int index)
         {
             if (IsReadOnly)
                 throw new Errors.InvalidOperation("Can not Remove item into a ReadOnly ArrayList");
             if (index < 0 || index >= _size)
                 throw new Errors.InvalidArgumentError("Remove failed. Index is invalid.");
-            TData ret = _data[index];
+            T ret = _data[index];
             for (long i = index + 1; i < _size; i++)
             {
                 _data[i - 1] = _data[i];
@@ -186,15 +186,15 @@ namespace MuxLib.MUtility.Collections.List.ArrayList
             // After remove elements, if used size < capacity / 2 call resize.
             return ret;
         }
-        public TData RemoveFirst()
+        public T RemoveFirst()
         {
             return Remove(0);
         }
-        public TData RemoveLast()
+        public T RemoveLast()
         {
             return Remove(_size - 1);
         }
-        public TData Get(int index)
+        public T Get(int index)
         {
             if (index < 0 || index >= _size)
                 throw new Errors.InvalidArgumentError("Get failed. Index is invalid.");
@@ -202,17 +202,17 @@ namespace MuxLib.MUtility.Collections.List.ArrayList
             return _data[index];
         }
 
-        public TData GetLast()
+        public T GetLast()
         {
             return Get(_size - 1);
         }
 
-        public TData GetFirst()
+        public T GetFirst()
         {
             return Get(0);
         }
 
-        public IEnumerator<TData> GetEnumerator()
+        public IEnumerator<T> GetEnumerator()
         {
             for (int i = 0; i < _size; i++)
             {
@@ -228,11 +228,18 @@ namespace MuxLib.MUtility.Collections.List.ArrayList
             }
         }
 
+        public void Swap(int i, int j)
+        {
+            T tem = this[i];
+            this[i] = this[j];
+            this[j] = tem;
+        }
+
         public override string ToString()
         {
 #if DEBUG
             StringBuilder sb = new StringBuilder();
-            sb.Append($"MuxLib.MUtility.Collection.List.ArrayList<{typeof(TData)}> Object");
+            sb.Append($"MuxLib.MUtility.Collection.List.ArrayList<{typeof(T)}> Object");
             sb.Append("{");
             for (int i = 0; i < _size; i++)
             {

@@ -34,7 +34,7 @@ namespace MuxLib.MUtility.Collections.List.LinkedList
         public T this[int index]
         {
             get => Get(index);
-            set => throw new System.NotImplementedException();
+            set => Set(index, value);
         }
 
         public LinkedList()
@@ -56,7 +56,8 @@ namespace MuxLib.MUtility.Collections.List.LinkedList
         public T Get(int index)
         {
             if (index < 0 || index >= _size)
-                throw new Errors.InvalidArgumentError($"Argument{index} is invalid.");
+                throw new Errors.InvalidArgumentError(
+                    $"Argument{index} is invalid.");
 
             int mid = _size / 2;
             if (index <= mid || index > 20)
@@ -81,6 +82,34 @@ namespace MuxLib.MUtility.Collections.List.LinkedList
             }
         }
 
+        public void Set(int index, T item)
+        {
+            if (index < 0 || index >= _size)
+                throw new Errors.InvalidArgumentError(
+                    $"Argument{index} is invalid");
+
+            int mid = _size / 2;
+            if (index <= mid || index > 20)
+            {
+                Node cur = _dummy_head;
+                for (int i = 0; i < index + 1; i++)
+                {
+                    cur = cur.Next;
+                }
+
+                cur.Data = item;
+            }
+            else // index > mid;
+            {
+                Node cur = _tail;
+                for (int i = 0; i < (_size - index) + 1; i++)
+                {
+                    cur = cur.Before;
+                }
+
+                cur.Data = item;
+            }
+        }
         public void RemoveAt(int index)
         {
             throw new System.NotImplementedException();
@@ -149,6 +178,11 @@ namespace MuxLib.MUtility.Collections.List.LinkedList
             {
                 yield return Get(i);
             }
+        }
+
+        public void Swap(int j, int i)
+        {
+            T temp = this[i]; this[i] = this[j]; this[j] = temp;
         }
     }
 }
