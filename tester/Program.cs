@@ -4,8 +4,8 @@
     {
         public static void Main()
         {
-            MuxLib.MUtility.Algorithms.Tester.TestHeapSorter();
-            MuxLib.MUtility.Algorithms.Tester.TestSelectionSorter();
+            decimal i = 3.1415926M; object j = i;
+            System.Console.WriteLine(j.GetHashCode());
         }
     }
 }
