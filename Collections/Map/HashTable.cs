@@ -3,11 +3,31 @@ namespace MuxLib.MUtility.Collections.Map
 {
     public sealed class HashTable<K, V>
     {
-        private readonly SortedDictionary<K, V>[] _hashTable;
-        private readonly int _M;
+        private SortedDictionary<K, V>[] _hashTable;
+        private int _M;
         private int _size;
-
+        private const int upperTol = 10, lowTol = 2, initCapacity = 7;
         public int Size { get => _size; }
+
+        private void Resize(int new_m)
+        {
+            SortedDictionary<K, V>[] newHashTable = new SortedDictionary<K, V>[new_m];
+            for (int i = 0; i < new_m; ++i)
+            {
+                newHashTable[i] = new SortedDictionary<K, V>();
+            }
+            int old_M = _M;
+            _M = new_m;
+            for (int i = 0; i < old_M; ++i)
+            {
+                SortedDictionary<K, V> map = _hashTable[i];
+                foreach (K key in map.Keys)
+                    newHashTable[Hash(key)][key] = map[key];
+            }
+
+            _hashTable = newHashTable;
+        }
+
         public HashTable(int M)
         {
             _size = 0;
@@ -20,7 +40,7 @@ namespace MuxLib.MUtility.Collections.Map
         public HashTable()
         {
             _size = 0;
-            _M = 97;
+            _M = initCapacity;
             _hashTable = new SortedDictionary<K, V>[_M];
             for (int i = 0; i < _M; ++i)
                 _hashTable[i] = new SortedDictionary<K, V>();
@@ -56,6 +76,9 @@ namespace MuxLib.MUtility.Collections.Map
             {
                 map.Add(key, value);
                 _size++;
+
+                if (_size >= upperTol * _M)
+                    Resize(2 * _M);
             }
         }
 
@@ -68,6 +91,8 @@ namespace MuxLib.MUtility.Collections.Map
                 ret = map[key];
                 map.Remove(key);
                 _size--;
+                if (_size < lowTol * _M && _M / 2 >= initCapacity)
+                    Resize(_M / 2);
             }
             return ret;
         }
