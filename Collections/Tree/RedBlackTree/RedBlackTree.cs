@@ -21,6 +21,7 @@ namespace MuxLib.MUtility.Collections.Tree.RedBlackTree
         }
 
 
+
         private Node _root;
         private int _size;
 

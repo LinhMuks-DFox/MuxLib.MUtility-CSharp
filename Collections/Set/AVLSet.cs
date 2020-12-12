@@ -7,29 +7,29 @@ namespace MuxLib.MUtility.Collections.Set
         : ABCSet<E>
         where E : IComparable
     {
-        private AVLTree<E, object> _avl;
+        private readonly AVLTree<E, object> _data;
 
         public AVLSet()
         {
-            _avl = new AVLTree<E, object>();
+            _data = new AVLTree<E, object>();
         }
-        public override int Size => _avl.Size;
+        public override int Size => _data.Size;
 
-        public override bool Empty => _avl.IsEmpty;
+        public override bool Empty => _data.IsEmpty;
 
         public override void Add(E e)
         {
-            _avl.Append(e, null);
+            _data.Append(e, null);
         }
 
         public override bool Contains(E e)
         {
-            return _avl.Contains(e);
+            return _data.Contains(e);
         }
 
         public override void Remove(E e)
         {
-            _avl.Remove(e);
+            _data.Remove(e);
         }
     }
 }

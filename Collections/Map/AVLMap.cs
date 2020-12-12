@@ -7,39 +7,39 @@ namespace MuxLib.MUtility.Collections.Map
         : ABCMap<K, V>
         where K : IComparable
     {
-        private AVLTree<K, V> _avl;
+        private readonly AVLTree<K, V> _data;
 
         public AVLMap()
         {
-            _avl = new AVLTree<K, V>();
+            _data = new AVLTree<K, V>();
         }
-        public override int Size => _avl.Size;
+        public override int Size => _data.Size;
 
-        public override bool Empty => _avl.IsEmpty;
+        public override bool Empty => _data.IsEmpty;
 
         public override void Add(K key, V value)
         {
-            _avl.Append(key, value);
+            _data.Append(key, value);
         }
 
         public override bool Contains(K key)
         {
-            return _avl.Contains(key);
+            return _data.Contains(key);
         }
 
         public override V Get(K key)
         {
-            return _avl[key];
+            return _data[key];
         }
 
         public override V Remove(K key)
         {
-            return _avl.Remove(key);
+            return _data.Remove(key);
         }
 
         public override void Set(K key, V new_value)
         {
-            _avl[key] = new_value;
+            _data[key] = new_value;
         }
     }
 }
