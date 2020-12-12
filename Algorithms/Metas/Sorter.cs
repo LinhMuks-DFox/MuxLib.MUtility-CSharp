@@ -27,7 +27,7 @@
             System.Console.WriteLine("}");
         }
 
-        public static bool IsSorted(T[] arr, bool big_to_small = false)
+        public bool IsSorted(T[] arr, bool big_to_small = false)
         {
             if (big_to_small)
             {
