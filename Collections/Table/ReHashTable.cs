@@ -86,8 +86,8 @@ namespace MuxLib.MUtility.Collections.Table
         public void Remove(K key)
         {
             int index = IndexOf(key);
-            if (index < 0 || index >= _size)
-                throw new Errors.InvalidArgumentError("Remove failed. Index is invalid.");
+            if (index == -1)
+                throw new Errors.InvalidArgumentError($"Remove failed. {key} is not exist.");
             for (int i = index + 1; i < _size; i++)
             {
                 _keys[i - 1] = _keys[i];
