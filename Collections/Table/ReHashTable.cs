@@ -120,8 +120,7 @@ namespace MuxLib.MUtility.Collections.Table
 
         private void Resize(int new_m)
         {
-            DicList<K, V>[] newHashTable =
-                                            new DicList<K, V>[new_m];
+            DicList<K, V>[] newHashTable = new DicList<K, V>[new_m];
             for (int i = 0; i < new_m; ++i)
             {
                 newHashTable[i] = new DicList<K, V>();
