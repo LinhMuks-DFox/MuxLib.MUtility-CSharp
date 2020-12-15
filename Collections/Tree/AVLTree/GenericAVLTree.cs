@@ -1,7 +1,13 @@
 ﻿using System;
 namespace MuxLib.MUtility.Collections.Tree.AVLTree
 {
-    internal sealed class GenericAVLTree<K, V>
+    /// <summary>
+    /// K 可以不必是一个Compareable 的数组，可以new GenericAVLTree.CompareElements()
+    /// lambda函数
+    /// </summary>
+    /// <typeparam name="K"></typeparam>
+    /// <typeparam name="V"></typeparam>
+    public sealed class GenericAVLTree<K, V>
     {
         private class Node
         {
