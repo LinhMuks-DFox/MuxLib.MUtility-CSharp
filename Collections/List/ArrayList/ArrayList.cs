@@ -271,5 +271,29 @@ namespace MuxLib.MUtility.Collections.List.ArrayList
             return sb.ToString();
 #endif
         }
+
+        public delegate int Compare(T item1, T item2);
+
+        public void Sort(Compare compare)
+        {
+            Sort(compare, 0, _size - 1);
+        }
+
+        private void Sort(Compare compare, int low, int hight)
+        {
+            if (hight <= low) return;
+            int lt = low, i = low + 1, gt = hight;
+            T v = _data[low];
+            while (i <= gt)
+            {
+                int cmp = compare(_data[i], v);
+                if (cmp < 0) Swap(lt++, i++);
+                else if (cmp > 0) Swap(i, gt--);
+                else ++i;
+            }
+
+            Sort(compare, low, lt - 1);
+            Sort(compare, gt + 1, hight);
+        }
     }
 }

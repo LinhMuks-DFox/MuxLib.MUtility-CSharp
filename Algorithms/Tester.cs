@@ -33,5 +33,19 @@ namespace MuxLib.MUtility.Algorithms
             Console.WriteLine($"SelectionSorter:\n\t{scaler.Runtime(arr, selector)}");
             Console.WriteLine($"\tSelectionSorter well done?:{selector.IsSorted(arr)}");
         }
+
+        public static void TestQuickSorter()
+        {
+            SorterScaler<int> scaler = new SorterScaler<int>();
+            Random random = new Random(666);
+            QuickSorter<int> selector = new QuickSorter<int>();
+            int[] arr = new int[size];
+            for (int i = 0; i < size; ++i)
+            {
+                arr[i] = random.Next();
+            }
+            Console.WriteLine($"QuickSorter:\n\t{scaler.Runtime(arr, selector)}");
+            Console.WriteLine($"\tQuickSorter well done?:{selector.IsSorted(arr)}");
+        }
     }
 }

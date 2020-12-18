@@ -12,7 +12,7 @@ namespace MuxLib.MUtility.Algorithms.Sorter
 
         private void Sort(T[] arr, int low, int hight)
         {
-            if (hight < -low) return;
+            if (hight <= low) return;
             int lt = low, i = low + 1, gt = hight;
             T v = arr[low];
             while (i <= gt)

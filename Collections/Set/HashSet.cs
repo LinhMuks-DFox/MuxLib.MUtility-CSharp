@@ -8,6 +8,11 @@ namespace MuxLib.MUtility.Collections.Set
 
         public override bool Empty => Size == 0;
 
+        public HashSet()
+        {
+            _datas = new HashTable<T, object>();
+        }
+
         public override void Add(T e)
         {
             _datas.Append(e, null);
