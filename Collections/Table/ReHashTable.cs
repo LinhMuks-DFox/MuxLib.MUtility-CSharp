@@ -66,7 +66,7 @@
 
         public bool ContainsKey(K key)
         {
-            return IndexOf(key) == -1;
+            return IndexOf(key) != -1;
         }
 
         private void Append(K key, V value)

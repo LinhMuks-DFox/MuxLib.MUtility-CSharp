@@ -141,10 +141,7 @@ namespace MuxLib.MUtility.Collections.List.ArrayList
 
         public bool Contains(T item)
         {
-            for (int i = 0; i < _data.Length; i++)
-                if (_data[i].Equals(item))
-                    return true;
-            return false;
+            return IndexOf(item) != -1;
         }
 
         public void CopyTo(T[] array, int arrayIndex)
