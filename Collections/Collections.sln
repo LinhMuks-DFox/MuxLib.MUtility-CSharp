@@ -12,6 +12,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Algorithms", "..\Algorithms
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "tester", "..\tester\tester.csproj", "{D084CFA3-C22B-4821-9A3A-079D550F5DDB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Maths", "..\Maths\Maths.csproj", "{167B91F9-1727-4851-8370-D9E08EB6B02C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,6 +32,10 @@ Global
 		{D084CFA3-C22B-4821-9A3A-079D550F5DDB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D084CFA3-C22B-4821-9A3A-079D550F5DDB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D084CFA3-C22B-4821-9A3A-079D550F5DDB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{167B91F9-1727-4851-8370-D9E08EB6B02C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{167B91F9-1727-4851-8370-D9E08EB6B02C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{167B91F9-1727-4851-8370-D9E08EB6B02C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{167B91F9-1727-4851-8370-D9E08EB6B02C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
