@@ -149,7 +149,7 @@ namespace MuxLib.MUtility.Collections.Tree.Heap
         }
         public override string ToString()
         {
-            return $"MaxHeap{typeof(E)} Instance";
+            return $"MaxHeap<{typeof(E)}> Instance";
         }
 
         public static void Tester()
