@@ -8,7 +8,6 @@ namespace MuxLib.MUtility.Maths.basic
     {
         Postive,
         Negativ,
-        Zero,
         NaN
     }
 
