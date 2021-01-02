@@ -17,6 +17,7 @@ namespace MuxLib.MUtility.Algorithms.Sorter
         {
             for (int i = 0; i < arr.Length; i++)
             {
+                // ensure the random value will not "out-of-range"
                 int j = Math.Abs(random.Next() % arr.Length - 1);
 
                 Swap(arr, i, j);
