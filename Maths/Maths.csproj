@@ -5,4 +5,8 @@
     <RootNamespace>MuxLib.MUtility.Maths</RootNamespace>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Com\Com.csproj" />
+  </ItemGroup>
+
 </Project>

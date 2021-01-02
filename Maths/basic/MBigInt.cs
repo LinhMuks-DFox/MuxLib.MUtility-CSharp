@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using MuxLib.MUtility.Com.Attr;
 namespace MuxLib.MUtility.Maths.basic
 {
+    [Unimplemented]
     public class MBigInt
     {
         public const int M_SHIFT = 1073741824; // 2 ** 30
