@@ -17,14 +17,14 @@
 
         public static void Show(T[] arr)
         {
-            System.Console.WriteLine("{");
+            System.Console.Write("{");
             for (int i = 0; i < arr.Length; i++)
             {
-                System.Console.WriteLine(arr[i]);
+                System.Console.Write(arr[i]);
                 if (i != arr.Length - 1)
-                    System.Console.WriteLine(", ");
+                    System.Console.Write(", ");
             }
-            System.Console.WriteLine("}");
+            System.Console.Write("}\n");
         }
 
         public bool IsSorted(T[] arr, bool big_to_small = false)
