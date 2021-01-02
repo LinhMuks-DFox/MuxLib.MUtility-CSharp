@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MuxLib.MUtility.Collections.Errors
+namespace MuxLib.MUtility.Com.Error
 {
     public sealed class InvalidArgumentError
         : Exception
