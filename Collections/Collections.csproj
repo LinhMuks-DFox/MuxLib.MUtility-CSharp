@@ -3,4 +3,7 @@
     <TargetFramework>net5.0</TargetFramework>
     <RootNamespace>MuxLib.MUtility.Collections</RootNamespace>
   </PropertyGroup>
+  <ItemGroup>
+    <Folder Include="Metas\Interface\" />
+  </ItemGroup>
 </Project>

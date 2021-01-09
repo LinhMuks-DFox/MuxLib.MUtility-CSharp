@@ -19,7 +19,11 @@ namespace MuxLib.MUtility.Collections.List.ArrayList
         public T this[int index]
         {
             get => Get(index);
-            set => Set(index, value);
+            set
+            {
+                if (index == _size) Insert(_size, value);
+                else Set(index, value);
+            }
         }
 
         public ArrayList()
@@ -250,13 +254,13 @@ namespace MuxLib.MUtility.Collections.List.ArrayList
             return sb.ToString();
 #else
             StringBuilder sb = new StringBuilder();
-            sb.Append($"MuxLib.MUtility.Collection.List.ArrayList<{typeof(TData)}> Object");
+            sb.Append($"MuxLib.MUtility.Collection.List.ArrayList<{typeof(T)}> Object");
             sb.Append('{');
             int time = _size > 20 ? 20 : _size;
-            for(int i = 0; i < time; i++)
+            for (int i = 0; i < time; i++)
             {
                 sb.Append(_data[i].ToString());
-                if (i != time - 1)  
+                if (i != time - 1)
                 {
                     sb.Append(", ");
                 }

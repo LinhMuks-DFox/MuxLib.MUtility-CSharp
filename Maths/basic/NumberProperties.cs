@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace MuxLib.MUtility.Maths.basic
+﻿namespace MuxLib.MUtility.Maths.basic
 {
     enum Signs
     {
@@ -25,7 +21,9 @@ namespace MuxLib.MUtility.Maths.basic
                 case 10:
                     return ('0' <= ch && ch <= '9');
                 case 16:
-                    return ('0' <= ch && ch <= '9') || ('a' <= ch && ch <= 'f') || ('A' <= ch && ch <= 'F');
+                    return ('0' <= ch && ch <= '9')
+                        || ('a' <= ch && ch <= 'f')
+                        || ('A' <= ch && ch <= 'F');
                 default:
                     return false;
             }
