@@ -29,8 +29,10 @@ namespace MuxLib.MUtility.Collections.Tree.BST
 
         private int NodeSize(Node node)
         {
-            if (node == null) return 0;
-            else return node.N;
+            if (node == null)
+                return 0;
+            else
+                return node.N;
         }
         public override bool Empty { get => Size == 0; }
 
@@ -54,9 +56,12 @@ namespace MuxLib.MUtility.Collections.Tree.BST
             if (node == null)
                 return default;
             int cmp = key.CompareTo(node.Key);
-            if (cmp > 0) return Get(node.Left, key);
-            else if (cmp < 0) return Get(node.Right, key);
-            else return node.Value;
+            if (cmp > 0)
+                return Get(node.Left, key);
+            else if (cmp < 0)
+                return Get(node.Right, key);
+            else
+                return node.Value;
         }
 
         private Node Set(Node node, K key, V value)
@@ -64,8 +69,10 @@ namespace MuxLib.MUtility.Collections.Tree.BST
             if (node == null)
                 return new Node(key, value, 1);
             int cmp = key.CompareTo(node.Key);
-            if (cmp < 0) node.Left = Set(node.Left, key, value);
-            else if (cmp > 0) node.Right = Set(node.Right, key, value);
+            if (cmp < 0)
+                node.Left = Set(node.Left, key, value);
+            else if (cmp > 0)
+                node.Right = Set(node.Right, key, value);
             else
                 node.Value = value;
             node.N = NodeSize(node.Left) + NodeSize(node.Right) + 1;
@@ -79,15 +86,20 @@ namespace MuxLib.MUtility.Collections.Tree.BST
 
         private Node Remove(Node node, K key)
         {
-            if (node == null) return null;
+            if (node == null)
+                return null;
             int cmp = key.CompareTo(node.Key);
 
-            if (cmp < 0) node.Left = Remove(node.Left, key);
-            else if (cmp > 0) node.Right = Remove(node.Right, key);
+            if (cmp < 0)
+                node.Left = Remove(node.Left, key);
+            else if (cmp > 0)
+                node.Right = Remove(node.Right, key);
             else
             {
-                if (node.Right == null) return node.Left;
-                if (node.Left == null) return node.Right;
+                if (node.Right == null)
+                    return node.Left;
+                if (node.Left == null)
+                    return node.Right;
                 Node t = node;
                 node = Min(t.Right);
                 node.Right = DeleteMin(t.Right);
@@ -131,7 +143,8 @@ namespace MuxLib.MUtility.Collections.Tree.BST
         public override K Floor(K key)
         {
             Node x = Floor(_root, key);
-            if (x == null) return default;
+            if (x == null)
+                return default;
             return x.Key;
         }
 
@@ -139,29 +152,38 @@ namespace MuxLib.MUtility.Collections.Tree.BST
         {
             if (node == null) return null;
             int cmp = key.CompareTo(node.Key);
-            if (cmp == 0) return node;
-            if (cmp < 0) return Floor(node.Left, key);
+            if (cmp == 0)
+                return node;
+            if (cmp < 0)
+                return Floor(node.Left, key);
             Node n = Floor(node.Right, key);
-            if (n != null) return n;
+            if (n != null)
+                return n;
             else return node;
         }
 
         public override K Ceiling(K key)
         {
             Node x = Ceiling(_root, key);
-            if (x == null) return default;
+            if (x == null)
+                return default;
             return x.Key;
         }
 
         private Node Ceiling(Node node, K key)
         {
-            if (node == null) return null;
+            if (node == null)
+                return null;
             int cmp = key.CompareTo(node.Key);
-            if (cmp == 0) return node;
-            if (cmp > 0) return Ceiling(node.Left, key);
+            if (cmp == 0)
+                return node;
+            if (cmp > 0)
+                return Ceiling(node.Left, key);
             Node n = Ceiling(node.Left, key);
-            if (n != null) return n;
-            else return node;
+            if (n != null)
+                return n;
+            else
+                return node;
         }
 
         public override int Rank(K key)
@@ -170,12 +192,16 @@ namespace MuxLib.MUtility.Collections.Tree.BST
         }
         private int Rank(Node node, K key)
         {
-            if (node == null) return 0;
+            if (node == null)
+                return 0;
             int cmp = key.CompareTo(node.Key);
 
-            if (cmp < 0) return Rank(node.Left, key);
-            else if (cmp > 0) return 1 + NodeSize(node.Left) + Rank(node.Right, key);
-            else return NodeSize(node.Left);
+            if (cmp < 0)
+                return Rank(node.Left, key);
+            else if (cmp > 0)
+                return 1 + NodeSize(node.Left) + Rank(node.Right, key);
+            else
+                return NodeSize(node.Left);
 
         }
 
@@ -186,10 +212,13 @@ namespace MuxLib.MUtility.Collections.Tree.BST
 
         private Node Select(Node node, int k)
         {
-            if (node == null) return null;
+            if (node == null)
+                return null;
             int t = NodeSize(node.Left);
-            if (t > k) return Select(node.Left, k);
-            else if (t < k) return Select(node.Right, k - t - 1);
+            if (t > k)
+                return Select(node.Left, k);
+            else if (t < k)
+                return Select(node.Right, k - t - 1);
             else return node;
         }
 
@@ -200,7 +229,8 @@ namespace MuxLib.MUtility.Collections.Tree.BST
 
         private Node DeleteMin(Node node)
         {
-            if (node.Left == null) return node.Right;
+            if (node.Left == null)
+                return node.Right;
             node.Left = DeleteMin(node.Left);
             node.N = NodeSize(node.Left) + NodeSize(node.Right) + 1;
             return node;
@@ -213,7 +243,8 @@ namespace MuxLib.MUtility.Collections.Tree.BST
 
         private Node DeleteMax(Node node)
         {
-            if (node.Right == null) return node.Left;
+            if (node.Right == null)
+                return node.Left;
             node.Right = DeleteMax(node.Right);
             node.N = NodeSize(node.Right) + NodeSize(node.Left) + 1;
             return node;
@@ -238,12 +269,16 @@ namespace MuxLib.MUtility.Collections.Tree.BST
 
         private void SortedKeys(Node node, Queue<K> queue, K low, K max)
         {
-            if (node == null) return;
+            if (node == null)
+                return;
             int cmplow = low.CompareTo(node.Key);
             int cmpmax = max.CompareTo(node.Key);
-            if (cmplow < 0) SortedKeys(node.Left, queue, low, max);
-            if (cmplow <= 0 && cmpmax >= 0) queue.Enqueue(node.Key);
-            if (cmpmax > 0) SortedKeys(node.Right, queue, low, max);
+            if (cmplow < 0)
+                SortedKeys(node.Left, queue, low, max);
+            if (cmplow <= 0 && cmpmax >= 0)
+                queue.Enqueue(node.Key);
+            if (cmpmax > 0)
+                SortedKeys(node.Right, queue, low, max);
         }
     }
 }
