@@ -2,7 +2,7 @@
 
 namespace MuxLib.MUtility.Collections.Tree.RedBlackTree
 {
-    public sealed class RedBlackTree<K, V>
+    public sealed class RedBlackTree<K, V> : Metas.ABClass.ABCSymbolTable<K, V>
         where K : IComparable
     {
         private enum Color { Red, Black }
@@ -31,7 +31,7 @@ namespace MuxLib.MUtility.Collections.Tree.RedBlackTree
             _size = 0;
         }
 
-        public V this[K key]
+        public override V this[K key]
         {
             get
             {
@@ -47,6 +47,10 @@ namespace MuxLib.MUtility.Collections.Tree.RedBlackTree
                     Append(_root, key, value);
             }
         }
+        public override int Size { get => _size; }
+
+        public override bool Empty { get => _size == 0; }
+
 
         private Node FindNode(Node node, K key)
         {
@@ -61,9 +65,6 @@ namespace MuxLib.MUtility.Collections.Tree.RedBlackTree
                 return FindNode(node.Right, key);
         }
 
-        public int Size { get => _size; }
-
-        public bool Empty { get => _size == 0; }
 
         private static bool IsRed(Node node)
         {
@@ -143,7 +144,7 @@ namespace MuxLib.MUtility.Collections.Tree.RedBlackTree
         }
 
 
-        public bool Contains(K e)
+        public override bool Contains(K e)
         {
             return Contains(_root, e);
         }
@@ -187,15 +188,13 @@ namespace MuxLib.MUtility.Collections.Tree.RedBlackTree
         }
 
 
-        public V Remove(K key)
+        public override void Remove(K key)
         {
             Node node = FindNode(_root, key);
             if (node != null)
             {
                 _root = Remove(_root, key);
-                return node.Value;
             }
-            return default;
         }
 
 

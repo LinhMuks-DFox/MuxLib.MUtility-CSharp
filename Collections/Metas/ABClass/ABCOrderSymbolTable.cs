@@ -35,9 +35,9 @@
         /// <returns></returns>
         public abstract K Select(int k);
 
-        public abstract V DeleteMin();
+        public abstract void DeleteMin();
 
-        public abstract V DeleteMax();
+        public abstract void DeleteMax();
 
         /// <summary>
         /// Check the number of Keys between low and max
