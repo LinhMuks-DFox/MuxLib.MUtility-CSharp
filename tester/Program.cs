@@ -1,4 +1,5 @@
 ﻿using MuxLib.MUtility.Collections.Set;
+using MuxLib.MUtility.Collections.Tree.BST;
 using System;
 namespace tester
 {
@@ -10,13 +11,12 @@ namespace tester
             TextReader textReader = new TextReader();
             textReader.Read(path);
 
-            AVLSet<string> tree = new AVLSet<string>();
+            BST<string, object> tree = new BST<string, object>();
 
             foreach (string str in textReader.Word)
             {
-                tree.Add(str);
+                tree[str] = null;
             }
-
             Console.WriteLine(tree.Size);
         }
     }

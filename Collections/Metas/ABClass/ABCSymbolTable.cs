@@ -2,11 +2,8 @@
 {
     public abstract class ABCSymbolTable<K, V>
     {
-        public abstract void Set(K key, V value);
 
-        public abstract V Get(K key);
-
-        public abstract V Remove(K key);
+        public abstract void Remove(K key);
 
         public abstract bool Contains(K key);
 

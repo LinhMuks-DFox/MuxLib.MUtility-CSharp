@@ -183,7 +183,7 @@ namespace MuxLib.MUtility.Collections.Tree.AVLTree
             InOrder(node.Right, keys);
         }
 
-        public override void Set(K key, V value)
+        public void Set(K key, V value)
         {
             Node node = GetNode(_root, key);
             if (node == null)
@@ -191,7 +191,7 @@ namespace MuxLib.MUtility.Collections.Tree.AVLTree
             node.Value = value;
         }
 
-        public override V Get(K key)
+        public V Get(K key)
         {
             Node node = GetNode(_root, key);
             if (node == null)
@@ -211,15 +211,13 @@ namespace MuxLib.MUtility.Collections.Tree.AVLTree
                 return GetNode(node.Right, key);
         }
 
-        public override V Remove(K key)
+        public override void Remove(K key)
         {
             Node node = GetNode(_root, key);
             if (node != null)
             {
                 _root = Remove(_root, key);
-                return node.Value;
             }
-            return default;
         }
 
         private Node Remove(Node node, K key)

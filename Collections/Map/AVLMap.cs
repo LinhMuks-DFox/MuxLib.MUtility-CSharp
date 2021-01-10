@@ -34,7 +34,9 @@ namespace MuxLib.MUtility.Collections.Map
 
         public override V Remove(K key)
         {
-            return _data.Remove(key);
+            V ret = _data[key];
+            _data.Remove(key);
+            return ret;
         }
 
         public override void Set(K key, V new_value)
