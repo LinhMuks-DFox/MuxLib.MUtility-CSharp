@@ -23,9 +23,7 @@ namespace tester
             while (fi.Peek() >= 0)
             {
                 char cur = (char)fi.Read();
-                if (cur == '0' || cur == '\n' || cur == '\r')
-                    continue;
-                if (!IsLetters(cur))
+                if (!IsLetters(cur) || cur == '0' || cur == '\n' || cur == '\r')
                 {
                     Word.Add(buffer);
                     buffer = "";
@@ -37,7 +35,7 @@ namespace tester
 
         private bool IsLetters(char ch)
         {
-            return 'A' <= ch && ch <= 'Z' || 'a' <= ch && ch <= 'z' || ch == '-' || ch == '_';
+            return 'A' <= ch && ch <= 'Z' || 'a' <= ch && ch <= 'z' || ch == '-' || ch == '_' || ch == '\'';
         }
     }
 }

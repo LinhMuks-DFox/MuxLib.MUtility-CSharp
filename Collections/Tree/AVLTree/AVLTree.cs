@@ -32,7 +32,18 @@ namespace MuxLib.MUtility.Collections.Tree.AVLTree
             _size = 0;
         }
 
-        public override V this[K key] { get { return Get(key); } set { Set(key, value); } }
+        public override V this[K key]
+        {
+            get { return Get(key); }
+            set
+            {
+                Node node = GetNode(_root, key);
+                if (node == null)
+                    Append(_root, key, value);
+                else
+                    node.Value = value;
+            }
+        }
 
         private static int GetHeight(Node node)
         {
@@ -63,10 +74,10 @@ namespace MuxLib.MUtility.Collections.Tree.AVLTree
             // Update Height
             node.Height = 1 + Math.Max(GetHeight(node.Left), GetHeight(node.Right));
             int balance_factor = GetBalanceFactor(node);
-#if DEBUG
-            if (Math.Abs(balance_factor) > 1)
-                Console.WriteLine($"Unbalance: {balance_factor}");
-#endif
+            // #if DEBUG
+            //             if (Math.Abs(balance_factor) > 1)
+            //                 Console.WriteLine($"Unbalance: {balance_factor}");
+            // #endif
             // Balance maintenance
 
             // LL
@@ -85,7 +96,7 @@ namespace MuxLib.MUtility.Collections.Tree.AVLTree
             // RL
             if (balance_factor < -1 && GetBalanceFactor(node.Right) > 0)
             {
-                node.Right = RightRotate(node); // Convert to RR
+                node.Right = RightRotate(node.Right); // Convert to RR
                 return LeftRotate(node);
             }
             return node;

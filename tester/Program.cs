@@ -1,22 +1,23 @@
-﻿using MuxLib.MUtility.Collections.List.ArrayList;
+﻿using MuxLib.MUtility.Collections.Set;
 using System;
-using MuxLib.MUtility.Algorithms;
-using MuxLib.MUtility.Maths.basic;
 namespace tester
 {
     public class Program
     {
         public static void Main()
         {
-            string path = @"D:\MuxLib\MuxLib.MUtility\tester\test.txt";
+            string path = @"D:\MuxLib\MuxLib.MUtility\tester\pride-and-prejudice.txt";
             TextReader textReader = new TextReader();
             textReader.Read(path);
 
-            foreach (string s in textReader.Word)
+            AVLSet<string> tree = new AVLSet<string>();
+
+            foreach (string str in textReader.Word)
             {
-                Console.WriteLine(s);
+                tree.Add(str);
             }
-            Console.WriteLine(MMathConst.Pi);
+
+            Console.WriteLine(tree.Size);
         }
     }
 }
