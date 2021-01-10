@@ -1,0 +1,4 @@
+this is a test of string-reader.
+
+let us use more, and more. letter;
+

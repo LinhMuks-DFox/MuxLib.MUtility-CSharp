@@ -8,6 +8,14 @@ namespace tester
     {
         public static void Main()
         {
+            string path = @"D:\MuxLib\MuxLib.MUtility\tester\test.txt";
+            TextReader textReader = new TextReader();
+            textReader.Read(path);
+
+            foreach (string s in textReader.Word)
+            {
+                Console.WriteLine(s);
+            }
             Console.WriteLine(MMathConst.Pi);
         }
     }

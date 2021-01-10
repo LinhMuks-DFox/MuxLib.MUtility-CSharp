@@ -6,7 +6,7 @@ namespace MuxLib.MUtility.Collections.Tree.AVLTree
     public sealed class AVLTree<K, V> : Metas.ABClass.ABCSymbolTable<K, V>
         where K : IComparable
     {
-        private class Node
+        private sealed class Node
         {
             public K Key { get; set; }
             public V Value { get; set; }
