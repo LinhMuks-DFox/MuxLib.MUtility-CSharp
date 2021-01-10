@@ -15,7 +15,7 @@ namespace MuxLib.MUtility.Collections.Set
         }
         public override int Size => _data.Size;
 
-        public override bool Empty => _data.IsEmpty;
+        public override bool Empty => _data.Empty;
 
         public override void Add(E e)
         {

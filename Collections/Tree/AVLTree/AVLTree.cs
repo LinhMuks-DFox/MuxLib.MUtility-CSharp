@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace MuxLib.MUtility.Collections.Tree.AVLTree
 {
-    public sealed class AVLTree<K, V>
+    public sealed class AVLTree<K, V> : Metas.ABClass.ABCSymbolTable<K, V>
         where K : IComparable
     {
         private class Node
@@ -23,8 +23,8 @@ namespace MuxLib.MUtility.Collections.Tree.AVLTree
         private Node _root;
         private int _size;
 
-        public int Size { get => _size; }
-        public bool IsEmpty { get => Size == 0; }
+        public override int Size { get => _size; }
+        public override bool Empty { get => Size == 0; }
 
         public AVLTree()
         {
@@ -32,7 +32,7 @@ namespace MuxLib.MUtility.Collections.Tree.AVLTree
             _size = 0;
         }
 
-        public V this[K key] { get { return Get(key); } set { Set(key, value); } }
+        public override V this[K key] { get { return Get(key); } set { Set(key, value); } }
 
         private static int GetHeight(Node node)
         {
@@ -172,7 +172,7 @@ namespace MuxLib.MUtility.Collections.Tree.AVLTree
             InOrder(node.Right, keys);
         }
 
-        public void Set(K key, V value)
+        public override void Set(K key, V value)
         {
             Node node = GetNode(_root, key);
             if (node == null)
@@ -180,7 +180,7 @@ namespace MuxLib.MUtility.Collections.Tree.AVLTree
             node.Value = value;
         }
 
-        public V Get(K key)
+        public override V Get(K key)
         {
             Node node = GetNode(_root, key);
             if (node == null)
@@ -200,7 +200,7 @@ namespace MuxLib.MUtility.Collections.Tree.AVLTree
                 return GetNode(node.Right, key);
         }
 
-        public V Remove(K key)
+        public override V Remove(K key)
         {
             Node node = GetNode(_root, key);
             if (node != null)
@@ -296,7 +296,7 @@ namespace MuxLib.MUtility.Collections.Tree.AVLTree
             return Maximum(node.Right);
         }
 
-        public bool Contains(K key)
+        public override bool Contains(K key)
         {
             return GetNode(_root, key) != null;
         }

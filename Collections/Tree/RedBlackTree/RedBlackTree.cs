@@ -41,9 +41,10 @@ namespace MuxLib.MUtility.Collections.Tree.RedBlackTree
             set
             {
                 Node node = FindNode(_root, key);
-                if (node == null)
-                    throw new Errors.InvalidArgumentError($"{key} is dose not exist.");
-                node.Value = value;
+                if (node != null)
+                    node.Value = value;
+                else
+                    Append(_root, key, value);
             }
         }
 
