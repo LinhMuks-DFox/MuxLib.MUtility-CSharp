@@ -262,8 +262,8 @@ namespace MuxLib.MUtility.Collections.Tree.BST
 
         private IEnumerable<K> SortedKeys(Node node, K low, K max)
         {
-            Queue<K> queue = new Queue<K>(_root.N);
-            SortedKeys(_root, queue, low, max);
+            Queue<K> queue = new Queue<K>(node.N);
+            SortedKeys(node, queue, low, max);
             return queue;
         }
 
