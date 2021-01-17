@@ -6,11 +6,11 @@
 
         public override void Sort(T[] arr)
         {
-            int N = arr.Length;
-            for (int i = 0; i < N; ++i)
+            var n = arr.Length;
+            for (var i = 0; i < n; ++i)
             {
-                int min = i;
-                for (int j = i + 1; j < N; j++)
+                var min = i;
+                for (var j = i + 1; j < n; j++)
                     if (Less(arr[j], arr[min])) min = j;
                 Swap(arr, i, min);
             }

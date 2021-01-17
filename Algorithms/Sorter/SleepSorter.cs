@@ -7,9 +7,9 @@ namespace MuxLib.MUtility.Algorithms.Sorter
     {
         public override void Sort(int[] arr)
         {
-            for (int i = 0; i < arr.Length; i++)
+            for (var i = 0; i < arr.Length; i++)
             {
-                Thread th = new Thread(start =>
+                var th = new Thread(start =>
                 {
                     Thread.Sleep(arr[i] * 20);
                     Console.WriteLine(i);

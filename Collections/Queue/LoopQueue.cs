@@ -11,7 +11,7 @@ namespace MuxLib.MUtility.Collections.Queue
         private T[] _data;
         private int _front, _tail;
         private int _size;
-        public int Capacity { get => _data.Length - 1; }
+        public int Capacity => _data.Length - 1;
         public override bool Empty => _front == _tail;
         public override int Size => _size;
         public LoopQueue(int capacity)

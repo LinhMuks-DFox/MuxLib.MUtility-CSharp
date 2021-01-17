@@ -351,3 +351,5 @@ MigrationBackup/
 # /Collections/Collections.sln
 
 .vscode
+/.idea/
+/Algorithms/bin/

@@ -11,7 +11,7 @@ namespace MuxLib.MUtility.Collections.Queue
 
         public override bool Empty { get => Size == 0; }
 
-        private MaxHeap<E> _maxHeap;
+        private readonly MaxHeap<E> _maxHeap;
 
         public PriorityQueue()
         {
@@ -33,9 +33,9 @@ namespace MuxLib.MUtility.Collections.Queue
             return _maxHeap.PeekMax();
         }
 
-        public override void Load(IEnumerable<E> meta_array)
+        public override void Load(IEnumerable<E> metaArray)
         {
-            _maxHeap.Load(meta_array);
+            _maxHeap.Load(metaArray);
         }
     }
 }

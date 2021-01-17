@@ -5,10 +5,10 @@
     {
         public abstract void Sort(T[] arr);
 
-        public bool Less(T v, T w)
+        protected bool Less(T v, T w)
             => v.CompareTo(w) < 0;
 
-        public static void Swap(T[] arr, int i, int j)
+        protected static void Swap(T[] arr, int i, int j)
         {
             T t = arr[i];
             arr[i] = arr[j];
@@ -18,7 +18,7 @@
         public static void Show(T[] arr)
         {
             System.Console.Write("{");
-            for (int i = 0; i < arr.Length; i++)
+            for (var i = 0; i < arr.Length; i++)
             {
                 System.Console.Write(arr[i]);
                 if (i != arr.Length - 1)
@@ -27,24 +27,22 @@
             System.Console.Write("}\n");
         }
 
-        public bool IsSorted(T[] arr, bool big_to_small = false)
+        public bool IsSorted(T[] arr, bool bigToSmall = false)
         {
-            if (big_to_small)
+            if (bigToSmall)
             {
-                for (int i = 1; i < arr.Length; ++i)
+                for (var i = 1; i < arr.Length; ++i)
                 {
                     if (Less(arr[i - 1], arr[i])) return false;
                 }
                 return true;
             }
-            else /*small->big*/
+
+            for (var i = 1; i < arr.Length; ++i)
             {
-                for (int i = 1; i < arr.Length; ++i)
-                {
-                    if (Less(arr[i], arr[i - 1])) return false;
-                }
-                return true;
+                if (Less(arr[i], arr[i - 1])) return false;
             }
+            return true;
         }
     }
 }

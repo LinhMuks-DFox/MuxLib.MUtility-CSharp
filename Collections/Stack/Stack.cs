@@ -8,7 +8,7 @@ namespace MuxLib.MUtility.Collections.Stack
     public sealed class Stack<T>
         : ABCStack<T>
     {
-        private ArrayList<T> _array;
+        private readonly ArrayList<T> _array;
         public override bool Empty => _array.Count == 0;
         public override int Size => _array.Count;
 
@@ -26,9 +26,9 @@ namespace MuxLib.MUtility.Collections.Stack
 
         public override void Push(T e) => _array.Add(e);
 
-        public override void Load(IEnumerable<T> meta_array)
+        public override void Load(IEnumerable<T> metaArray)
         {
-            foreach (T e in meta_array)
+            foreach (T e in metaArray)
             {
                 Push(e);
             }

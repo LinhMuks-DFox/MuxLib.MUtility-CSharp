@@ -21,89 +21,98 @@ namespace MuxLib.MUtility.Collections.Tree.BST
             /// </summary>
             public int N { set; get; }
 
-            public Node(K key, V value, int N)
+            public Node(K key, V value, int n)
             {
-                (Key, Value, this.N) = (key, value, N);
+                (Key, Value, N) = (key, value, n);
             }
         }
 
         private int NodeSize(Node node)
         {
-            if (node == null)
-                return 0;
-            else
-                return node.N;
+            return node?.N ?? 0;
         }
-        public override bool Empty { get => Size == 0; }
+        public override bool Empty => Size == 0;
 
-        public override int Size { get => NodeSize(_root); }
+        public override int Size => NodeSize(Root);
 
-        private Node _root;
+        private Node Root { set; get; }
 
         public BST()
         {
-            _root = null;
+            Root = null;
         }
 
         public override V this[K key]
         {
-            get => Get(_root, key);
-            set { _root = Set(_root, key, value); }
+            get => Get(Root, key);
+            set => Root = Set(Root, key, value);
         }
 
-        private V Get(Node node, K key)
+        private static V Get(Node node, K key)
         {
             if (node == null)
                 return default;
-            int cmp = key.CompareTo(node.Key);
-            if (cmp > 0)
-                return Get(node.Left, key);
-            else if (cmp < 0)
-                return Get(node.Right, key);
-            else
-                return node.Value;
+            var cmp = key.CompareTo(node.Key);
+            return cmp switch
+            {
+                > 0 => Get(node.Left, key),
+                < 0 => Get(node.Right, key),
+                _ => node.Value
+            };
         }
 
         private Node Set(Node node, K key, V value)
         {
             if (node == null)
                 return new Node(key, value, 1);
-            int cmp = key.CompareTo(node.Key);
-            if (cmp < 0)
-                node.Left = Set(node.Left, key, value);
-            else if (cmp > 0)
-                node.Right = Set(node.Right, key, value);
-            else
-                node.Value = value;
+            var cmp = key.CompareTo(node.Key);
+            switch (cmp)
+            {
+                case < 0:
+                    node.Left = Set(node.Left, key, value);
+                    break;
+                case > 0:
+                    node.Right = Set(node.Right, key, value);
+                    break;
+                default:
+                    node.Value = value;
+                    break;
+            }
             node.N = NodeSize(node.Left) + NodeSize(node.Right) + 1;
             return node;
         }
 
         public override void Remove(K key)
         {
-            _root = Remove(_root, key);
+            Root = Remove(Root, key);
         }
 
         private Node Remove(Node node, K key)
         {
             if (node == null)
                 return null;
-            int cmp = key.CompareTo(node.Key);
+            var cmp = key.CompareTo(node.Key);
 
-            if (cmp < 0)
-                node.Left = Remove(node.Left, key);
-            else if (cmp > 0)
-                node.Right = Remove(node.Right, key);
-            else
+            switch (cmp)
             {
-                if (node.Right == null)
-                    return node.Left;
-                if (node.Left == null)
-                    return node.Right;
-                Node t = node;
-                node = Min(t.Right);
-                node.Right = DeleteMin(t.Right);
-                node.Left = t.Left;
+                case < 0:
+                    node.Left = Remove(node.Left, key);
+                    break;
+                case > 0:
+                    node.Right = Remove(node.Right, key);
+                    break;
+                default:
+                {
+                    if (node.Right == null)
+                        return node.Left;
+                    if (node.Left == null)
+                        return node.Right;
+                    Node t = node;
+                    node = Min(t.Right);
+                    node.Right = DeleteMin(t.Right);
+                    node.Left = t.Left;
+                    break;
+                }
             }
 
             node.N = NodeSize(node.Left) + NodeSize(node.Right) + 1;
@@ -113,118 +122,113 @@ namespace MuxLib.MUtility.Collections.Tree.BST
 
         public override bool Contains(K key)
         {
-            return Get(_root, key) == null;
+            return Get(Root, key) == null;
         }
 
         public override K Min()
         {
-            return Min(_root).Key;
+            return Min(Root).Key;
         }
 
         private Node Min(Node node)
         {
-            if (node.Left == null)
-                return node;
-            return Min(node.Left);
+            return node.Left == null ? node : Min(node.Left);
         }
 
         public override K Max()
         {
-            return Max(_root).Key;
+            return Max(Root).Key;
         }
 
         private Node Max(Node node)
         {
-            if (node.Right == null)
-                return node;
-            return Max(node.Right);
+            return node.Right == null ? node : Max(node.Right);
         }
 
         public override K Floor(K key)
         {
-            Node x = Floor(_root, key);
-            if (x == null)
-                return default;
-            return x.Key;
+            var x = Floor(Root, key);
+            return x == null ? default : x.Key;
         }
 
-        private Node Floor(Node node, K key)
+        private static Node Floor(Node node, K key)
         {
             if (node == null) return null;
-            int cmp = key.CompareTo(node.Key);
-            if (cmp == 0)
-                return node;
-            if (cmp < 0)
-                return Floor(node.Left, key);
-            Node n = Floor(node.Right, key);
-            if (n != null)
-                return n;
-            else return node;
+            var cmp = key.CompareTo(node.Key);
+            switch (cmp)
+            {
+                case 0:
+                    return node;
+                case < 0:
+                    return Floor(node.Left, key);
+            }
+
+            var n = Floor(node.Right, key);
+            return n ?? node;
         }
 
         public override K Ceiling(K key)
         {
-            Node x = Ceiling(_root, key);
-            if (x == null)
-                return default;
-            return x.Key;
+            var x = Ceiling(Root, key);
+            return x == null ? default : x.Key;
         }
 
         private Node Ceiling(Node node, K key)
         {
             if (node == null)
                 return null;
-            int cmp = key.CompareTo(node.Key);
-            if (cmp == 0)
-                return node;
-            if (cmp > 0)
-                return Ceiling(node.Left, key);
-            Node n = Ceiling(node.Left, key);
-            if (n != null)
-                return n;
-            else
-                return node;
+            var cmp = key.CompareTo(node.Key);
+            switch (cmp)
+            {
+                case 0:
+                    return node;
+                case > 0:
+                    return Ceiling(node.Left, key);
+            }
+
+            var n = Ceiling(node.Left, key);
+            return n ?? node;
         }
 
         public override int Rank(K key)
         {
-            return Rank(_root, key);
+            return Rank(Root, key);
         }
         private int Rank(Node node, K key)
         {
             if (node == null)
                 return 0;
-            int cmp = key.CompareTo(node.Key);
+            var cmp = key.CompareTo(node.Key);
 
-            if (cmp < 0)
-                return Rank(node.Left, key);
-            else if (cmp > 0)
-                return 1 + NodeSize(node.Left) + Rank(node.Right, key);
-            else
-                return NodeSize(node.Left);
-
+            return cmp switch
+            {
+                < 0 => Rank(node.Left, key),
+                > 0 => 1 + NodeSize(node.Left) + Rank(node.Right, key),
+                _ => NodeSize(node.Left)
+            };
         }
 
         public override K Select(int k)
         {
-            return Select(_root, k).Key;
+            return Select(Root, k).Key;
         }
 
         private Node Select(Node node, int k)
         {
             if (node == null)
                 return null;
-            int t = NodeSize(node.Left);
-            if (t > k)
-                return Select(node.Left, k);
-            else if (t < k)
-                return Select(node.Right, k - t - 1);
-            else return node;
+            var t = NodeSize(node.Left);
+            if (t <= k)
+            {
+                return t < k ? Select(node.Right, k - t - 1) : node;
+            }
+
+            return Select(node.Left, k);
         }
 
         public override void DeleteMin()
         {
-            _root = DeleteMin(_root);
+            Root = DeleteMin(Root);
         }
 
         private Node DeleteMin(Node node)
@@ -238,7 +242,7 @@ namespace MuxLib.MUtility.Collections.Tree.BST
 
         public override void DeleteMax()
         {
-            _root = DeleteMax(_root);
+            Root = DeleteMax(Root);
         }
 
         private Node DeleteMax(Node node)
@@ -257,12 +261,12 @@ namespace MuxLib.MUtility.Collections.Tree.BST
 
         public override IEnumerable<K> SortedKeys(K low, K max)
         {
-            return SortedKeys(_root, Min(), Max());
+            return SortedKeys(Root, Min(), Max());
         }
 
         private IEnumerable<K> SortedKeys(Node node, K low, K max)
         {
-            Queue<K> queue = new Queue<K>(node.N);
+            var queue = new Queue<K>(node.N);
             SortedKeys(node, queue, low, max);
             return queue;
         }
@@ -271,8 +275,8 @@ namespace MuxLib.MUtility.Collections.Tree.BST
         {
             if (node == null)
                 return;
-            int cmplow = low.CompareTo(node.Key);
-            int cmpmax = max.CompareTo(node.Key);
+            var cmplow = low.CompareTo(node.Key);
+            var cmpmax = max.CompareTo(node.Key);
             if (cmplow < 0)
                 SortedKeys(node.Left, queue, low, max);
             if (cmplow <= 0 && cmpmax >= 0)

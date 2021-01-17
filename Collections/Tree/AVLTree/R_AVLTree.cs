@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Transactions;
+using System;
 using MuxLib.MUtility.Com.Attr;
 namespace MuxLib.MUtility.Collections.Tree.AVLTree
 {
@@ -6,6 +8,59 @@ namespace MuxLib.MUtility.Collections.Tree.AVLTree
     public class R_AVLTree<K, V> : Metas.ABClass.ABCOrderSymbolTable<K, V>
         where K : System.IComparable
     {
+        private class Node
+        {
+            public int N { set; get; }
+            public Node Left { set; get; } = null;
+            public Node Right { set; get; } = null;
+            public K Key { set; get; }
+            public V Value { set; get; }
+
+            public Node(K key, V value, int N)
+            {
+                (Key, Value, this.N) = (key, value, N);
+            }
+        }
+
+        private Node Root { set; get; }
+
+        public R_AVLTree()
+        {
+            Root = null;
+        }
+
+        private static int NodeSize(Node node)
+        {
+            return node?.N ?? 0;
+        }
+
+        private static Node RigthRotate(Node y)
+        {
+            Node x = y.Left, t3 = x.Right;
+            x.Right = y; y.Left = t3;
+
+            // Update Node's height
+            y.N = Math.Max(NodeSize(y.Left), NodeSize(y.Right)) + 1;
+            x.N = Math.Max(NodeSize(x.Left), NodeSize(x.Right)) + 1;
+            return x;
+        }
+
+        private static Node LeftRotate(Node y)
+        {
+            Node x = y.Right, t2 = x.Left;
+            x.Left = y; y.Right = t2;
+            y.N = Math.Max(NodeSize(y.Left), NodeSize(y.Right)) + 1;
+            x.N = Math.Max(NodeSize(x.Left), NodeSize(x.Right)) + 1;
+            return x;
+        }
+        
+        private static int GetBalanceFactor(Node node)
+        {
+            if (node == null)
+                return 0;
+            return NodeSize(node.Left) - NodeSize(node.Right);
+        }
+
         public override void Remove(K key)
         {
             throw new System.NotImplementedException();
@@ -17,7 +72,7 @@ namespace MuxLib.MUtility.Collections.Tree.AVLTree
         }
 
         public override bool Empty => Size == 0;
-        public override int Size { get; }
+        public override int Size => NodeSize(Root);
 
         public override V this[K key]
         {

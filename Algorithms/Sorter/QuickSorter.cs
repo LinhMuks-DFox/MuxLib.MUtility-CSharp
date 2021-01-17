@@ -10,17 +10,26 @@ namespace MuxLib.MUtility.Algorithms.Sorter
             Sort(arr, 0, arr.Length - 1);
         }
 
-        private void Sort(T[] arr, int low, int hight)
+        private static void Sort(T[] arr, int low, int hight)
         {
             if (hight <= low) return;
             int lt = low, i = low + 1, gt = hight;
-            T v = arr[low];
+            var v = arr[low];
             while (i <= gt)
             {
-                int cmp = arr[i].CompareTo(v);
-                if (cmp < 0) Swap(arr, lt++, i++);
-                else if (cmp > 0) Swap(arr, i, gt--);
-                else ++i;
+                var cmp = arr[i].CompareTo(v);
+                switch (cmp)
+                {
+                    case < 0:
+                        Swap(arr, lt++, i++);
+                        break;
+                    case > 0:
+                        Swap(arr, i, gt--);
+                        break;
+                    default:
+                        ++i;
+                        break;
+                }
             }
 
             Sort(arr, low, lt - 1);
