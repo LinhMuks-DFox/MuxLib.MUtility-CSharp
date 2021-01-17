@@ -1,9 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
-    <RootNamespace>MuxLib.MUtility.Collections</RootNamespace>
-  </PropertyGroup>
-  <ItemGroup>
-    <Folder Include="Metas\Interface\" />
-  </ItemGroup>
+	<PropertyGroup>
+		<TargetFramework>net5.0</TargetFramework>
+		<RootNamespace>MuxLib.MUtility.Collections</RootNamespace>
+	</PropertyGroup>
+	<ItemGroup>
+		<Folder Include="Metas\Interface\" />
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\Com\Com.csproj" />
+	</ItemGroup>
 </Project>
