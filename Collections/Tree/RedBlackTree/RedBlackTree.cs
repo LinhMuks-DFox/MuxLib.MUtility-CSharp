@@ -165,9 +165,7 @@ namespace MuxLib.MUtility.Collections.Tree.RedBlackTree
 
         private Node Max(Node node)
         {
-            if (node == null)
-                return node;
-            return Max(node.Right);
+            return node == null ? null : Max(node.Right);
         }
 
         public override K Min()
@@ -177,9 +175,7 @@ namespace MuxLib.MUtility.Collections.Tree.RedBlackTree
 
         private Node Min(Node node)
         {
-            if (node.Left == null)
-                return node;
-            return Min(node.Left);
+            return node.Left == null ? node : Min(node.Left);
         }
 
         public override int NumberOf(K low, K max)
@@ -195,15 +191,14 @@ namespace MuxLib.MUtility.Collections.Tree.RedBlackTree
         {
             if (node == null)
                 return 0;
-            int cmp = key.CompareTo(node.Key);
+            var cmp = key.CompareTo(node.Key);
 
-            if (cmp < 0)
-                return Rank(node.Left, key);
-            else if (cmp > 0)
-                return 1 + NodeSize(node.Left) + Rank(node.Right, key);
-            else
-                return NodeSize(node.Left);
-
+            return cmp switch
+            {
+                < 0 => Rank(node.Left, key),
+                > 0 => 1 + NodeSize(node.Left) + Rank(node.Right, key),
+                _ => NodeSize(node.Left)
+            };
         }
 
         public override void Remove(K key)
@@ -219,12 +214,12 @@ namespace MuxLib.MUtility.Collections.Tree.RedBlackTree
         {
             if (node == null)
                 return null;
-            int t = NodeSize(node.Left);
-            if (t > k)
-                return Select(node.Left, k);
-            else if (t < k)
-                return Select(node.Right, k - t - 1);
-            else return node;
+            var t = NodeSize(node.Left);
+            if (t <= k)
+            {
+                return t < k ? Select(node.Right, k - t - 1) : node;
+            }
+            return Select(node.Left, k);
         }
 
         public override IEnumerable<K> SortedKeys(K low, K max)
@@ -234,7 +229,7 @@ namespace MuxLib.MUtility.Collections.Tree.RedBlackTree
 
         private IEnumerable<K> SortedKeys(Node node, K low, K max)
         {
-            Queue<K> queue = new Queue<K>(node.N);
+            var queue = new Queue<K>(node.N);
             SortedKeys(node, queue, low, max);
             return queue;
         }
@@ -243,8 +238,8 @@ namespace MuxLib.MUtility.Collections.Tree.RedBlackTree
         {
             if (node == null)
                 return;
-            int cmplow = low.CompareTo(node.Key);
-            int cmpmax = max.CompareTo(node.Key);
+            var cmplow = low.CompareTo(node.Key);
+            var cmpmax = max.CompareTo(node.Key);
             if (cmplow < 0)
                 SortedKeys(node.Left, queue, low, max);
             if (cmplow <= 0 && cmpmax >= 0)

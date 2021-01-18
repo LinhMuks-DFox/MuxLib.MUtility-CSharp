@@ -7,5 +7,7 @@ namespace MuxLib.MUtility.Collections.Errors
     {
         public ResizingError() : base() { }
         public ResizingError(string msg) : base(msg) { }
+        
+        public ResizingError(Exception ex) : base(ex.Message){}
     }
 }

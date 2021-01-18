@@ -16,14 +16,14 @@ namespace MuxLib.MUtility.Maths.basic
             _sign = sig;
         }
 
-        public MBigInt(ulong ul) : this(Signs.Postive)
+        public MBigInt(ulong ul) : this(Signs.Positives)
         {
         }
         public MBigInt(double d) : this((long)d)
         {
         }
 
-        public MBigInt(long l) : this(l >= 0 ? Signs.Postive : Signs.Negativ)
+        public MBigInt(long l) : this(l >= 0 ? Signs.Positives : Signs.Negative)
         {
 
         }

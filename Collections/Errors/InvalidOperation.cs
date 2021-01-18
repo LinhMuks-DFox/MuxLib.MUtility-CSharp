@@ -7,5 +7,7 @@ namespace MuxLib.MUtility.Collections.Errors
     {
         public InvalidOperation() : base() { }
         public InvalidOperation(string msg) : base() { }
+        
+        public InvalidOperation(Exception ex) : base(ex.Message){}
     }
 }

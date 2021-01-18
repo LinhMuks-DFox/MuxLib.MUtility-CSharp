@@ -16,13 +16,12 @@ namespace tester
 
         public void Read(string path)
         {
-            if (!File.Exists(path))
-                throw new IOException($"{path} was not exist;");
-            using StreamReader fi = new StreamReader(path);
-            string buffer = "";
+            if (!File.Exists(path)) throw new IOException($"{path} was not exist;");
+            using var fi = new StreamReader(path);
+            var buffer = "";
             while (fi.Peek() >= 0)
             {
-                char cur = (char)fi.Read();
+                var cur = (char)fi.Read();
                 if (!IsLetters(cur) || cur == '0' || cur == '\n' || cur == '\r')
                 {
                     Word.Add(buffer);
@@ -33,7 +32,7 @@ namespace tester
             }
         }
 
-        private bool IsLetters(char ch)
+        private static bool IsLetters(char ch)
         {
             return 'A' <= ch && ch <= 'Z' || 'a' <= ch && ch <= 'z' || ch == '-' || ch == '_' || ch == '\'';
         }

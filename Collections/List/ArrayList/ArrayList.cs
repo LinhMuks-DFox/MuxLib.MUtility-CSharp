@@ -12,8 +12,6 @@ namespace MuxLib.MUtility.Collections.List.ArrayList
         public bool IsEmpty => Count == 0;
 
 
-
-
         public bool IsReadOnly { set; get; } = false;
 
         public T this[int index]
@@ -65,7 +63,8 @@ namespace MuxLib.MUtility.Collections.List.ArrayList
                 var newData = new T[newSize];
                 for (var i = 0; i < Count; i++)
                     newData[i] = Data[i];
-                Data = null; Data = newData;
+                Data = null;
+                Data = newData;
             }
             catch (Exception e)
             {
@@ -82,11 +81,14 @@ namespace MuxLib.MUtility.Collections.List.ArrayList
 
         public int IndexOf(T item)
         {
-            for (var i = 0; i < Count; i++)
+            for (int i = 0, j = Count - 1; i != j; i++, j--) // faster
             {
                 if (Data[i].Equals(item))
                     return i;
+                if (Data[j].Equals(item))
+                    return j;
             }
+
             return -1;
         }
 
@@ -99,11 +101,12 @@ namespace MuxLib.MUtility.Collections.List.ArrayList
 
             if (index < 0 || index > Count)
                 throw new Errors.InvalidArgumentError
-                            ("Insert failed. Invalid Index was passed." +
-                            "Index should >= 0 and <= size");
+                ("Insert failed. Invalid Index was passed." +
+                 "Index should >= 0 and <= size");
             for (long i = Count - 1; i >= index; i--)
                 Data[i + 1] = Data[i];
-            Data[index] = item; Count++;
+            Data[index] = item;
+            Count++;
         }
 
         public void RemoveAt(int index)
@@ -161,7 +164,6 @@ namespace MuxLib.MUtility.Collections.List.ArrayList
             if (index == -1) return false;
             Remove(index);
             return true;
-
         }
 
         public T Remove(int index)
@@ -175,20 +177,24 @@ namespace MuxLib.MUtility.Collections.List.ArrayList
             {
                 Data[i - 1] = Data[i];
             }
+
             Count--;
             // removed object should be GC data
             CheckResize();
             // After remove elements, if used size < capacity / 2 call resize.
             return ret;
         }
+
         public T RemoveFirst()
         {
             return Remove(0);
         }
+
         public T RemoveLast()
         {
             return Remove(Count - 1);
         }
+
         public T Get(int index)
         {
             if (index < 0 || index >= Count)
@@ -238,30 +244,31 @@ namespace MuxLib.MUtility.Collections.List.ArrayList
             sb.Append('{');
             for (var i = 0; i < Count; i++)
             {
-                sb.Append(Data[i].ToString());
+                sb.Append(Data[i]);
                 if (i != Count - 1)
                 {
                     sb.Append(", ");
                 }
             }
+
             sb.Append('}');
             return sb.ToString();
 #else
-            StringBuilder sb = new StringBuilder();
+            var sb = new StringBuilder();
             sb.Append($"MuxLib.MUtility.Collection.List.ArrayList<{typeof(T)}> Object");
             sb.Append('{');
-            int time = _size > 20 ? 20 : _size;
-            for (int i = 0; i < time; i++)
+            var time = Count > 20 ? 20 : Count;
+            for (var i = 0; i < time; i++)
             {
-                sb.Append(_data[i].ToString());
+                sb.Append(Data[i]);
                 if (i != time - 1)
                 {
                     sb.Append(", ");
                 }
             }
-            if (time != _size)
+            if (time != Count)
                 sb.Append("...");
-            sb.Append(_data[_size - 1]);
+            sb.Append(Data[Count - 1]);
             sb.Append('}');
             return sb.ToString();
 #endif

@@ -8,5 +8,7 @@ namespace MuxLib.MUtility.Collections.Errors
         public InvalidArgumentError() : base() { }
 
         public InvalidArgumentError(string msg) : base(msg) { }
+        
+        public  InvalidArgumentError(Exception ex) : base(ex.Message){}
     }
 }
