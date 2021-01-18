@@ -16,9 +16,9 @@ namespace MuxLib.MUtility.Collections.Tree.AVLTree
             public K Key { set; get; }
             public V Value { set; get; }
 
-            public Node(K key, V value, int N)
+            public Node(K key, V value, int n)
             {
-                (Key, Value, this.N) = (key, value, N);
+                (Key, Value, N) = (key, value, n);
             }
         }
 
@@ -34,7 +34,7 @@ namespace MuxLib.MUtility.Collections.Tree.AVLTree
             return node?.N ?? 0;
         }
 
-        private static Node RigthRotate(Node y)
+        private static Node RightRotate(Node y)
         {
             Node x = y.Left, t3 = x.Right;
             x.Right = y; y.Left = t3;
@@ -43,6 +43,18 @@ namespace MuxLib.MUtility.Collections.Tree.AVLTree
             y.N = Math.Max(NodeSize(y.Left), NodeSize(y.Right)) + 1;
             x.N = Math.Max(NodeSize(x.Left), NodeSize(x.Right)) + 1;
             return x;
+        }
+
+        private Node GetNode(Node node, K key)
+        {
+            if (node == null)
+                return null;
+            return key.CompareTo(node.Key) switch
+            {
+                0 => node,
+                < 0 => GetNode(node.Left, key),
+                _ => GetNode(node.Right, key)
+            };
         }
 
         private static Node LeftRotate(Node y)

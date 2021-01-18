@@ -168,8 +168,8 @@ namespace MuxLib.MUtility.Collections.Tree.AVLTree
         {
             if (node == null)
                 return true;
-            int balanced_factor = GetBalanceFactor(node);
-            if (Math.Abs(balanced_factor) > 1)
+            var balancedFactor = GetBalanceFactor(node);
+            if (Math.Abs(balancedFactor) > 1)
                 return false;
             return IsBalanced(node.Left) && IsBalanced(node.Right);
         }
@@ -203,12 +203,13 @@ namespace MuxLib.MUtility.Collections.Tree.AVLTree
         {
             if (node == null)
                 return null;
-            if (key.Equals(node.Key))
-                return node;
-            else if (key.CompareTo(node.Key) < 0)
-                return GetNode(node.Left, key);
-            else
-                return GetNode(node.Right, key);
+            var cmp = key.CompareTo(node.Key);
+            return cmp switch
+            {
+                0 => node,
+                < 0 => GetNode(node.Left, key),
+                _ => GetNode(node.Right, key)
+            };
         }
 
         public override void Remove(K key)
