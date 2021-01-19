@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Text;
-using System.Threading.Tasks;
+using MuxLib.MUtility.Collections.Errors;
 using MuxLib.MUtility.Collections.Metas.ABClass;
+
 namespace MuxLib.MUtility.Collections.Queue
 {
     public sealed class LoopQueue<T> : ABCQueue<T>
@@ -11,9 +10,7 @@ namespace MuxLib.MUtility.Collections.Queue
         private T[] _data;
         private int _front, _tail;
         private int _size;
-        public int Capacity => _data.Length - 1;
-        public override bool Empty => _front == _tail;
-        public override int Size => _size;
+
         public LoopQueue(int capacity)
         {
             _data = new T[capacity + 1];
@@ -27,12 +24,15 @@ namespace MuxLib.MUtility.Collections.Queue
             _front = _tail = _size = 0;
         }
 
+        public int Capacity => _data.Length - 1;
+        public override bool Empty => _front == _tail;
+        public override int Size => _size;
 
 
         public override T Dequeue()
         {
-            if (Empty) throw new Errors.InvalidArgumentError("Can not dequeue from an empty queue");
-            T ret = _data[_front];
+            if (Empty) throw new InvalidArgumentError("Can not dequeue from an empty queue");
+            var ret = _data[_front];
             // GC.Collect(0, GCCollectionMode.Default);
             _front = (_front + 1) % _data.Length;
             _size--;
@@ -51,13 +51,14 @@ namespace MuxLib.MUtility.Collections.Queue
 
         public override T Peek()
         {
-            if (Empty) throw new Errors.InvalidArgumentError("Can not get_front from an empty queue");
+            if (Empty) throw new InvalidArgumentError("Can not get_front from an empty queue");
             return _data[_front];
         }
+
         private void Resize(int new_capacity)
         {
-            T[] new_data = new T[new_capacity + 1];
-            for (int i = 0; i < _size; i++)
+            var new_data = new T[new_capacity + 1];
+            for (var i = 0; i < _size; i++)
                 new_data[i] = _data[i + _front % _data.Length];
             _data = new_data;
             _front = 0;
@@ -66,22 +67,23 @@ namespace MuxLib.MUtility.Collections.Queue
 
         public override string ToString()
         {
-            StringBuilder res = new StringBuilder();
+            var res = new StringBuilder();
             res.Append($"LoopQueue<{typeof(T)}> Object: size: {Size} ");
             res.Append("Front { ");
-            for (int i = _front; i != _tail; i = (i + 1) % _data.Length)
+            for (var i = _front; i != _tail; i = (i + 1) % _data.Length)
             {
                 res.Append(_data[i]);
                 if ((i + 1) % _data.Length != _tail)
                     res.Append(", ");
             }
+
             res.Append(" } Tail");
             return res.ToString();
         }
 
         public override void Load(IEnumerable<T> meta_array)
         {
-            foreach (T e in meta_array)
+            foreach (var e in meta_array)
                 Enqueue(e);
         }
     }

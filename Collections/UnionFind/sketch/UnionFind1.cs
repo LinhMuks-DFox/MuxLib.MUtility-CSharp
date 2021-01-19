@@ -1,23 +1,26 @@
-﻿namespace MuxLib.MUtility.Collections.UnionFind
+﻿using MuxLib.MUtility.Collections.Errors;
+using MuxLib.MUtility.Collections.Metas.ABClass;
+
+namespace MuxLib.MUtility.Collections.UnionFind
 {
     public class UnionFind1 :
-        Metas.ABClass.ABCUnionFind
+        ABCUnionFind
     {
         public int[] _Id;
 
         public UnionFind1(int size)
         {
             _Id = new int[size];
-            for (int i = 0; i < _Id.Length; i++)
+            for (var i = 0; i < _Id.Length; i++)
                 _Id[i] = i;
         }
 
-        public override int Size { get => _Id.Length; }
+        public override int Size => _Id.Length;
 
         private int Find(int p)
         {
             if (p < 0 && p >= _Id.Length)
-                throw new Errors.InvalidArgumentError($"p({p}) is out of range ");
+                throw new InvalidArgumentError($"p({p}) is out of range ");
             return _Id[p];
         }
 
@@ -31,11 +34,9 @@
             int pID = Find(item_p), qID = Find(item_q);
             if (pID == qID)
                 return;
-            for(int i = 0; i < _Id.Length; i++)
-            {
+            for (var i = 0; i < _Id.Length; i++)
                 if (_Id[i] == pID)
                     _Id[i] = qID;
-            }
         }
     }
 }

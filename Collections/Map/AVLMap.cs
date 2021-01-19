@@ -1,6 +1,7 @@
 ﻿using System;
 using MuxLib.MUtility.Collections.Metas.ABClass;
 using MuxLib.MUtility.Collections.Tree.AVLTree;
+
 namespace MuxLib.MUtility.Collections.Map
 {
     public sealed class AVLMap<K, V>
@@ -13,6 +14,7 @@ namespace MuxLib.MUtility.Collections.Map
         {
             _data = new AVLTree<K, V>();
         }
+
         public override int Size => _data.Size;
 
         public override bool Empty => _data.Empty;
@@ -34,7 +36,7 @@ namespace MuxLib.MUtility.Collections.Map
 
         public override V Remove(K key)
         {
-            V ret = _data[key];
+            var ret = _data[key];
             _data.Remove(key);
             return ret;
         }

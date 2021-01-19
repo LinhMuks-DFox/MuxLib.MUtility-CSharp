@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Threading;
+using MuxLib.MUtility.Algorithms.Metas;
 
 namespace MuxLib.MUtility.Algorithms.Sorter
 {
-    public class SleepSorter : Metas.Sorter<int>
+    public class SleepSorter : Sorter<int>
     {
         public override void Sort(int[] arr)
         {

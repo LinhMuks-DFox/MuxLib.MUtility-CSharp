@@ -3,10 +3,18 @@
 namespace MuxLib.MUtility.Collections.Errors
 {
     public sealed class InvalidOperation
-    : Exception
+        : Exception
     {
-        public InvalidOperation() : base() { }
-        public InvalidOperation(string msg) : base() { }
-        public InvalidOperation(Exception ex) : base(ex.Message){}
+        public InvalidOperation()
+        {
+        }
+
+        public InvalidOperation(string msg)
+        {
+        }
+
+        public InvalidOperation(Exception ex) : base(ex.Message)
+        {
+        }
     }
 }

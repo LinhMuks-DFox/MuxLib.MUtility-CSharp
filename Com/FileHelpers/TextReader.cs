@@ -1,18 +1,19 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+
 namespace MuxLib.MUtility.Com.FileHelpers
 {
     /// <summary>
-    /// Read a pure English text and split it to words;
+    ///     Read a pure English text and split it to words;
     /// </summary>
     public sealed class TextReader
     {
-        public List<string> Word { get; private set; }
-
         public TextReader()
         {
             Word = new List<string>();
         }
+
+        public List<string> Word { get; }
 
         public void Read(string path)
         {
@@ -21,13 +22,14 @@ namespace MuxLib.MUtility.Com.FileHelpers
             var buffer = "";
             while (fi.Peek() >= 0)
             {
-                var cur = (char)fi.Read();
+                var cur = (char) fi.Read();
                 if (!IsLetters(cur) || cur == '0' || cur == '\n' || cur == '\r')
                 {
                     Word.Add(buffer);
                     buffer = "";
                     continue;
                 }
+
                 buffer += cur;
             }
         }

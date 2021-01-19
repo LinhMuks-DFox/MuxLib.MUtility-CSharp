@@ -1,6 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using MuxLib.MUtility.Com.Attr;
+
 namespace MuxLib.MUtility.Maths.basic
 {
     [Unimplemented]
@@ -19,39 +19,38 @@ namespace MuxLib.MUtility.Maths.basic
         public MBigInt(ulong ul) : this(Signs.Positives)
         {
         }
-        public MBigInt(double d) : this((long)d)
+
+        public MBigInt(double d) : this((long) d)
         {
         }
 
         public MBigInt(long l) : this(l >= 0 ? Signs.Positives : Signs.Negative)
         {
-
         }
 
         public static implicit operator MBigInt(int ival)
         {
-            return new MBigInt(ival);
+            return new(ival);
         }
 
         public static implicit operator MBigInt(uint uival)
         {
-            return new MBigInt(/*(long)*/uival);
+            return new( /*(long)*/uival);
         }
 
         public static implicit operator MBigInt(double dval)
         {
-            return new MBigInt(dval);
+            return new(dval);
         }
 
         public static implicit operator MBigInt(float fval)
         {
-
-            return new MBigInt(fval);
+            return new(fval);
         }
 
         public static implicit operator MBigInt(long lval)
         {
-            return new MBigInt(lval);
+            return new(lval);
         }
     }
 }

@@ -4,16 +4,15 @@ namespace MuxLib.MUtility.Collections.Metas.ABClass
 {
     public abstract class ABCQueue<TData>
     {
+        public abstract int Size { get; }
 
-        abstract public int Size { get; }
+        public abstract bool Empty { get; }
+        public abstract void Enqueue(TData ele);
 
-        abstract public bool Empty { get; }
-        abstract public void Enqueue(TData ele);
+        public abstract TData Dequeue();
 
-        abstract public TData Dequeue();
+        public abstract TData Peek();
 
-        abstract public TData Peek();
-
-        abstract public void Load(IEnumerable<TData> meta_array);
+        public abstract void Load(IEnumerable<TData> meta_array);
     }
 }

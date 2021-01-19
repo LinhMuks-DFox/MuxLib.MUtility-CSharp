@@ -1,9 +1,13 @@
-﻿namespace MuxLib.MUtility.Collections.UnionFind
+﻿using MuxLib.MUtility.Collections.Errors;
+using MuxLib.MUtility.Collections.Metas.ABClass;
+
+namespace MuxLib.MUtility.Collections.UnionFind
 {
     public class UnionFind5
-        : Metas.ABClass.ABCUnionFind
+        : ABCUnionFind
     {
         private readonly int[] _parent;
+
         // private readonly int[] _size;
         private readonly int[] _rank;
 
@@ -12,22 +16,21 @@
             _parent = new int[size];
             // _size = new int[size];
             _rank = new int[size];
-            for (int i = 0; i < size; i++)
+            for (var i = 0; i < size; i++)
             {
                 _parent[i] = i;
                 // _size[i] = 1;
                 _rank[i] = 1;
             }
-
         }
 
-        public override int Size { get => _parent.Length; }
+        public override int Size => _parent.Length;
 
         // O(h)
         private int Find(int p)
         {
             if (p < 0 && p >= _parent.Length)
-                throw new Errors.InvalidArgumentError($"Argument p:{p} is invalid.");
+                throw new InvalidArgumentError($"Argument p:{p} is invalid.");
             while (p != _parent[p])
             {
                 _parent[p] = _parent[_parent[p]]; // 令儿子的爸爸变成儿子的爷爷
@@ -37,8 +40,10 @@
             return p;
         }
 
-        public override bool IsConnected(int item_p, int item_q) =>
-            Find(item_p) == Find(item_q);
+        public override bool IsConnected(int item_p, int item_q)
+        {
+            return Find(item_p) == Find(item_q);
+        }
 
 
         public override void UnionElements(int item_p, int item_q)

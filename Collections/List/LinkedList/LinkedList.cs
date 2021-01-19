@@ -1,33 +1,23 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using MuxLib.MUtility.Collections.Errors;
 
 namespace MuxLib.MUtility.Collections.List.LinkedList
 {
     public sealed class LinkedList<T> : IList<T> /*Untested*/
     {
+        private readonly Node _dummy_head;
+        private readonly Node _tail;
 
-        private class Node
+        public LinkedList()
         {
-            public T Data { set; get; } = default;
-
-            public Node Next { set; get; } = null;
-
-            public Node Before { set; get; } = null;
-
-            public Node() { }
-
-            public Node(Node next, Node prev, T data) => (Next, Before, Data)
-                                                            = (next, prev, data);
-
-            public Node(T data) { Data = data; }
-
-            public Node(Node next, Node prev) => (Next, Before) = (next, prev);
+            Count = 0;
+            _dummy_head = new Node();
+            _tail = new Node(null, _dummy_head);
         }
-        private int _size;
-        private Node _dummy_head;
-        private Node _tail;
 
-        public int Count { get => _size; }
+        public int Count { get; }
 
         public bool IsReadOnly { set; get; } = false;
 
@@ -37,97 +27,34 @@ namespace MuxLib.MUtility.Collections.List.LinkedList
             set => Set(index, value);
         }
 
-        public LinkedList()
-        {
-            _size = 0; _dummy_head = new Node();
-            _tail = new Node(null, _dummy_head);
-        }
-
         public int IndexOf(T item)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public void Insert(int index, T item)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
-        public T Get(int index)
-        {
-            if (index < 0 || index >= _size)
-                throw new Errors.InvalidArgumentError(
-                    $"Argument{index} is invalid.");
-
-            int mid = _size / 2;
-            if (index <= mid || index > 20)
-            {
-                Node cur = _dummy_head;
-                for (int i = 0; i < index + 1; i++)
-                {
-                    cur = cur.Next;
-                }
-
-                return cur.Data;
-            }
-            else // index > mid;
-            {
-                Node cur = _tail;
-                for (int i = 0; i < (_size - index) + 1; i++)
-                {
-                    cur = cur.Before;
-                }
-
-                return cur.Data;
-            }
-        }
-
-        public void Set(int index, T item)
-        {
-            if (index < 0 || index >= _size)
-                throw new Errors.InvalidArgumentError(
-                    $"Argument{index} is invalid");
-
-            int mid = _size / 2;
-            if (index <= mid || index > 20)
-            {
-                Node cur = _dummy_head;
-                for (int i = 0; i < index + 1; i++)
-                {
-                    cur = cur.Next;
-                }
-
-                cur.Data = item;
-            }
-            else // index > mid;
-            {
-                Node cur = _tail;
-                for (int i = 0; i < (_size - index) + 1; i++)
-                {
-                    cur = cur.Before;
-                }
-
-                cur.Data = item;
-            }
-        }
         public void RemoveAt(int index)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public void Add(T item)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public void Clear()
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public bool Contains(T item)
         {
-            Node cur = _dummy_head;
+            var cur = _dummy_head;
             while (cur.Next != null)
             {
                 if (cur.Data.Equals(item))
@@ -140,12 +67,12 @@ namespace MuxLib.MUtility.Collections.List.LinkedList
 
         public void CopyTo(T[] array, int arrayIndex)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public bool Remove(T item)
         {
-            Node cur = _dummy_head;
+            var cur = _dummy_head;
 
             while (cur.Next != null)
             {
@@ -161,28 +88,100 @@ namespace MuxLib.MUtility.Collections.List.LinkedList
 
                 cur = cur.Next;
             }
+
             return false;
         }
 
         public IEnumerator<T> GetEnumerator()
         {
-            for (int i = 0; i < _size; i++)
-            {
-                yield return Get(i);
-            }
+            for (var i = 0; i < Count; i++) yield return Get(i);
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            for (int i = 0; i < _size; i++)
+            for (var i = 0; i < Count; i++) yield return Get(i);
+        }
+
+        public T Get(int index)
+        {
+            if (index < 0 || index >= Count)
+                throw new InvalidArgumentError(
+                    $"Argument{index} is invalid.");
+
+            var mid = Count / 2;
+            if (index <= mid || index > 20)
             {
-                yield return Get(i);
+                var cur = _dummy_head;
+                for (var i = 0; i < index + 1; i++) cur = cur.Next;
+
+                return cur.Data;
+            }
+            else // index > mid;
+            {
+                var cur = _tail;
+                for (var i = 0; i < Count - index + 1; i++) cur = cur.Before;
+
+                return cur.Data;
+            }
+        }
+
+        public void Set(int index, T item)
+        {
+            if (index < 0 || index >= Count)
+                throw new InvalidArgumentError(
+                    $"Argument{index} is invalid");
+
+            var mid = Count / 2;
+            if (index <= mid || index > 20)
+            {
+                var cur = _dummy_head;
+                for (var i = 0; i < index + 1; i++) cur = cur.Next;
+
+                cur.Data = item;
+            }
+            else // index > mid;
+            {
+                var cur = _tail;
+                for (var i = 0; i < Count - index + 1; i++) cur = cur.Before;
+
+                cur.Data = item;
             }
         }
 
         public void Swap(int j, int i)
         {
-            T temp = this[i]; this[i] = this[j]; this[j] = temp;
+            var temp = this[i];
+            this[i] = this[j];
+            this[j] = temp;
+        }
+
+        private class Node
+        {
+            public Node()
+            {
+            }
+
+            public Node(Node next, Node prev, T data)
+            {
+                (Next, Before, Data)
+                    = (next, prev, data);
+            }
+
+            public Node(T data)
+            {
+                Data = data;
+            }
+
+            public Node(Node next, Node prev)
+            {
+                (Next, Before) = (next, prev);
+            }
+
+            public T Data { set; get; }
+
+            public Node Next { set; get; }
+
+            public Node Before { set; get; }
         }
     }
 }

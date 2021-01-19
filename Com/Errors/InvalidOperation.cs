@@ -3,9 +3,14 @@
 namespace MuxLib.MUtility.Com.Error
 {
     public sealed class InvalidOperation
-    : Exception
+        : Exception
     {
-        public InvalidOperation() : base() { }
-        public InvalidOperation(string msg) : base() { }
+        public InvalidOperation()
+        {
+        }
+
+        public InvalidOperation(string msg)
+        {
+        }
     }
 }

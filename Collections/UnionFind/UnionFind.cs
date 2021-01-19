@@ -1,8 +1,12 @@
-﻿namespace MuxLib.MUtility.Collections.UnionFind
+﻿using MuxLib.MUtility.Collections.Errors;
+using MuxLib.MUtility.Collections.Metas.ABClass;
+
+namespace MuxLib.MUtility.Collections.UnionFind
 {
-    public sealed class UnionFind : Metas.ABClass.ABCUnionFind
+    public sealed class UnionFind : ABCUnionFind
     {
         private readonly int[] _parent;
+
         // private readonly int[] _size;
         private readonly int[] _rank;
 
@@ -17,23 +21,24 @@
                 // _size[i] = 1;
                 _rank[i] = 1;
             }
-
         }
 
-        public override int Size { get => _parent.Length; }
+        public override int Size => _parent.Length;
 
         // O(h)
         private int Find(int p)
         {
             if (p < 0 && p >= _parent.Length)
-                throw new Errors.InvalidArgumentError($"Argument p:{p} is invalid.");
+                throw new InvalidArgumentError($"Argument p:{p} is invalid.");
             if (p != _parent[p])
                 _parent[p] = Find(_parent[p]);
             return _parent[p];
         }
 
-        public override bool IsConnected(int itemP, int itemQ) =>
-            Find(itemP) == Find(itemQ);
+        public override bool IsConnected(int itemP, int itemQ)
+        {
+            return Find(itemP) == Find(itemQ);
+        }
 
 
         public override void UnionElements(int itemP, int itemQ)

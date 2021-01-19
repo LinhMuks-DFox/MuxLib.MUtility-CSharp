@@ -1,69 +1,78 @@
 ﻿using MuxLib.MUtility.Collections.Map;
+
 namespace MuxLib.MUtility.Collections.Tree.Trie
 {
     public sealed class Trie
     {
-        private class Node
-        {
-            public bool IsWord { get; set; } = false;
-            public AVLMap<char, Node> Next { set; get; } = new AVLMap<char, Node>();
-            public Node(bool is_word) => IsWord = is_word;
-            public Node() { }
-        }
+        private readonly Node _root;
 
-        private Node _root;
-        private int _size;
         public Trie()
         {
             _root = new Node();
-            _size = 0;
+            Size = 0;
         }
 
-        public int Size { get => _size; }
+        public int Size { get; private set; }
 
         public void Append(string word)
         {
-            Node cur = _root;
-            for (int i = 0; i < word.Length; ++i)
+            var cur = _root;
+            for (var i = 0; i < word.Length; ++i)
             {
-                char c = word[i];
+                var c = word[i];
                 if (cur.Next.Get(c) == null)
                     cur.Next.Set(c, new Node());
                 cur = cur.Next.Get(c);
             }
+
             if (!cur.IsWord)
             {
                 cur.IsWord = true;
-                _size++;
+                Size++;
             }
         }
 
         public bool Contains(string word)
         {
-            Node cur = _root;
-            for (int i = 0; i < word.Length; ++i)
+            var cur = _root;
+            for (var i = 0; i < word.Length; ++i)
             {
-                char c = word[i];
+                var c = word[i];
                 if (cur.Next.Get(c) == null)
                     return false;
                 cur = cur.Next.Get(c);
             }
+
             return cur.IsWord;
         }
 
         public bool IsPrefix(string prefix)
         {
-            Node cur = _root;
-            for (int i = 0; i < prefix.Length; ++i)
+            var cur = _root;
+            for (var i = 0; i < prefix.Length; ++i)
             {
-                char c = prefix[i];
+                var c = prefix[i];
                 if (cur.Next.Get(c) == null)
                     return false;
                 cur = cur.Next.Get(c);
             }
+
             return true;
         }
 
+        private class Node
+        {
+            public Node(bool is_word)
+            {
+                IsWord = is_word;
+            }
 
+            public Node()
+            {
+            }
+
+            public bool IsWord { get; set; }
+            public AVLMap<char, Node> Next { get; } = new();
+        }
     }
 }

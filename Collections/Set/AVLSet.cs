@@ -1,6 +1,7 @@
 ﻿using System;
 using MuxLib.MUtility.Collections.Metas.ABClass;
 using MuxLib.MUtility.Collections.Tree.AVLTree;
+
 namespace MuxLib.MUtility.Collections.Set
 {
     public sealed class AVLSet<E>
@@ -13,6 +14,7 @@ namespace MuxLib.MUtility.Collections.Set
         {
             _data = new AVLTree<E, object>();
         }
+
         public override int Size => _data.Size;
 
         public override bool Empty => _data.Empty;

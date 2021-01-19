@@ -1,43 +1,48 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
 using MuxLib.MUtility.Collections.Errors;
+
 namespace MuxLib.MUtility.Collections.Tree
 {
     public sealed class SegmentTree<T>
     {
         /// <summary>
-        /// This class requires an object of type delegate to be passed in during initialization. 
-        /// This is required as a segment creation method to create the segment tree.
+        ///     This class requires an object of type delegate to be passed in during initialization.
+        ///     This is required as a segment creation method to create the segment tree.
         /// </summary>
         /// <param name="a"></param>
         /// <param name="b"></param>
         /// <returns></returns>
         public delegate T Merger(T a, T b);
 
-        private readonly T[] _tree;
-
         private readonly T[] _data;
 
-        private Merger Merge { get; }
+        private readonly T[] _tree;
 
         public SegmentTree(T[] arr, Merger merge)
         {
             _data = new T[arr.Length];
-            for (int i = 0; i < arr.Length; ++i)
-            {
-                _data[i] = arr[i];
-            }
+            for (var i = 0; i < arr.Length; ++i) _data[i] = arr[i];
             _tree = new T[arr.Length * 4];
             Merge = merge;
             BuildSegmentTree(0, 0, _data.Length - 1);
         }
 
+        private Merger Merge { get; }
+
         public T this[int index] => _data[index];
 
         public int Size => _data.Length;
 
-        private static int LeftChildOf(int index) => 2 * index + 1;
+        private static int LeftChildOf(int index)
+        {
+            return 2 * index + 1;
+        }
 
-        private static int RightChildOf(int index) => 2 * index + 2;
+        private static int RightChildOf(int index)
+        {
+            return 2 * index + 2;
+        }
 
         private void BuildSegmentTree(int treeIndex, int l, int r)
         {
@@ -47,6 +52,7 @@ namespace MuxLib.MUtility.Collections.Tree
                 _tree[treeIndex] = _data[l];
                 return;
             }
+
             var leftTreeIndex = LeftChildOf(treeIndex);
             var rightTreeIndex = RightChildOf(treeIndex);
 
@@ -71,6 +77,7 @@ namespace MuxLib.MUtility.Collections.Tree
                 if (i != _tree.Length - 1)
                     sb.Append(", ");
             }
+
             sb.Append(']');
             return sb.ToString();
         }
@@ -78,8 +85,8 @@ namespace MuxLib.MUtility.Collections.Tree
         public T Query(int queryL, int queryR)
         {
             if (queryL < 0 || queryL >= _data.Length
-                    || queryR < 0 || queryR >= _data.Length ||
-                        queryL > queryR) /*Border Check*/
+                           || queryR < 0 || queryR >= _data.Length ||
+                           queryL > queryR) /*Border Check*/
                 throw new InvalidArgumentError($"Index ({queryL}, {queryR}) is invalid");
             return Query(0, 0, _data.Length - 1, queryL, queryR);
         }
@@ -100,33 +107,30 @@ namespace MuxLib.MUtility.Collections.Tree
             var leftRes = Query(leftTreeIndex, l, mid, queryL, mid);
             var rightRes = Query(rightTreeIndex, mid + 1, r, mid + 1, queryR);
             return Merge(leftRes, rightRes);
-
         }
 
         public static void Tester()
         {
-            int?[] nums = { -2, 0, 3, -5, 2, -1 };
+            int?[] nums = {-2, 0, 3, -5, 2, -1};
 
             var segmentTree = new SegmentTree<int?>(
-                    nums, new SegmentTree<int?>.Merger(
-                        (int? a, int? b) => a + b
-                    )
-                );
-            System.Console.WriteLine(segmentTree.Query(0, 2));
-            System.Console.WriteLine(segmentTree.ToString());
+                nums, (a, b) => a + b
+            );
+            Console.WriteLine(segmentTree.Query(0, 2));
+            Console.WriteLine(segmentTree.ToString());
         }
+
         /// <summary>
-        /// Update data[index] to new_ele, and update the tree
+        ///     Update data[index] to new_ele, and update the tree
         /// </summary>
         /// <param name="index"></param>
-        /// <param name="newEle"></param>        
+        /// <param name="newEle"></param>
         public void Update(int index, T newEle)
         {
             if (index < 0 || index >= _data.Length)
                 throw new InvalidArgumentError($"Index:{index} is invalid.");
             _data[index] = newEle;
             Update(0, 0, _data.Length - 1, index, newEle);
-
         }
 
         private void Update(int treeIndex, int l, int r, int index, T ele)
@@ -136,6 +140,7 @@ namespace MuxLib.MUtility.Collections.Tree
                 _tree[treeIndex] = ele;
                 return;
             }
+
             var mid = l + (r - l) / 2;
             var leftTreeIndex = LeftChildOf(treeIndex);
             var rightTreeIndex = RightChildOf(treeIndex);

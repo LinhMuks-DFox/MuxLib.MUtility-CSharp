@@ -1,18 +1,20 @@
-﻿using MuxLib.MUtility.Collections.Table;
+﻿using MuxLib.MUtility.Collections.Metas.ABClass;
+using MuxLib.MUtility.Collections.Table;
+
 namespace MuxLib.MUtility.Collections.Map
 {
-    public sealed class HashMap<K, V> : Metas.ABClass.ABCMap<K, V>
+    public sealed class HashMap<K, V> : ABCMap<K, V>
     {
         private readonly HashTable<K, V> _datas;
-
-        public override int Size => _datas.Size;
-
-        public override bool Empty => Size == 0;
 
         public HashMap()
         {
             _datas = new HashTable<K, V>();
         }
+
+        public override int Size => _datas.Size;
+
+        public override bool Empty => Size == 0;
 
         public override void Add(K key, V value)
         {

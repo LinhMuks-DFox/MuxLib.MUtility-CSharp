@@ -1,51 +1,32 @@
 ﻿using System;
 using System.Collections.Generic;
+using MuxLib.MUtility.Collections.Metas.ABClass;
 
 namespace MuxLib.MUtility.Collections.Tree.BST
 {
-    public sealed class BST<K, V> : Metas.ABClass.ABCOrderSymbolTable<K, V>
+    public sealed class BST<K, V> : ABCOrderSymbolTable<K, V>
         where K : IComparable
     {
-        private class Node
+        public BST()
         {
-            public K Key { set; get; }
-
-            public V Value { set; get; }
-
-            public Node Left { set; get; } = null;
-
-            public Node Right { set; get; } = null;
-
-            /// <summary>
-            /// How many nodes are there in the tree with the current node as the root node
-            /// </summary>
-            public int N { set; get; }
-
-            public Node(K key, V value, int n)
-            {
-                (Key, Value, N) = (key, value, n);
-            }
+            Root = null;
         }
 
-        private int NodeSize(Node node)
-        {
-            return node?.N ?? 0;
-        }
         public override bool Empty => Size == 0;
 
         public override int Size => NodeSize(Root);
 
         private Node Root { set; get; }
 
-        public BST()
-        {
-            Root = null;
-        }
-
         public override V this[K key]
         {
             get => Get(Root, key);
             set => Root = Set(Root, key, value);
+        }
+
+        private int NodeSize(Node node)
+        {
+            return node?.N ?? 0;
         }
 
         private static V Get(Node node, K key)
@@ -78,6 +59,7 @@ namespace MuxLib.MUtility.Collections.Tree.BST
                     node.Value = value;
                     break;
             }
+
             node.N = NodeSize(node.Left) + NodeSize(node.Right) + 1;
             return node;
         }
@@ -107,7 +89,7 @@ namespace MuxLib.MUtility.Collections.Tree.BST
                         return node.Left;
                     if (node.Left == null)
                         return node.Right;
-                    Node t = node;
+                    var t = node;
                     node = Min(t.Right);
                     node.Right = DeleteMin(t.Right);
                     node.Left = t.Left;
@@ -117,7 +99,6 @@ namespace MuxLib.MUtility.Collections.Tree.BST
 
             node.N = NodeSize(node.Left) + NodeSize(node.Right) + 1;
             return node;
-
         }
 
         public override bool Contains(K key)
@@ -194,6 +175,7 @@ namespace MuxLib.MUtility.Collections.Tree.BST
         {
             return Rank(Root, key);
         }
+
         private int Rank(Node node, K key)
         {
             if (node == null)
@@ -218,10 +200,7 @@ namespace MuxLib.MUtility.Collections.Tree.BST
             if (node == null)
                 return null;
             var t = NodeSize(node.Left);
-            if (t <= k)
-            {
-                return t < k ? Select(node.Right, k - t - 1) : node;
-            }
+            if (t <= k) return t < k ? Select(node.Right, k - t - 1) : node;
 
             return Select(node.Left, k);
         }
@@ -283,6 +262,27 @@ namespace MuxLib.MUtility.Collections.Tree.BST
                 queue.Enqueue(node.Key);
             if (cmpmax > 0)
                 SortedKeys(node.Right, queue, low, max);
+        }
+
+        private class Node
+        {
+            public Node(K key, V value, int n)
+            {
+                (Key, Value, N) = (key, value, n);
+            }
+
+            public K Key { get; }
+
+            public V Value { set; get; }
+
+            public Node Left { set; get; }
+
+            public Node Right { set; get; }
+
+            /// <summary>
+            ///     How many nodes are there in the tree with the current node as the root node
+            /// </summary>
+            public int N { set; get; }
         }
     }
 }

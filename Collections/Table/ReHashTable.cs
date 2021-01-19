@@ -1,65 +1,65 @@
-﻿namespace MuxLib.MUtility.Collections.Table
+﻿using MuxLib.MUtility.Collections.Errors;
+
+namespace MuxLib.MUtility.Collections.Table
 {
     internal class DicList<K, V>
     {
-        private K[] _keys;
         private V[] _values;
-        private int _size;
-        public int Size { get => _size; }
-
-        public K[] Keys { get => _keys; }
-
-        public void Resize(int new_capacity)
-        {
-            K[] new_keys = new K[new_capacity];
-            V[] new_valu = new V[new_capacity];
-            for (int i = 0; i < Size; ++i)
-            {
-                new_valu[i] = _values[i]; new_keys[i] = _keys[i];
-            }
-
-            _keys = new_keys; _values = new_valu;
-        }
 
         public DicList(int capacity)
         {
-            _keys = new K[capacity];
+            Keys = new K[capacity];
             _values = new V[capacity];
-            _size = 0;
+            Size = 0;
         }
 
         public DicList()
         {
-            _keys = new K[1000];
+            Keys = new K[1000];
             _values = new V[1000];
-            _size = 0;
+            Size = 0;
         }
+
+        public int Size { get; private set; }
+
+        public K[] Keys { get; private set; }
 
 
         public V this[K key]
         {
             get
             {
-                int index = IndexOf(key);
+                var index = IndexOf(key);
                 if (index == -1)
-                    throw new Errors.InvalidArgumentError($"{key}is not exist.");
+                    throw new InvalidArgumentError($"{key}is not exist.");
                 return _values[index];
             }
             set
             {
-                int index = IndexOf(key);
-                if (index == -1)
-                {
-                    Append(key, value);
-                }
+                var index = IndexOf(key);
+                if (index == -1) Append(key, value);
                 _values[index] = value;
             }
         }
 
+        public void Resize(int new_capacity)
+        {
+            var new_keys = new K[new_capacity];
+            var new_valu = new V[new_capacity];
+            for (var i = 0; i < Size; ++i)
+            {
+                new_valu[i] = _values[i];
+                new_keys[i] = Keys[i];
+            }
+
+            Keys = new_keys;
+            _values = new_valu;
+        }
+
         private int IndexOf(K key)
         {
-            for (int i = 0; i < _size; ++i)
-                if (_keys[i].Equals(key))
+            for (var i = 0; i < Size; ++i)
+                if (Keys[i].Equals(key))
                     return i;
             return -1;
         }
@@ -71,83 +71,83 @@
 
         private void Append(K key, V value)
         {
-            if (_size.Equals(_keys.Length))
-                Resize(2 * _keys.Length);
-            _keys[_size] = key;
-            _values[_size] = value; _size++;
+            if (Size.Equals(Keys.Length))
+                Resize(2 * Keys.Length);
+            Keys[Size] = key;
+            _values[Size] = value;
+            Size++;
         }
 
         public void Remove(K key)
         {
-            int index = IndexOf(key);
+            var index = IndexOf(key);
             if (index == -1)
-                throw new Errors.InvalidArgumentError($"Remove failed. {key} is not exist.");
-            for (int i = index + 1; i < _size; i++)
+                throw new InvalidArgumentError($"Remove failed. {key} is not exist.");
+            for (var i = index + 1; i < Size; i++)
             {
-                _keys[i - 1] = _keys[i];
+                Keys[i - 1] = Keys[i];
                 _values[i - 1] = _values[i];
             }
-            _size--;
-            if (_size == _keys.Length / 4 && _keys.Length / 2 != 0)
-            {
-                Resize(_keys.Length / 2);
-            }
+
+            Size--;
+            if (Size == Keys.Length / 4 && Keys.Length / 2 != 0) Resize(Keys.Length / 2);
         }
     }
+
     public class ReHashTable<K, V>
     {
+        private const int UpperTol = 10, LowTol = 2;
+
         private readonly int[] Capacities
-         = {
-            53,         97,         193,        389,        769,
-            1543,       3079,       6151,       12289,      24593,
-            49157,      98317,      196613,     393241,     786433,
-            1572869,    3145739,    6291469,    12582917,   25165843,
-            50331653,   100663319,  201326611,  402653189,  805306457,
-            1610612741
+            =
+            {
+                53, 97, 193, 389, 769,
+                1543, 3079, 6151, 12289, 24593,
+                49157, 98317, 196613, 393241, 786433,
+                1572869, 3145739, 6291469, 12582917, 25165843,
+                50331653, 100663319, 201326611, 402653189, 805306457,
+                1610612741
             };
+
+        private int _capacityIndex;
         private DicList<K, V>[] _hashTable;
         private int _M;
-        private int _size;
-        private const int UpperTol = 10, LowTol = 2;
-        private int _capacityIndex = 0;
-        public int Size { get => _size; }
-
-        private void Resize(int new_m)
-        {
-            DicList<K, V>[] newHashTable = new DicList<K, V>[new_m];
-            for (int i = 0; i < new_m; ++i)
-            {
-                newHashTable[i] = new DicList<K, V>();
-            }
-            int old_M = _M;
-            _M = new_m;
-            for (int i = 0; i < old_M; ++i)
-            {
-                DicList<K, V> map = _hashTable[i];
-                foreach (K key in map.Keys)
-                    newHashTable[Hash(key)][key] = map[key];
-            }
-
-            _hashTable = newHashTable;
-        }
 
         public ReHashTable()
         {
-            _size = 0;
+            Size = 0;
             _M = Capacities[_capacityIndex];
             _hashTable = new DicList<K, V>[_M];
-            for (int i = 0; i < _M; ++i) _hashTable[i] = new DicList<K, V>();
+            for (var i = 0; i < _M; ++i) _hashTable[i] = new DicList<K, V>();
         }
+
+        public int Size { get; private set; }
 
         public V this[K key]
         {
             get => _hashTable[Hash(key)][key];
             set
             {
-                DicList<K, V> map = _hashTable[Hash(key)];
-                if (map.ContainsKey(key)) throw new Errors.InvalidOperation($"{key} dose not exist");
+                var map = _hashTable[Hash(key)];
+                if (map.ContainsKey(key)) throw new InvalidOperation($"{key} dose not exist");
                 map[key] = value;
             }
+        }
+
+        private void Resize(int new_m)
+        {
+            var newHashTable = new DicList<K, V>[new_m];
+            for (var i = 0; i < new_m; ++i) newHashTable[i] = new DicList<K, V>();
+            var old_M = _M;
+            _M = new_m;
+            for (var i = 0; i < old_M; ++i)
+            {
+                var map = _hashTable[i];
+                foreach (var key in map.Keys)
+                    newHashTable[Hash(key)][key] = map[key];
+            }
+
+            _hashTable = newHashTable;
         }
 
         private int Hash(K key)
@@ -157,15 +157,17 @@
 
         public void Append(K key, V value)
         {
-            DicList<K, V> map = _hashTable[Hash(key)];
+            var map = _hashTable[Hash(key)];
             if (map.ContainsKey(key))
+            {
                 map[key] = value;
+            }
             else
             {
                 map[key] = value;
-                _size++;
+                Size++;
 
-                if (_size >= UpperTol * _M && _capacityIndex + 1 < Capacities.Length)
+                if (Size >= UpperTol * _M && _capacityIndex + 1 < Capacities.Length)
                 {
                     _capacityIndex++;
                     Resize(2 * _M);
@@ -175,25 +177,26 @@
 
         public V Remove(K key)
         {
-            DicList<K, V> map = _hashTable[Hash(key)];
+            var map = _hashTable[Hash(key)];
             V ret = default;
             if (map.ContainsKey(key))
             {
                 ret = map[key];
                 map.Remove(key);
-                _size--;
-                if (_size < LowTol * _M && _capacityIndex - 1 >= 0)
+                Size--;
+                if (Size < LowTol * _M && _capacityIndex - 1 >= 0)
                 {
                     _capacityIndex--;
                     Resize(_capacityIndex);
                 }
             }
+
             return ret;
         }
 
         public bool Contains(K key)
         {
-            DicList<K, V> map = _hashTable[Hash(key)];
+            var map = _hashTable[Hash(key)];
             return map.ContainsKey(key);
         }
     }

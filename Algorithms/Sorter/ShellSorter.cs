@@ -1,7 +1,10 @@
-﻿namespace MuxLib.MUtility.Algorithms.Sorter
+﻿using System;
+using MuxLib.MUtility.Algorithms.Metas;
+
+namespace MuxLib.MUtility.Algorithms.Sorter
 {
-    public sealed class ShellSorter<T> : Metas.Sorter<T>
-        where T : System.IComparable
+    public sealed class ShellSorter<T> : Sorter<T>
+        where T : IComparable
     {
         public override void Sort(T[] arr)
         {
@@ -11,10 +14,8 @@
             while (h >= 1)
             {
                 for (var i = h; i < n; ++i)
-                {
-                    for (var j = i; i >= h && Less(arr[j], arr[j - h]); j -= h)
-                        Swap(arr, j, j - h);
-                }
+                for (var j = i; i >= h && Less(arr[j], arr[j - h]); j -= h)
+                    Swap(arr, j, j - h);
                 h /= 3;
             }
         }

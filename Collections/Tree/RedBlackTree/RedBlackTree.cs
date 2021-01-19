@@ -1,33 +1,32 @@
 ﻿using System;
 using System.Collections.Generic;
+using MuxLib.MUtility.Collections.Metas.ABClass;
 
 namespace MuxLib.MUtility.Collections.Tree.RedBlackTree
 {
-    public sealed class RedBlackTree<K, V> : Metas.ABClass.ABCOrderSymbolTable<K, V>
+    public sealed class RedBlackTree<K, V> : ABCOrderSymbolTable<K, V>
         where K : IComparable
     {
-        private enum Color { Red, Black }
+        private Node _root;
 
-        private class Node
+        public RedBlackTree()
         {
-            public K Key { set; get; }
-
-            public V Value { set; get; }
-
-            public Node Left { set; get; } = null;
-
-            public Node Right { set; get; } = null;
-
-            public int N { set; get; }
-
-            public Color Color { set; get; }
-
-            public Node(K key, V value, int N, Color color)
-            {
-                (Key, Value, this.N, Color) = (key, value, N, color);
-            }
-
+            _root = null;
         }
+
+        public override V this[K key]
+        {
+            get => Get(_root, key);
+            set
+            {
+                _root = Set(_root, key, value);
+                _root.Color = Color.Black;
+            }
+        }
+
+        public override bool Empty => Size == 0;
+
+        public override int Size => NodeSize(_root);
 
         private bool IsRed(Node node)
         {
@@ -42,9 +41,10 @@ namespace MuxLib.MUtility.Collections.Tree.RedBlackTree
             node.Left.Color = Color.Black;
             node.Right.Color = Color.Black;
         }
+
         private Node LeftRotate(Node node)
         {
-            Node x = node.Right;
+            var x = node.Right;
             node.Right = x.Left;
             x.Left = node;
             x.Color = node.Color;
@@ -56,7 +56,7 @@ namespace MuxLib.MUtility.Collections.Tree.RedBlackTree
 
         private Node RightRotate(Node node)
         {
-            Node x = node.Left;
+            var x = node.Left;
             node.Left = x.Right;
             x.Right = node;
             x.Color = node.Color;
@@ -65,21 +65,12 @@ namespace MuxLib.MUtility.Collections.Tree.RedBlackTree
             node.N = 1 + NodeSize(node.Left) + NodeSize(node.Right);
             return x;
         }
+
         private int NodeSize(Node node)
         {
             if (node == null)
                 return 0;
-            else
-                return node.N;
-        }
-        public override V this[K key]
-        {
-            get => Get(_root, key);
-            set
-            {
-                _root = Set(_root, key, value);
-                _root.Color = Color.Black;
-            }
+            return node.N;
         }
 
 
@@ -87,20 +78,19 @@ namespace MuxLib.MUtility.Collections.Tree.RedBlackTree
         {
             if (node == null)
                 return default;
-            int cmp = key.CompareTo(node.Key);
+            var cmp = key.CompareTo(node.Key);
             if (cmp > 0)
                 return Get(node.Left, key);
-            else if (cmp < 0)
+            if (cmp < 0)
                 return Get(node.Right, key);
-            else
-                return node.Value;
+            return node.Value;
         }
 
         private Node Set(Node h, K key, V value)
         {
             if (h == null)
                 return new Node(key, value, 1, Color.Red);
-            int cmp = key.CompareTo(h.Key);
+            var cmp = key.CompareTo(h.Key);
 
             if (cmp < 0)
                 h.Left = Set(h.Left, key, value);
@@ -121,16 +111,6 @@ namespace MuxLib.MUtility.Collections.Tree.RedBlackTree
             h.N = NodeSize(h.Left) + NodeSize(h.Right) + 1;
 
             return h;
-        }
-
-        public override bool Empty => Size == 0;
-
-        public override int Size => NodeSize(_root);
-
-        private Node _root;
-        public RedBlackTree()
-        {
-            _root = null;
         }
 
         public override K Ceiling(K key)
@@ -187,6 +167,7 @@ namespace MuxLib.MUtility.Collections.Tree.RedBlackTree
         {
             return Rank(_root, key);
         }
+
         private int Rank(Node node, K key)
         {
             if (node == null)
@@ -205,6 +186,7 @@ namespace MuxLib.MUtility.Collections.Tree.RedBlackTree
         {
             throw new NotImplementedException();
         }
+
         public override K Select(int k)
         {
             return Select(_root, k).Key;
@@ -215,10 +197,7 @@ namespace MuxLib.MUtility.Collections.Tree.RedBlackTree
             if (node == null)
                 return null;
             var t = NodeSize(node.Left);
-            if (t <= k)
-            {
-                return t < k ? Select(node.Right, k - t - 1) : node;
-            }
+            if (t <= k) return t < k ? Select(node.Right, k - t - 1) : node;
             return Select(node.Left, k);
         }
 
@@ -246,6 +225,32 @@ namespace MuxLib.MUtility.Collections.Tree.RedBlackTree
                 queue.Enqueue(node.Key);
             if (cmpmax > 0)
                 SortedKeys(node.Right, queue, low, max);
+        }
+
+        private enum Color
+        {
+            Red,
+            Black
+        }
+
+        private class Node
+        {
+            public Node(K key, V value, int N, Color color)
+            {
+                (Key, Value, this.N, Color) = (key, value, N, color);
+            }
+
+            public K Key { get; }
+
+            public V Value { set; get; }
+
+            public Node Left { set; get; }
+
+            public Node Right { set; get; }
+
+            public int N { set; get; }
+
+            public Color Color { set; get; }
         }
     }
 }

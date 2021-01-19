@@ -1,61 +1,49 @@
 ﻿using System;
+using MuxLib.MUtility.Collections.Errors;
+
 namespace MuxLib.MUtility.Collections.Tree.AVLTree
 {
     /// <summary>
-    /// K 可以不必是一个Compareable 的数组，可以new GenericAVLTree.CompareElements()
-    /// lambda函数
+    ///     K 可以不必是一个Compareable 的数组，可以new GenericAVLTree.CompareElements()
+    ///     lambda函数
     /// </summary>
     /// <typeparam name="K"></typeparam>
     /// <typeparam name="V"></typeparam>
     public sealed class GenericAVLTree<K, V>
     {
-        private class Node
-        {
-            public K Key { get; set; }
-            public V Value { get; set; }
-            public Node Left { set; get; } = null;
-            public Node Right { set; get; } = null;
-            public int Height { set; get; } = 1;
-
-            public Node(K key, V value)
-            {
-                Key = key; Value = value;
-            }
-        }
-
         public delegate int CompareElements(K key1, K key2);
 
-        private CompareElements Compare { get; }
-
-        private int _size;
-
-        public int Size { get => _size; }
-        public bool IsEmpty { get => Size == 0; }
         private Node _root;
 
         public GenericAVLTree(CompareElements compare)
         {
-            _root = null; _size = 0;
+            _root = null;
+            Size = 0;
             Compare = compare;
         }
+
+        private CompareElements Compare { get; }
+
+        public int Size { get; private set; }
+
+        public bool IsEmpty => Size == 0;
 
         public V this[K key]
         {
             get
             {
-                Node node = GetNode(_root, key);
+                var node = GetNode(_root, key);
                 if (node == null)
-                    throw new Errors.InvalidArgumentError($"{key} dose not exist");
+                    throw new InvalidArgumentError($"{key} dose not exist");
                 return node.Value;
             }
             set
             {
-                Node node = GetNode(_root, key);
+                var node = GetNode(_root, key);
                 if (node == null)
-                    throw new Errors.InvalidArgumentError($"{key} dose not exist");
+                    throw new InvalidArgumentError($"{key} dose not exist");
                 node.Value = value;
             }
-
         }
 
         private static int GetHeight(Node node)
@@ -71,10 +59,9 @@ namespace MuxLib.MUtility.Collections.Tree.AVLTree
                 return null;
             if (key.Equals(node.Key))
                 return node;
-            else if (Compare(key, node.Key) < 0)
+            if (Compare(key, node.Key) < 0)
                 return GetNode(node.Left, key);
-            else
-                return GetNode(node.Right, key);
+            return GetNode(node.Right, key);
         }
 
         private int GetBalanceFactor(Node node)
@@ -87,13 +74,15 @@ namespace MuxLib.MUtility.Collections.Tree.AVLTree
         private static Node RightRotate(Node y)
         {
             Node x = y.Left, t3 = x.Right;
-            x.Right = y; y.Left = t3;
+            x.Right = y;
+            y.Left = t3;
 
             // Update Node's height
             y.Height = Math.Max(GetHeight(y.Left), GetHeight(y.Right)) + 1;
             x.Height = Math.Max(GetHeight(x.Left), GetHeight(x.Right)) + 1;
             return x;
         }
+
         /*
             //          y                                 x
             //         / \                              /   \
@@ -106,7 +95,8 @@ namespace MuxLib.MUtility.Collections.Tree.AVLTree
         private static Node LeftRotate(Node y)
         {
             Node x = y.Right, T2 = x.Left;
-            x.Left = y; y.Right = T2;
+            x.Left = y;
+            y.Right = T2;
             y.Height = Math.Max(GetHeight(y.Left), GetHeight(y.Right)) + 1;
             x.Height = Math.Max(GetHeight(x.Left), GetHeight(x.Right)) + 1;
             return x;
@@ -116,7 +106,7 @@ namespace MuxLib.MUtility.Collections.Tree.AVLTree
         {
             if (node == null)
             {
-                _size++;
+                Size++;
                 return new Node(key, value);
             }
 
@@ -128,7 +118,7 @@ namespace MuxLib.MUtility.Collections.Tree.AVLTree
                 node.Value = value;
             // Update Height
             node.Height = 1 + Math.Max(GetHeight(node.Left), GetHeight(node.Right));
-            int balance_factor = GetBalanceFactor(node);
+            var balance_factor = GetBalanceFactor(node);
 
             // Balance maintenance
 
@@ -151,6 +141,7 @@ namespace MuxLib.MUtility.Collections.Tree.AVLTree
                 node.Right = RightRotate(node); // Convert to RR
                 return LeftRotate(node);
             }
+
             return node;
         }
 
@@ -160,6 +151,7 @@ namespace MuxLib.MUtility.Collections.Tree.AVLTree
                 return node;
             return Minimum(node.Left);
         }
+
         private Node Remove(Node node, K key)
         {
             if (node == null)
@@ -180,31 +172,32 @@ namespace MuxLib.MUtility.Collections.Tree.AVLTree
             {
                 if (node.Left == null)
                 {
-                    Node right_node = node.Right;
+                    var right_node = node.Right;
                     node.Right = null;
-                    _size--;
+                    Size--;
                     retNode = right_node;
                 }
                 else if (node.Right == null)
                 {
-                    Node left_node = node.Left;
+                    var left_node = node.Left;
                     node.Left = null;
-                    _size--;
+                    Size--;
                     retNode = left_node;
                 }
                 else
                 {
-                    Node successor = Minimum(node.Right);
+                    var successor = Minimum(node.Right);
                     successor.Right = Remove(node.Right, successor.Key);
                     successor.Left = node.Left;
                     node.Left = node.Right = null;
                     retNode = successor;
                 }
             }
+
             if (retNode == null)
                 return null;
             retNode.Height = 1 + Math.Max(GetHeight(retNode.Left), GetHeight(retNode.Right));
-            int balanceFactor = GetBalanceFactor(retNode);
+            var balanceFactor = GetBalanceFactor(retNode);
 
             if (balanceFactor > 1 && GetBalanceFactor(retNode.Left) >= 0)
                 return RightRotate(retNode);
@@ -237,18 +230,34 @@ namespace MuxLib.MUtility.Collections.Tree.AVLTree
 
         public V Remove(K key)
         {
-            Node node = GetNode(_root, key);
+            var node = GetNode(_root, key);
             if (node != null)
             {
                 _root = Remove(_root, key);
                 return node.Value;
             }
+
             return default;
         }
 
         public bool Contains(K key)
         {
             return GetNode(_root, key) != null;
+        }
+
+        private class Node
+        {
+            public Node(K key, V value)
+            {
+                Key = key;
+                Value = value;
+            }
+
+            public K Key { get; }
+            public V Value { get; set; }
+            public Node Left { set; get; }
+            public Node Right { set; get; }
+            public int Height { set; get; } = 1;
         }
     }
 }

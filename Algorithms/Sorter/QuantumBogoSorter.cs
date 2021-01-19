@@ -1,16 +1,15 @@
 ﻿using System;
+using MuxLib.MUtility.Algorithms.Metas;
+
 namespace MuxLib.MUtility.Algorithms.Sorter
 {
-    public class QuantumBogoSorter<T> : Metas.Sorter<T>
+    public class QuantumBogoSorter<T> : Sorter<T>
         where T : IComparable
     {
         public override void Sort(T[] arr)
         {
             var random = new Random();
-            while (!IsSorted(arr))
-            {
-                Shuffle(arr, random);
-            }
+            while (!IsSorted(arr)) Shuffle(arr, random);
         }
 
         private void Shuffle(T[] arr, Random random)

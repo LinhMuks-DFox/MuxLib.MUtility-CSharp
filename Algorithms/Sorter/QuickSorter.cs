@@ -1,8 +1,9 @@
 ﻿using System;
+using MuxLib.MUtility.Algorithms.Metas;
 
 namespace MuxLib.MUtility.Algorithms.Sorter
 {
-    public sealed class QuickSorter<T> : Metas.Sorter<T>
+    public sealed class QuickSorter<T> : Sorter<T>
         where T : IComparable
     {
         public override void Sort(T[] arr)

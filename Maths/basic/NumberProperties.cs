@@ -1,6 +1,6 @@
 ﻿namespace MuxLib.MUtility.Maths.basic
 {
-    enum Signs
+    internal enum Signs
     {
         Positives,
         Negative,
@@ -14,10 +14,10 @@
         {
             return n_cimal switch
             {
-                2 => ('0' == ch || '1' == ch),
-                8 => ('0' <= ch && ch <= '7'),
-                10 => ('0' <= ch && ch <= '9'),
-                16 => ('0' <= ch && ch <= '9') || ('a' <= ch && ch <= 'f') || ('A' <= ch && ch <= 'F'),
+                2 => '0' == ch || '1' == ch,
+                8 => '0' <= ch && ch <= '7',
+                10 => '0' <= ch && ch <= '9',
+                16 => '0' <= ch && ch <= '9' || 'a' <= ch && ch <= 'f' || 'A' <= ch && ch <= 'F',
                 _ => false
             };
         }
@@ -34,8 +34,7 @@
                 {
                     if ('A' <= ch && ch <= 'F')
                         return ch - 'A' + 10;
-                    else
-                        return -1;
+                    return -1;
                 }
             }
         }
