@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
-namespace tester
+namespace MuxLib.MUtility.Com.FileHelpers
 {
     /// <summary>
     /// Read a pure English text and split it to words;
