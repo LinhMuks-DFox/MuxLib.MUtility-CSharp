@@ -1,13 +1,13 @@
 ﻿namespace MuxLib.MUtility.Collections.Metas.ABClass
 {
-    public abstract class ABCMap<K, V>
+    public abstract class ABCMap<TK, TV>
     {
         public abstract int Size { get; }
         public abstract bool Empty { get; }
-        public abstract void Add(K key, V value);
-        public abstract V Remove(K key);
-        public abstract bool Contains(K key);
-        public abstract V Get(K key);
-        public abstract void Set(K key, V newValue);
+        public abstract void Add(TK key, TV value);
+        public abstract TV Remove(TK key);
+        public abstract bool Contains(TK key);
+        public abstract TV Get(TK key);
+        public abstract void Set(TK key, TV newValue);
     }
 }

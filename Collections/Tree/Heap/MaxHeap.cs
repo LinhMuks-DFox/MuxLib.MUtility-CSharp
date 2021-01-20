@@ -7,33 +7,33 @@ namespace MuxLib.MUtility.Collections.Tree.Heap
     /// <summary>
     ///     A Generic MaxHeap Class.
     /// </summary>
-    /// <typeparam name="E">E should implement interface-ICompareable</typeparam>
-    public sealed class MaxHeap<E>
-        where E : IComparable
+    /// <typeparam name="TE">E should implement interface-ICompareable</typeparam>
+    public sealed class MaxHeap<TE>
+        where TE : IComparable
     {
-        private readonly List<E> _data;
+        private readonly List<TE> _data;
 
-        public MaxHeap(E[] arr) /*Heapify*/
+        public MaxHeap(IReadOnlyCollection<TE> arr) /*Heapify*/
         {
-            _data = new List<E>(arr);
-            for (var i = FatherOf(arr.Length - 1); i >= 0; i--) SiftDown(i);
+            _data = new List<TE>(arr);
+            for (var i = FatherOf(arr.Count - 1); i >= 0; i--) SiftDown(i);
         }
 
-        public MaxHeap(int prealloc)
+        public MaxHeap(int preAlloc)
         {
-            _data = new List<E>(prealloc);
-            Capaciy = prealloc;
+            _data = new List<TE>(preAlloc);
+            Capacity = preAlloc;
         }
 
         public MaxHeap()
         {
-            _data = new List<E>();
+            _data = new List<TE>();
         }
 
         /// <summary>
         ///     The capacity of Current Heap.
         /// </summary>
-        public int Capaciy { get; }
+        public int Capacity { get; }
 
         /// <summary>
         ///     The count of current Heap
@@ -49,7 +49,7 @@ namespace MuxLib.MUtility.Collections.Tree.Heap
         ///     Load a IEnumerable Object's elements in this Heap.
         /// </summary>
         /// <param name="from">Object which is Enumerable</param>
-        public void Load(IEnumerable<E> from)
+        public void Load(IEnumerable<TE> from)
         {
             foreach (var i in from) Add(i);
         }
@@ -76,7 +76,7 @@ namespace MuxLib.MUtility.Collections.Tree.Heap
             return index * 2 + 2;
         }
 
-        public void Add(E ele)
+        public void Add(TE ele)
         {
             _data.Add(ele);
             SiftUp(Size - 1);
@@ -93,7 +93,7 @@ namespace MuxLib.MUtility.Collections.Tree.Heap
             }
         }
 
-        private static void Swap(IList<E> list, int i, int j)
+        private static void Swap(IList<TE> list, int i, int j)
         {
             if (i < 0 || j < 0 || i >= list.Count || j >= list.Count)
                 throw new InvalidArgumentError("Index is invalid");
@@ -103,7 +103,7 @@ namespace MuxLib.MUtility.Collections.Tree.Heap
         }
 
 
-        public E ExtractMax()
+        public TE ExtractMax()
         {
             var ret = PeekMax();
             /*Swap the last element and the first element which will be removed*/
@@ -115,7 +115,7 @@ namespace MuxLib.MUtility.Collections.Tree.Heap
             return ret;
         }
 
-        public E PeekMax()
+        public TE PeekMax()
         {
             if (_data.Count == 0)
                 throw new InvalidArgumentError("Heap is Empty");
@@ -138,7 +138,7 @@ namespace MuxLib.MUtility.Collections.Tree.Heap
             }
         }
 
-        public E Replace(E e)
+        public TE Replace(TE e)
         {
             var ret = PeekMax();
             _data[0] = e;
@@ -148,7 +148,7 @@ namespace MuxLib.MUtility.Collections.Tree.Heap
 
         public override string ToString()
         {
-            return $"MaxHeap<{typeof(E)}> Instance";
+            return $"MaxHeap<{typeof(TE)}> Instance";
         }
 
         public static void Tester()
@@ -172,7 +172,7 @@ namespace MuxLib.MUtility.Collections.Tree.Heap
             Console.WriteLine("Well Done!");
         }
 
-        public E[] ToArray()
+        public TE[] ToArray()
         {
             return _data.ToArray();
         }

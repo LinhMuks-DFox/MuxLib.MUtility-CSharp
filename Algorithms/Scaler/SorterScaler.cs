@@ -7,19 +7,19 @@ namespace MuxLib.MUtility.Algorithms.Scaler
     public sealed class SorterScaler<T>
         where T : IComparable
     {
-        public double RumtimeMs { get; private set; }
-        public double RumtimeS { get; private set; }
+        public double RuntimeMs { get; private set; }
+        public double RuntimeS { get; private set; }
 
 
-        public string CalRuntime(T[] testarr, Sorter<T> sorter)
+        public string CalRuntime(T[] testArr, Sorter<T> sorter)
         {
             var sw = new Stopwatch();
             sw.Start();
-            sorter.Sort(testarr);
+            sorter.Sort(testArr);
             sw.Stop();
-            RumtimeMs = sw.Elapsed.TotalMilliseconds;
-            RumtimeS = sw.Elapsed.TotalSeconds;
-            return $"Totally ran {RumtimeMs}ms, or {RumtimeS}s";
+            RuntimeMs = sw.Elapsed.TotalMilliseconds;
+            RuntimeS = sw.Elapsed.TotalSeconds;
+            return $"Totally ran {RuntimeMs}ms, or {RuntimeS}s";
         }
     }
 }

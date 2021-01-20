@@ -55,12 +55,12 @@ namespace MuxLib.MUtility.Collections.Queue
             return _data[_front];
         }
 
-        private void Resize(int new_capacity)
+        private void Resize(int newCapacity)
         {
-            var new_data = new T[new_capacity + 1];
+            var newData = new T[newCapacity + 1];
             for (var i = 0; i < _size; i++)
-                new_data[i] = _data[i + _front % _data.Length];
-            _data = new_data;
+                newData[i] = _data[i + _front % _data.Length];
+            _data = newData;
             _front = 0;
             _tail = _size;
         }
@@ -81,9 +81,9 @@ namespace MuxLib.MUtility.Collections.Queue
             return res.ToString();
         }
 
-        public override void Load(IEnumerable<T> meta_array)
+        public override void Load(IEnumerable<T> metaArray)
         {
-            foreach (var e in meta_array)
+            foreach (var e in metaArray)
                 Enqueue(e);
         }
     }

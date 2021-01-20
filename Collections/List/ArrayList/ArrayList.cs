@@ -162,11 +162,10 @@ namespace MuxLib.MUtility.Collections.List.ArrayList
             }
         }
 
-        private int CheckResize()
+        private void CheckResize()
         {
-            if (Count != Data.Length / 4 || Data.Length / 2 == 0) return -1;
+            if (Count != Data.Length / 4 || Data.Length / 2 == 0) return;
             Resize(Data.Length / 2);
-            return 0;
         }
 
         public void AddFirst(T item)

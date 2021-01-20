@@ -4,32 +4,32 @@ using MuxLib.MUtility.Collections.Tree.AVLTree;
 
 namespace MuxLib.MUtility.Collections.Set
 {
-    public sealed class AVLSet<E>
-        : ABCSet<E>
-        where E : IComparable
+    public sealed class AvlSet<TE>
+        : ABCSet<TE>
+        where TE : IComparable
     {
-        private readonly AVLTree<E, object> _data;
+        private readonly AvlTree<TE, object> _data;
 
-        public AVLSet()
+        public AvlSet()
         {
-            _data = new AVLTree<E, object>();
+            _data = new AvlTree<TE, object>();
         }
 
         public override int Size => _data.Size;
 
         public override bool Empty => _data.Empty;
 
-        public override void Add(E e)
+        public override void Add(TE e)
         {
             _data.Append(e, null);
         }
 
-        public override bool Contains(E e)
+        public override bool Contains(TE e)
         {
             return _data.Contains(e);
         }
 
-        public override void Remove(E e)
+        public override void Remove(TE e)
         {
             _data.Remove(e);
         }

@@ -5,29 +5,30 @@ using MuxLib.MUtility.Collections.Metas.ABClass;
 
 namespace MuxLib.MUtility.Collections.Tree.AVLTree
 {
-    public sealed class AVLTree<K, V> : ABCSymbolTable<K, V>
-        where K : IComparable
+    public sealed class AvlTree<TK, TV> : ABCSymbolTable<TK, TV>
+        where TK : IComparable
     {
-        private Node _root;
         private int _size;
 
-        public AVLTree()
+
+        public AvlTree()
         {
-            _root = null;
+            Root = null;
             _size = 0;
         }
 
+        private Node Root { set; get; }
         public override int Size => _size;
         public override bool Empty => Size == 0;
 
-        public override V this[K key]
+        public override TV this[TK key]
         {
             get => Get(key);
             set
             {
-                var node = GetNode(_root, key);
+                var node = GetNode(Root, key);
                 if (node == null)
-                    Append(_root, key, value);
+                    Append(Root, key, value);
                 else
                     node.Value = value;
             }
@@ -35,17 +36,15 @@ namespace MuxLib.MUtility.Collections.Tree.AVLTree
 
         private static int GetHeight(Node node)
         {
-            if (node == null)
-                return 0;
-            return node.Height;
+            return node?.Height ?? 0;
         }
 
-        public void Append(K key, V value)
+        public void Append(TK key, TV value)
         {
-            _root = Append(_root, key, value);
+            Root = Append(Root, key, value);
         }
 
-        private Node Append(Node node, K key, V value)
+        private Node Append(Node node, TK key, TV value)
         {
             if (node == null)
             {
@@ -61,7 +60,7 @@ namespace MuxLib.MUtility.Collections.Tree.AVLTree
                 node.Value = value;
             // Update Height
             node.Height = 1 + Math.Max(GetHeight(node.Left), GetHeight(node.Right));
-            var balance_factor = GetBalanceFactor(node);
+            var balanceFactor = GetBalanceFactor(node);
             // #if DEBUG
             //             if (Math.Abs(balance_factor) > 1)
             //                 Console.WriteLine($"Unbalance: {balance_factor}");
@@ -69,20 +68,20 @@ namespace MuxLib.MUtility.Collections.Tree.AVLTree
             // Balance maintenance
 
             // LL
-            if (balance_factor > 1 && GetBalanceFactor(node.Left) >= 0)
+            if (balanceFactor > 1 && GetBalanceFactor(node.Left) >= 0)
                 return RightRotate(node);
             // RR
-            if (balance_factor < -1 && GetBalanceFactor(node.Right) <= 0)
+            if (balanceFactor < -1 && GetBalanceFactor(node.Right) <= 0)
                 return LeftRotate(node);
             // LR
-            if (balance_factor > 1 && GetBalanceFactor(node.Left) < 0)
+            if (balanceFactor > 1 && GetBalanceFactor(node.Left) < 0)
             {
                 node.Left = LeftRotate(node.Left); // Convert to LL
                 return RightRotate(node);
             }
 
             // RL
-            if (balance_factor < -1 && GetBalanceFactor(node.Right) > 0)
+            if (balanceFactor < -1 && GetBalanceFactor(node.Right) > 0)
             {
                 node.Right = RightRotate(node.Right); // Convert to RR
                 return LeftRotate(node);
@@ -123,9 +122,9 @@ namespace MuxLib.MUtility.Collections.Tree.AVLTree
         */
         private static Node LeftRotate(Node y)
         {
-            Node x = y.Right, T2 = x.Left;
+            Node x = y.Right, t2 = x.Left;
             x.Left = y;
-            y.Right = T2;
+            y.Right = t2;
             y.Height = Math.Max(GetHeight(y.Left), GetHeight(y.Right)) + 1;
             x.Height = Math.Max(GetHeight(x.Left), GetHeight(x.Right)) + 1;
             return x;
@@ -139,10 +138,10 @@ namespace MuxLib.MUtility.Collections.Tree.AVLTree
             return GetHeight(node.Left) - GetHeight(node.Right);
         }
 
-        public bool IsBST()
+        public bool IsBst()
         {
-            var keys = new List<K>();
-            InOrder(_root, keys);
+            var keys = new List<TK>();
+            InOrder(Root, keys);
             for (var i = 1; i < keys.Count; i++)
                 if (keys[i - 1].CompareTo(keys[i]) > 0)
                     return false;
@@ -151,10 +150,10 @@ namespace MuxLib.MUtility.Collections.Tree.AVLTree
 
         public bool IsBalanced()
         {
-            return IsBalanced(_root);
+            return IsBalanced(Root);
         }
 
-        private bool IsBalanced(Node node)
+        private static bool IsBalanced(Node node)
         {
             if (node == null)
                 return true;
@@ -164,7 +163,7 @@ namespace MuxLib.MUtility.Collections.Tree.AVLTree
             return IsBalanced(node.Left) && IsBalanced(node.Right);
         }
 
-        private void InOrder(Node node, List<K> keys)
+        private static void InOrder(Node node, List<TK> keys)
         {
             if (node == null)
                 return;
@@ -173,23 +172,23 @@ namespace MuxLib.MUtility.Collections.Tree.AVLTree
             InOrder(node.Right, keys);
         }
 
-        public void Set(K key, V value)
+        public void Set(TK key, TV value)
         {
-            var node = GetNode(_root, key);
+            var node = GetNode(Root, key);
             if (node == null)
                 throw new InvalidArgumentError($"{key} dose not exist");
             node.Value = value;
         }
 
-        public V Get(K key)
+        private TV Get(TK key)
         {
-            var node = GetNode(_root, key);
+            var node = GetNode(Root, key);
             if (node == null)
                 throw new InvalidArgumentError($"{key} dose not exist");
             return node.Value;
         }
 
-        private Node GetNode(Node node, K key)
+        private static Node GetNode(Node node, TK key)
         {
             if (node == null)
                 return null;
@@ -202,51 +201,54 @@ namespace MuxLib.MUtility.Collections.Tree.AVLTree
             };
         }
 
-        public override void Remove(K key)
+        public override void Remove(TK key)
         {
-            var node = GetNode(_root, key);
-            if (node != null) _root = Remove(_root, key);
+            var node = GetNode(Root, key);
+            if (node != null) Root = Remove(Root, key);
         }
 
-        private Node Remove(Node node, K key)
+        private Node Remove(Node node, TK key)
         {
             if (node == null)
                 return null;
 
             Node retNode;
-            if (key.CompareTo(node.Key) < 0)
+            switch (key.CompareTo(node.Key))
             {
-                node.Left = Remove(node.Left, key);
-                retNode = node;
-            }
-            else if (key.CompareTo(node.Key) > 0)
-            {
-                node.Right = Remove(node.Right, key);
-                retNode = node;
-            }
-            else
-            {
-                if (node.Left == null)
+                case < 0:
+                    node.Left = Remove(node.Left, key);
+                    retNode = node;
+                    break;
+                case > 0:
+                    node.Right = Remove(node.Right, key);
+                    retNode = node;
+                    break;
+                default:
                 {
-                    var right_node = node.Right;
-                    node.Right = null;
-                    _size--;
-                    retNode = right_node;
-                }
-                else if (node.Right == null)
-                {
-                    var left_node = node.Left;
-                    node.Left = null;
-                    _size--;
-                    retNode = left_node;
-                }
-                else
-                {
-                    var successor = Minimum(node.Right);
-                    successor.Right = Remove(node.Right, successor.Key);
-                    successor.Left = node.Left;
-                    node.Left = node.Right = null;
-                    retNode = successor;
+                    if (node.Left == null)
+                    {
+                        var rightNode = node.Right;
+                        node.Right = null;
+                        _size--;
+                        retNode = rightNode;
+                    }
+                    else if (node.Right == null)
+                    {
+                        var leftNode = node.Left;
+                        node.Left = null;
+                        _size--;
+                        retNode = leftNode;
+                    }
+                    else
+                    {
+                        var successor = Minimum(node.Right);
+                        successor.Right = Remove(node.Right, successor.Key);
+                        successor.Left = node.Left;
+                        node.Left = node.Right = null;
+                        retNode = successor;
+                    }
+
+                    break;
                 }
             }
 
@@ -270,45 +272,32 @@ namespace MuxLib.MUtility.Collections.Tree.AVLTree
             }
 
             // RL
-            if (balanceFactor < -1 && GetBalanceFactor(retNode.Right) > 0)
-            {
-                retNode.Right = RightRotate(retNode.Right);
-                return LeftRotate(retNode);
-            }
-
-            return retNode;
+            if (balanceFactor >= -1 || GetBalanceFactor(retNode.Right) <= 0) return retNode;
+            retNode.Right = RightRotate(retNode.Right);
+            return LeftRotate(retNode);
         }
 
 
         private Node Minimum(Node node)
         {
-            if (node.Left == null)
-                return node;
-            return Minimum(node.Left);
+            return node.Left == null ? node : Minimum(node.Left);
         }
 
-        private Node Maximum(Node node)
+        public override bool Contains(TK key)
         {
-            if (node.Right == null)
-                return node;
-            return Maximum(node.Right);
-        }
-
-        public override bool Contains(K key)
-        {
-            return GetNode(_root, key) != null;
+            return GetNode(Root, key) != null;
         }
 
         private sealed class Node
         {
-            public Node(K key, V value)
+            public Node(TK key, TV value)
             {
                 Key = key;
                 Value = value;
             }
 
-            public K Key { get; }
-            public V Value { get; set; }
+            public TK Key { get; }
+            public TV Value { get; set; }
             public Node Left { set; get; }
             public Node Right { set; get; }
             public int Height { set; get; } = 1;

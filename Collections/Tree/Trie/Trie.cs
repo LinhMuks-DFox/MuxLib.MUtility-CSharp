@@ -72,7 +72,7 @@ namespace MuxLib.MUtility.Collections.Tree.Trie
             }
 
             public bool IsWord { get; set; }
-            public AVLMap<char, Node> Next { get; } = new();
+            public AvlMap<char, Node> Next { get; } = new();
         }
     }
 }

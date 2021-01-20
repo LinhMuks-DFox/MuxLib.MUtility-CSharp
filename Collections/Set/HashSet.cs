@@ -5,30 +5,30 @@ namespace MuxLib.MUtility.Collections.Set
 {
     public sealed class HashSet<T> : ABCSet<T>
     {
-        private readonly HashTable<T, object> _datas;
+        private readonly HashTable<T, object> _data;
 
         public HashSet()
         {
-            _datas = new HashTable<T, object>();
+            _data = new HashTable<T, object>();
         }
 
-        public override int Size => _datas.Size;
+        public override int Size => _data.Size;
 
         public override bool Empty => Size == 0;
 
         public override void Add(T e)
         {
-            _datas.Append(e, null);
+            _data.Append(e, null);
         }
 
         public override bool Contains(T e)
         {
-            return _datas.Contains(e);
+            return _data.Contains(e);
         }
 
         public override void Remove(T e)
         {
-            _datas.Remove(e);
+            _data.Remove(e);
         }
     }
 }

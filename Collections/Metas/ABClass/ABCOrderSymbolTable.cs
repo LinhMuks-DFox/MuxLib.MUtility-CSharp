@@ -3,40 +3,40 @@ using System.Collections.Generic;
 
 namespace MuxLib.MUtility.Collections.Metas.ABClass
 {
-    public abstract class ABCOrderSymbolTable<K, V> : ABCSymbolTable<K, V>
-        where K : IComparable
+    public abstract class ABCOrderSymbolTable<TK, TV> : ABCSymbolTable<TK, TV>
+        where TK : IComparable
     {
-        public abstract K Min();
+        public abstract TK Min();
 
-        public abstract K Max();
+        public abstract TK Max();
 
         /// <summary>
         ///     Less than key but the biggest
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
-        public abstract K Floor(K key);
+        public abstract TK Floor(TK key);
 
         /// <summary>
         ///     Greater than key but Less-est;
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
-        public abstract K Ceiling(K key);
+        public abstract TK Ceiling(TK key);
 
         /// <summary>
         ///     The number of keys which less than key
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
-        public abstract int Rank(K key);
+        public abstract int Rank(TK key);
 
         /// <summary>
         ///     Get the key with rank k
         /// </summary>
         /// <param name="k"></param>
         /// <returns></returns>
-        public abstract K Select(int k);
+        public abstract TK Select(int k);
 
         public abstract void DeleteMin();
 
@@ -48,7 +48,7 @@ namespace MuxLib.MUtility.Collections.Metas.ABClass
         /// <param name="low"></param>
         /// <param name="max"></param>
         /// <returns></returns>
-        public abstract int NumberOf(K low, K max);
+        public abstract int NumberOf(TK low, TK max);
 
         /// <summary>
         ///     Get a IEnumerable<K> object of keys between low and hight
@@ -56,6 +56,6 @@ namespace MuxLib.MUtility.Collections.Metas.ABClass
         /// <param name="low"></param>
         /// <param name="max"></param>
         /// <returns></returns>
-        public abstract IEnumerable<K> SortedKeys(K low, K max);
+        public abstract IEnumerable<TK> SortedKeys(TK low, TK max);
     }
 }

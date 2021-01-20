@@ -3,42 +3,42 @@ using MuxLib.MUtility.Collections.Table;
 
 namespace MuxLib.MUtility.Collections.Map
 {
-    public sealed class HashMap<K, V> : ABCMap<K, V>
+    public sealed class HashMap<TK, TV> : ABCMap<TK, TV>
     {
-        private readonly HashTable<K, V> _datas;
+        private readonly HashTable<TK, TV> _data;
 
         public HashMap()
         {
-            _datas = new HashTable<K, V>();
+            _data = new HashTable<TK, TV>();
         }
 
-        public override int Size => _datas.Size;
+        public override int Size => _data.Size;
 
         public override bool Empty => Size == 0;
 
-        public override void Add(K key, V value)
+        public override void Add(TK key, TV value)
         {
-            _datas.Append(key, value);
+            _data.Append(key, value);
         }
 
-        public override bool Contains(K key)
+        public override bool Contains(TK key)
         {
-            return _datas.Contains(key);
+            return _data.Contains(key);
         }
 
-        public override V Get(K key)
+        public override TV Get(TK key)
         {
-            return _datas[key];
+            return _data[key];
         }
 
-        public override V Remove(K key)
+        public override TV Remove(TK key)
         {
-            return _datas.Remove(key);
+            return _data.Remove(key);
         }
 
-        public override void Set(K key, V newValue)
+        public override void Set(TK key, TV newValue)
         {
-            _datas[key] = newValue;
+            _data[key] = newValue;
         }
     }
 }

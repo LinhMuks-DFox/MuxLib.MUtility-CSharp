@@ -4,8 +4,13 @@ using MuxLib.MUtility.Collections.Metas.ABClass;
 
 namespace MuxLib.MUtility.Collections.Tree.RedBlackTree
 {
-    public sealed class RedBlackTree<K, V> : ABCOrderSymbolTable<K, V>
-        where K : IComparable
+    /// <summary>
+    /// Red-Black Tree implement, Delete method was not implemented.
+    /// </summary>
+    /// <typeparam name="TK"></typeparam>
+    /// <typeparam name="TV"></typeparam>
+    public sealed class RedBlackTree<TK, TV> : ABCOrderSymbolTable<TK, TV>
+        where TK : IComparable
     {
         private Node _root;
 
@@ -14,7 +19,7 @@ namespace MuxLib.MUtility.Collections.Tree.RedBlackTree
             _root = null;
         }
 
-        public override V this[K key]
+        public override TV this[TK key]
         {
             get => Get(_root, key);
             set
@@ -74,7 +79,7 @@ namespace MuxLib.MUtility.Collections.Tree.RedBlackTree
         }
 
 
-        private V Get(Node node, K key)
+        private TV Get(Node node, TK key)
         {
             if (node == null)
                 return default;
@@ -86,7 +91,7 @@ namespace MuxLib.MUtility.Collections.Tree.RedBlackTree
             return node.Value;
         }
 
-        private Node Set(Node h, K key, V value)
+        private Node Set(Node h, TK key, TV value)
         {
             if (h == null)
                 return new Node(key, value, 1, Color.Red);
@@ -113,12 +118,12 @@ namespace MuxLib.MUtility.Collections.Tree.RedBlackTree
             return h;
         }
 
-        public override K Ceiling(K key)
+        public override TK Ceiling(TK key)
         {
             throw new NotImplementedException();
         }
 
-        public override bool Contains(K key)
+        public override bool Contains(TK key)
         {
             throw new NotImplementedException();
         }
@@ -133,12 +138,12 @@ namespace MuxLib.MUtility.Collections.Tree.RedBlackTree
             throw new NotImplementedException();
         }
 
-        public override K Floor(K key)
+        public override TK Floor(TK key)
         {
             throw new NotImplementedException();
         }
 
-        public override K Max()
+        public override TK Max()
         {
             return Max(_root).Key;
         }
@@ -148,7 +153,7 @@ namespace MuxLib.MUtility.Collections.Tree.RedBlackTree
             return node == null ? null : Max(node.Right);
         }
 
-        public override K Min()
+        public override TK Min()
         {
             return Min(_root).Key;
         }
@@ -158,17 +163,17 @@ namespace MuxLib.MUtility.Collections.Tree.RedBlackTree
             return node.Left == null ? node : Min(node.Left);
         }
 
-        public override int NumberOf(K low, K max)
+        public override int NumberOf(TK low, TK max)
         {
-            return new Queue<K>(SortedKeys(low, max)).Count;
+            return new Queue<TK>(SortedKeys(low, max)).Count;
         }
 
-        public override int Rank(K key)
+        public override int Rank(TK key)
         {
             return Rank(_root, key);
         }
 
-        private int Rank(Node node, K key)
+        private int Rank(Node node, TK key)
         {
             if (node == null)
                 return 0;
@@ -182,12 +187,12 @@ namespace MuxLib.MUtility.Collections.Tree.RedBlackTree
             };
         }
 
-        public override void Remove(K key)
+        public override void Remove(TK key)
         {
             throw new NotImplementedException();
         }
 
-        public override K Select(int k)
+        public override TK Select(int k)
         {
             return Select(_root, k).Key;
         }
@@ -201,19 +206,19 @@ namespace MuxLib.MUtility.Collections.Tree.RedBlackTree
             return Select(node.Left, k);
         }
 
-        public override IEnumerable<K> SortedKeys(K low, K max)
+        public override IEnumerable<TK> SortedKeys(TK low, TK max)
         {
             return SortedKeys(_root, Min(), Max());
         }
 
-        private IEnumerable<K> SortedKeys(Node node, K low, K max)
+        private IEnumerable<TK> SortedKeys(Node node, TK low, TK max)
         {
-            var queue = new Queue<K>(node.N);
+            var queue = new Queue<TK>(node.N);
             SortedKeys(node, queue, low, max);
             return queue;
         }
 
-        private void SortedKeys(Node node, Queue<K> queue, K low, K max)
+        private void SortedKeys(Node node, Queue<TK> queue, TK low, TK max)
         {
             if (node == null)
                 return;
@@ -235,14 +240,14 @@ namespace MuxLib.MUtility.Collections.Tree.RedBlackTree
 
         private class Node
         {
-            public Node(K key, V value, int N, Color color)
+            public Node(TK key, TV value, int N, Color color)
             {
                 (Key, Value, this.N, Color) = (key, value, N, color);
             }
 
-            public K Key { get; }
+            public TK Key { get; }
 
-            public V Value { set; get; }
+            public TV Value { set; get; }
 
             public Node Left { set; get; }
 

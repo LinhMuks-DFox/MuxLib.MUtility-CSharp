@@ -6,15 +6,15 @@ namespace MuxLib.MUtility.Algorithms
 {
     public static class Tester
     {
-        private const int size = 100000;
+        private const int _size = 100000;
 
         public static void TestHeapSorter()
         {
             var scaler = new SorterScaler<int>();
             var random = new Random(666);
             var heapSorter = new HeapSorter<int>();
-            var arr = new int[size];
-            for (var i = 0; i < size; ++i) arr[i] = random.Next();
+            var arr = new int[_size];
+            for (var i = 0; i < _size; ++i) arr[i] = random.Next();
             Console.WriteLine($"HeapSorter:\n\t{scaler.CalRuntime(arr, heapSorter)}");
             Console.WriteLine($"\tHeapSorter well done?:{heapSorter.IsSorted(arr, true)}");
         }
@@ -24,8 +24,8 @@ namespace MuxLib.MUtility.Algorithms
             var scaler = new SorterScaler<int>();
             var random = new Random(666);
             var selector = new SelectionSorter<int>();
-            var arr = new int[size];
-            for (var i = 0; i < size; ++i) arr[i] = random.Next();
+            var arr = new int[_size];
+            for (var i = 0; i < _size; ++i) arr[i] = random.Next();
             Console.WriteLine($"SelectionSorter:\n\t{scaler.CalRuntime(arr, selector)}");
             Console.WriteLine($"\tSelectionSorter well done?:{selector.IsSorted(arr)}");
         }
@@ -35,8 +35,8 @@ namespace MuxLib.MUtility.Algorithms
             var scaler = new SorterScaler<int>();
             var random = new Random(666);
             var quick = new QuickSorter<int>();
-            var arr = new int[size];
-            for (var i = 0; i < size; ++i) arr[i] = random.Next();
+            var arr = new int[_size];
+            for (var i = 0; i < _size; ++i) arr[i] = random.Next();
             Console.WriteLine($"QuickSorter:\n\t{scaler.CalRuntime(arr, quick)}");
             Console.WriteLine($"\tQuickSorter well done?:{quick.IsSorted(arr)}");
         }

@@ -7,7 +7,7 @@ namespace MuxLib.MUtility.Collections.Table
     {
         private const int UpperTol = 10, LowTol = 2;
 
-        private readonly int[] Capacities
+        private readonly int[] _capacities
             =
             {
                 53, 97, 193, 389, 769,
@@ -25,7 +25,7 @@ namespace MuxLib.MUtility.Collections.Table
         public HashTable()
         {
             Size = 0;
-            _M = Capacities[_capacityIndex];
+            _M = _capacities[_capacityIndex];
             _hashTable = new SortedDictionary<K, V>[_M];
             for (var i = 0; i < _M; ++i) _hashTable[i] = new SortedDictionary<K, V>();
         }
@@ -77,7 +77,7 @@ namespace MuxLib.MUtility.Collections.Table
                 map.Add(key, value);
                 Size++;
 
-                if (Size >= UpperTol * _M && _capacityIndex + 1 < Capacities.Length)
+                if (Size >= UpperTol * _M && _capacityIndex + 1 < _capacities.Length)
                 {
                     _capacityIndex++;
                     Resize(2 * _M);

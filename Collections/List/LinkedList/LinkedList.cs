@@ -7,15 +7,15 @@ namespace MuxLib.MUtility.Collections.List.LinkedList
 {
     public sealed class LinkedList<T> : IList<T> /*Untested*/
     {
-        private readonly Node _dummy_head;
-        private readonly Node _tail;
-
         public LinkedList()
         {
             Count = 0;
-            _dummy_head = new Node();
-            _tail = new Node(null, _dummy_head);
+            DummyHead = new Node();
+            Tail = new Node(null, DummyHead);
         }
+
+        private Node DummyHead { get; }
+        private Node Tail { get; }
 
         public int Count { get; }
 
@@ -54,7 +54,7 @@ namespace MuxLib.MUtility.Collections.List.LinkedList
 
         public bool Contains(T item)
         {
-            var cur = _dummy_head;
+            var cur = DummyHead;
             while (cur.Next != null)
             {
                 if (cur.Data.Equals(item))
@@ -72,7 +72,7 @@ namespace MuxLib.MUtility.Collections.List.LinkedList
 
         public bool Remove(T item)
         {
-            var cur = _dummy_head;
+            var cur = DummyHead;
 
             while (cur.Next != null)
             {
@@ -111,14 +111,14 @@ namespace MuxLib.MUtility.Collections.List.LinkedList
             var mid = Count / 2;
             if (index <= mid || index > 20)
             {
-                var cur = _dummy_head;
+                var cur = DummyHead;
                 for (var i = 0; i < index + 1; i++) cur = cur.Next;
 
                 return cur.Data;
             }
             else // index > mid;
             {
-                var cur = _tail;
+                var cur = Tail;
                 for (var i = 0; i < Count - index + 1; i++) cur = cur.Before;
 
                 return cur.Data;
@@ -134,14 +134,14 @@ namespace MuxLib.MUtility.Collections.List.LinkedList
             var mid = Count / 2;
             if (index <= mid || index > 20)
             {
-                var cur = _dummy_head;
+                var cur = DummyHead;
                 for (var i = 0; i < index + 1; i++) cur = cur.Next;
 
                 cur.Data = item;
             }
             else // index > mid;
             {
-                var cur = _tail;
+                var cur = Tail;
                 for (var i = 0; i < Count - index + 1; i++) cur = cur.Before;
 
                 cur.Data = item;
