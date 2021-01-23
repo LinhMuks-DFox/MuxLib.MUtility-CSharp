@@ -4,10 +4,10 @@ using MuxLib.MUtility.Collections.Metas.ABClass;
 
 namespace MuxLib.MUtility.Collections.Tree.BST
 {
-    public sealed class BST<K, V> : ABCOrderSymbolTable<K, V>
-        where K : IComparable
+    public sealed class Bst<TK, TV> : ABCOrderSymbolTable<TK, TV>
+        where TK : IComparable
     {
-        public BST()
+        public Bst()
         {
             Root = null;
         }
@@ -18,7 +18,7 @@ namespace MuxLib.MUtility.Collections.Tree.BST
 
         private Node Root { set; get; }
 
-        public override V this[K key]
+        public override TV this[TK key]
         {
             get => Get(Root, key);
             set => Root = Set(Root, key, value);
@@ -29,7 +29,7 @@ namespace MuxLib.MUtility.Collections.Tree.BST
             return node?.N ?? 0;
         }
 
-        private static V Get(Node node, K key)
+        private static TV Get(Node node, TK key)
         {
             if (node == null)
                 return default;
@@ -42,7 +42,7 @@ namespace MuxLib.MUtility.Collections.Tree.BST
             };
         }
 
-        private Node Set(Node node, K key, V value)
+        private Node Set(Node node, TK key, TV value)
         {
             if (node == null)
                 return new Node(key, value, 1);
@@ -64,12 +64,12 @@ namespace MuxLib.MUtility.Collections.Tree.BST
             return node;
         }
 
-        public override void Remove(K key)
+        public override void Remove(TK key)
         {
             Root = Remove(Root, key);
         }
 
-        private Node Remove(Node node, K key)
+        private Node Remove(Node node, TK key)
         {
             if (node == null)
                 return null;
@@ -101,12 +101,12 @@ namespace MuxLib.MUtility.Collections.Tree.BST
             return node;
         }
 
-        public override bool Contains(K key)
+        public override bool Contains(TK key)
         {
             return Get(Root, key) == null;
         }
 
-        public override K Min()
+        public override TK Min()
         {
             return Min(Root).Key;
         }
@@ -116,7 +116,7 @@ namespace MuxLib.MUtility.Collections.Tree.BST
             return node.Left == null ? node : Min(node.Left);
         }
 
-        public override K Max()
+        public override TK Max()
         {
             return Max(Root).Key;
         }
@@ -126,13 +126,13 @@ namespace MuxLib.MUtility.Collections.Tree.BST
             return node.Right == null ? node : Max(node.Right);
         }
 
-        public override K Floor(K key)
+        public override TK Floor(TK key)
         {
             var x = Floor(Root, key);
             return x == null ? default : x.Key;
         }
 
-        private static Node Floor(Node node, K key)
+        private static Node Floor(Node node, TK key)
         {
             if (node == null) return null;
             var cmp = key.CompareTo(node.Key);
@@ -148,13 +148,13 @@ namespace MuxLib.MUtility.Collections.Tree.BST
             return n ?? node;
         }
 
-        public override K Ceiling(K key)
+        public override TK Ceiling(TK key)
         {
             var x = Ceiling(Root, key);
             return x == null ? default : x.Key;
         }
 
-        private Node Ceiling(Node node, K key)
+        private Node Ceiling(Node node, TK key)
         {
             if (node == null)
                 return null;
@@ -171,12 +171,12 @@ namespace MuxLib.MUtility.Collections.Tree.BST
             return n ?? node;
         }
 
-        public override int Rank(K key)
+        public override int Rank(TK key)
         {
             return Rank(Root, key);
         }
 
-        private int Rank(Node node, K key)
+        private int Rank(Node node, TK key)
         {
             if (node == null)
                 return 0;
@@ -190,7 +190,7 @@ namespace MuxLib.MUtility.Collections.Tree.BST
             };
         }
 
-        public override K Select(int k)
+        public override TK Select(int k)
         {
             return Select(Root, k).Key;
         }
@@ -233,24 +233,24 @@ namespace MuxLib.MUtility.Collections.Tree.BST
             return node;
         }
 
-        public override int NumberOf(K low, K max)
+        public override int NumberOf(TK low, TK max)
         {
-            return new Queue<K>(SortedKeys(low, max)).Count;
+            return new Queue<TK>(SortedKeys(low, max)).Count;
         }
 
-        public override IEnumerable<K> SortedKeys(K low, K max)
+        public override IEnumerable<TK> SortedKeys(TK low, TK max)
         {
             return SortedKeys(Root, Min(), Max());
         }
 
-        private IEnumerable<K> SortedKeys(Node node, K low, K max)
+        private IEnumerable<TK> SortedKeys(Node node, TK low, TK max)
         {
-            var queue = new Queue<K>(node.N);
+            var queue = new Queue<TK>(node.N);
             SortedKeys(node, queue, low, max);
             return queue;
         }
 
-        private void SortedKeys(Node node, Queue<K> queue, K low, K max)
+        private void SortedKeys(Node node, Queue<TK> queue, TK low, TK max)
         {
             if (node == null)
                 return;
@@ -266,14 +266,14 @@ namespace MuxLib.MUtility.Collections.Tree.BST
 
         private class Node
         {
-            public Node(K key, V value, int n)
+            public Node(TK key, TV value, int n)
             {
                 (Key, Value, N) = (key, value, n);
             }
 
-            public K Key { get; }
+            public TK Key { get; }
 
-            public V Value { set; get; }
+            public TV Value { set; get; }
 
             public Node Left { set; get; }
 

@@ -55,14 +55,13 @@ namespace MuxLib.MUtility.Collections.List.ArrayList
                 if (Data[j].Equals(item))
                     return j;
             }
-
             return -1;
         }
 
         public void Insert(int index, T item)
         {
             if (IsReadOnly)
-                throw new InvalidOperation("Can not insert item into a ReadOnly ArrayList");
+                throw new InvalidOperation("Can Insertnot insert item into a ReadOnly ArrayList");
             if (Count.Equals(Data.Length))
                 Resize(2 * Data.Length);
 

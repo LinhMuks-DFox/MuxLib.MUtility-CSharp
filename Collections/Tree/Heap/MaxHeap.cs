@@ -7,27 +7,27 @@ namespace MuxLib.MUtility.Collections.Tree.Heap
     /// <summary>
     ///     A Generic MaxHeap Class.
     /// </summary>
-    /// <typeparam name="TE">E should implement interface-ICompareable</typeparam>
-    public sealed class MaxHeap<TE>
-        where TE : IComparable
+    /// <typeparam name="TEle">E should implement interface-ICompareable</typeparam>
+    public sealed class MaxHeap<TEle>
+        where TEle : IComparable
     {
-        private readonly List<TE> _data;
+        private readonly List<TEle> _data;
 
-        public MaxHeap(IReadOnlyCollection<TE> arr) /*Heapify*/
+        public MaxHeap(IReadOnlyCollection<TEle> arr) /* Heapify */
         {
-            _data = new List<TE>(arr);
+            _data = new List<TEle>(arr);
             for (var i = FatherOf(arr.Count - 1); i >= 0; i--) SiftDown(i);
         }
 
         public MaxHeap(int preAlloc)
         {
-            _data = new List<TE>(preAlloc);
+            _data = new List<TEle>(preAlloc);
             Capacity = preAlloc;
         }
 
         public MaxHeap()
         {
-            _data = new List<TE>();
+            _data = new List<TEle>();
         }
 
         /// <summary>
@@ -49,7 +49,7 @@ namespace MuxLib.MUtility.Collections.Tree.Heap
         ///     Load a IEnumerable Object's elements in this Heap.
         /// </summary>
         /// <param name="from">Object which is Enumerable</param>
-        public void Load(IEnumerable<TE> from)
+        public void Load(IEnumerable<TEle> from)
         {
             foreach (var i in from) Add(i);
         }
@@ -76,7 +76,7 @@ namespace MuxLib.MUtility.Collections.Tree.Heap
             return index * 2 + 2;
         }
 
-        public void Add(TE ele)
+        public void Add(TEle ele)
         {
             _data.Add(ele);
             SiftUp(Size - 1);
@@ -84,16 +84,16 @@ namespace MuxLib.MUtility.Collections.Tree.Heap
 
         private void SiftUp(int k)
         {
-            /*Find the father element of List[k], and check if his father is less the himself*/
+            /* Find the father element of List[k], and check if his father is less the himself */
             while (k > 0 && _data[FatherOf(k)].CompareTo(_data[k]) < 0)
             {
-                /*Change the position of father and son; let father=son, son=father*/
+                /* Change the position of father and son; let father=son, son=father */
                 Swap(_data, k, FatherOf(k));
                 k = FatherOf(k);
             }
         }
 
-        private static void Swap(IList<TE> list, int i, int j)
+        private static void Swap(IList<TEle> list, int i, int j)
         {
             if (i < 0 || j < 0 || i >= list.Count || j >= list.Count)
                 throw new InvalidArgumentError("Index is invalid");
@@ -103,19 +103,19 @@ namespace MuxLib.MUtility.Collections.Tree.Heap
         }
 
 
-        public TE ExtractMax()
+        public TEle ExtractMax()
         {
             var ret = PeekMax();
-            /*Swap the last element and the first element which will be removed*/
+            /* Swap the last element and the first element which will be removed */
             Swap(_data, 0, _data.Count - 1);
-            /*Remove the Lase element(which is the Max Element of current Heap)*/
+            /* Remove the Lase element(which is the Max Element of current Heap) */
             _data.RemoveAt(_data.Count - 1);
-            /*Response to the nature of MaxHeap*/
+            /* Response to the nature of MaxHeap */
             SiftDown(0);
             return ret;
         }
 
-        public TE PeekMax()
+        public TEle PeekMax()
         {
             if (_data.Count == 0)
                 throw new InvalidArgumentError("Heap is Empty");
@@ -127,9 +127,9 @@ namespace MuxLib.MUtility.Collections.Tree.Heap
             while (LeftChildOf(k) < _data.Count)
             {
                 var j = LeftChildOf(k);
-                /*Find the max one of heap[k]'s left child and right child.*/
+                /* Find the max one of heap[k]'s left child and right child. */
                 if (j + 1 < _data.Count && _data[j + 1].CompareTo(_data[j]) > 0)
-                    j = RightChildOf(k); /*Let j points to the Right child of Heap[k]*/
+                    j = RightChildOf(k); /* Let j points to the Right child of Heap[k] */
                 if (_data[k].CompareTo(_data[j]) >= 0)
                     break;
 
@@ -138,7 +138,7 @@ namespace MuxLib.MUtility.Collections.Tree.Heap
             }
         }
 
-        public TE Replace(TE e)
+        public TEle Replace(TEle e)
         {
             var ret = PeekMax();
             _data[0] = e;
@@ -148,7 +148,7 @@ namespace MuxLib.MUtility.Collections.Tree.Heap
 
         public override string ToString()
         {
-            return $"MaxHeap<{typeof(TE)}> Instance";
+            return $"MaxHeap<{typeof(TEle)}> Instance";
         }
 
         public static void Tester()
@@ -172,7 +172,7 @@ namespace MuxLib.MUtility.Collections.Tree.Heap
             Console.WriteLine("Well Done!");
         }
 
-        public TE[] ToArray()
+        public TEle[] ToArray()
         {
             return _data.ToArray();
         }

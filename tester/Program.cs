@@ -7,8 +7,10 @@ namespace tester
     {
         public static void Main()
         {
-            var adjMatrix = new AdjMatrix(@"E:\MuxLib\MuxLib.MUtility.Sharp\tester\g.txt");
-            Console.WriteLine(adjMatrix);
+            var graph = new Graph(@"E:\MuxLib\MuxLib.MUtility.Sharp\tester\g.txt");
+            var dfs = new GraphDfs(graph);
+            foreach (var ele in dfs.Order)
+                Console.WriteLine(ele);
         }
     }
 }

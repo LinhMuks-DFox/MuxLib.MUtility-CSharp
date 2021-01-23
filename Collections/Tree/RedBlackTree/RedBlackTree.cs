@@ -73,9 +73,7 @@ namespace MuxLib.MUtility.Collections.Tree.RedBlackTree
 
         private int NodeSize(Node node)
         {
-            if (node == null)
-                return 0;
-            return node.N;
+            return node?.N ?? 0;
         }
 
 
@@ -84,11 +82,12 @@ namespace MuxLib.MUtility.Collections.Tree.RedBlackTree
             if (node == null)
                 return default;
             var cmp = key.CompareTo(node.Key);
-            if (cmp > 0)
-                return Get(node.Left, key);
-            if (cmp < 0)
-                return Get(node.Right, key);
-            return node.Value;
+            return cmp switch
+            {
+                > 0 => Get(node.Left, key),
+                < 0 => Get(node.Right, key),
+                _ => node.Value
+            };
         }
 
         private Node Set(Node h, TK key, TV value)
@@ -97,12 +96,18 @@ namespace MuxLib.MUtility.Collections.Tree.RedBlackTree
                 return new Node(key, value, 1, Color.Red);
             var cmp = key.CompareTo(h.Key);
 
-            if (cmp < 0)
-                h.Left = Set(h.Left, key, value);
-            else if (cmp > 0)
-                h.Right = Set(h.Right, key, value);
-            else
-                h.Value = value;
+            switch (cmp)
+            {
+                case < 0:
+                    h.Left = Set(h.Left, key, value);
+                    break;
+                case > 0:
+                    h.Right = Set(h.Right, key, value);
+                    break;
+                default:
+                    h.Value = value;
+                    break;
+            }
 
             if (IsRed(h.Right) && !IsRed(h.Left))
                 h = LeftRotate(h);
@@ -222,13 +227,13 @@ namespace MuxLib.MUtility.Collections.Tree.RedBlackTree
         {
             if (node == null)
                 return;
-            var cmplow = low.CompareTo(node.Key);
-            var cmpmax = max.CompareTo(node.Key);
-            if (cmplow < 0)
+            var cmpLow = low.CompareTo(node.Key);
+            var cmpMax = max.CompareTo(node.Key);
+            if (cmpLow < 0)
                 SortedKeys(node.Left, queue, low, max);
-            if (cmplow <= 0 && cmpmax >= 0)
+            if (cmpLow <= 0 && cmpMax >= 0)
                 queue.Enqueue(node.Key);
-            if (cmpmax > 0)
+            if (cmpMax > 0)
                 SortedKeys(node.Right, queue, low, max);
         }
 
@@ -240,9 +245,9 @@ namespace MuxLib.MUtility.Collections.Tree.RedBlackTree
 
         private class Node
         {
-            public Node(TK key, TV value, int N, Color color)
+            public Node(TK key, TV value, int n, Color color)
             {
-                (Key, Value, this.N, Color) = (key, value, N, color);
+                (Key, Value, N, Color) = (key, value, n, color);
             }
 
             public TK Key { get; }
