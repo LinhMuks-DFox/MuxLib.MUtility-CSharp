@@ -1,5 +1,5 @@
 ﻿using System;
-using MuxLib.MUtility.GraphTheoryAlgorithm;
+using MuxLib.MUtility.Maths.TinyLinearAlgebra;
 
 namespace tester
 {
@@ -7,10 +7,9 @@ namespace tester
     {
         public static void Main()
         {
-            var graph = new Graph(@"E:\MuxLib\MuxLib.MUtility.Sharp\tester\g.txt");
-            var dfs = new GraphDfs(graph);
-            foreach (var ele in dfs.Order)
-                Console.WriteLine(ele);
+            var vectorV = new Vector(new double[2] {3, 4});
+            var vectorU = new Vector(new double[2] {5, 6});
+            Console.WriteLine(-vectorU);
         }
     }
 }

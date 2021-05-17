@@ -52,12 +52,18 @@ namespace MuxLib.MUtility.Collections.Tree.AVLTree
                 return new Node(key, value);
             }
 
-            if (key.CompareTo(node.Key) < 0)
-                node.Left = Append(node.Left, key, value);
-            else if (key.CompareTo(node.Key) > 0)
-                node.Right = Append(node.Right, key, value);
-            else
-                node.Value = value;
+            switch (key.CompareTo(node.Key))
+            {
+                case < 0:
+                    node.Left = Append(node.Left, key, value);
+                    break;
+                case > 0:
+                    node.Right = Append(node.Right, key, value);
+                    break;
+                default:
+                    node.Value = value;
+                    break;
+            }
             // Update Height
             node.Height = 1 + Math.Max(GetHeight(node.Left), GetHeight(node.Right));
             var balanceFactor = GetBalanceFactor(node);

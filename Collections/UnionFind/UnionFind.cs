@@ -28,7 +28,7 @@ namespace MuxLib.MUtility.Collections.UnionFind
         // O(h)
         private int Find(int p)
         {
-            if (p < 0 && p >= _parent.Length)
+            if (p < 0 || p >= _parent.Length)
                 throw new InvalidArgumentError($"Argument p:{p} is invalid.");
             if (p != _parent[p])
                 _parent[p] = Find(_parent[p]);

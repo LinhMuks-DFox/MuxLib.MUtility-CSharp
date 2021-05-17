@@ -11,10 +11,10 @@ namespace MuxLib.MUtility.Algorithms.Sorter
             Sort(arr, 0, arr.Length - 1);
         }
 
-        private static void Sort(T[] arr, int low, int hight)
+        private static void Sort(T[] arr, int low, int high)
         {
-            if (hight <= low) return;
-            int lt = low, i = low + 1, gt = hight;
+            if (high <= low) return;
+            int lt = low, i = low + 1, gt = high;
             var v = arr[low];
             while (i <= gt)
             {
@@ -34,7 +34,7 @@ namespace MuxLib.MUtility.Algorithms.Sorter
             }
 
             Sort(arr, low, lt - 1);
-            Sort(arr, gt + 1, hight);
+            Sort(arr, gt + 1, high);
         }
     }
 }

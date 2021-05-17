@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using System.Text;
-using MuxLib.MUtility.Com.Error;
 using System.Collections.Generic;
+using MuxLib.MUtility.Com.Errors;
 
 namespace MuxLib.MUtility.GraphTheoryAlgorithm
 {
@@ -21,7 +21,7 @@ namespace MuxLib.MUtility.GraphTheoryAlgorithm
         ///     Build Graph
         /// </summary>
         /// <param name="filename">
-        ///     The original file representing the connection of nodes.
+        ///     The original file which is representing the connection of nodes.
         ///     The first number in the file should be non-negative, it will parsed as the number of Vertices,
         ///     the second number in the file should be non-negative too, it will parsed as the number of Edges,
         ///     Then, each of the next two numbers will represent an edge.
@@ -34,6 +34,8 @@ namespace MuxLib.MUtility.GraphTheoryAlgorithm
         /// </param>
         public Graph(string filename)
         {
+            if (!File.Exists(filename)) 
+                throw new IOException($"Can not open {filename}");
             _filename = filename;
             using var fi = new StreamReader(filename);
             var content = fi.ReadToEnd();
@@ -67,8 +69,8 @@ namespace MuxLib.MUtility.GraphTheoryAlgorithm
                 index += 2;
             }
         }
-
-        public Graph(Graph set) : this(set._filename)
+        
+        public Graph(Graph graph) : this(graph._filename)
         {
         }
 

@@ -10,10 +10,10 @@ namespace MuxLib.MUtility.Com.FileHelpers
     {
         public TextReader()
         {
-            Word = new List<string>();
+            Words = new List<string>();
         }
 
-        public List<string> Word { get; }
+        public List<string> Words { get; }
 
         public void Read(string path)
         {
@@ -25,7 +25,7 @@ namespace MuxLib.MUtility.Com.FileHelpers
                 var cur = (char) fi.Read();
                 if (!IsLetters(cur) || cur == '0' || cur == '\n' || cur == '\r')
                 {
-                    Word.Add(buffer);
+                    Words.Add(buffer);
                     buffer = "";
                     continue;
                 }

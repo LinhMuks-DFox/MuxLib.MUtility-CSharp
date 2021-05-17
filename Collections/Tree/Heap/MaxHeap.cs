@@ -62,7 +62,7 @@ namespace MuxLib.MUtility.Collections.Tree.Heap
         private int FatherOf(int index)
         {
             if (index == 0)
-                throw new InvalidArgumentError("index -0 dose not have Father");
+                throw new InvalidArgumentError("index 0 dose not have Father");
             return (index - 1) / 2;
         }
 

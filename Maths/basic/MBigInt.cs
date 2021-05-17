@@ -6,7 +6,7 @@ namespace MuxLib.MUtility.Maths.basic
     [Unimplemented]
     public class MBigInt
     {
-        public const int M_SHIFT = 1073741824; // 2 ** 30
+        public const int MShift = 1073741824; // 2 ** 30
         private List<int> _digits;
         private Signs _sign;
 

@@ -15,6 +15,7 @@ namespace MuxLib.MUtility.Algorithms.Sorter
                     Thread.Sleep(arr[i] * 20);
                     Console.WriteLine(i);
                 });
+                th.Start();
             }
         }
     }
