@@ -73,27 +73,25 @@ namespace MuxLib.MUtility.Collections.Tree.AVLTree
             // #endif
             // Balance maintenance
 
-            // LL
-            if (balanceFactor > 1 && GetBalanceFactor(node.Left) >= 0)
-                return RightRotate(node);
-            // RR
-            if (balanceFactor < -1 && GetBalanceFactor(node.Right) <= 0)
-                return LeftRotate(node);
-            // LR
-            if (balanceFactor > 1 && GetBalanceFactor(node.Left) < 0)
+            switch (balanceFactor)
             {
-                node.Left = LeftRotate(node.Left); // Convert to LL
-                return RightRotate(node);
+                // LL
+                case > 1 when GetBalanceFactor(node.Left) >= 0:
+                    return RightRotate(node);
+                // RR
+                case < -1 when GetBalanceFactor(node.Right) <= 0:
+                    return LeftRotate(node);
+                // LR
+                case > 1 when GetBalanceFactor(node.Left) < 0:
+                    node.Left = LeftRotate(node.Left); // Convert to LL
+                    return RightRotate(node);
+                // RL
+                case < -1 when GetBalanceFactor(node.Right) > 0:
+                    node.Right = RightRotate(node.Right); // Convert to RR
+                    return LeftRotate(node);
+                default:
+                    return node;
             }
-
-            // RL
-            if (balanceFactor < -1 && GetBalanceFactor(node.Right) > 0)
-            {
-                node.Right = RightRotate(node.Right); // Convert to RR
-                return LeftRotate(node);
-            }
-
-            return node;
         }
 
         /*
