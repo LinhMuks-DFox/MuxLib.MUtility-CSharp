@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using MuxLib.MUtility.Collections.List.ArrayList;
 using MuxLib.MUtility.Maths.TinyLinearAlgebra;
 
 namespace tester
@@ -7,9 +9,8 @@ namespace tester
     {
         public static void Main()
         {
-            var vectorV = new Vector(new double[2] {3, 4});
-            var vectorU = new Vector(new double[2] {5, 6});
-            Console.WriteLine(-vectorU);
+            var list = new ArrayList<int>(10);
+            list.Sort((int i, int j) => i - j);
         }
     }
 }
