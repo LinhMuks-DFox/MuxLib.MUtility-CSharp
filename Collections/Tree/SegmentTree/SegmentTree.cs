@@ -2,7 +2,7 @@
 using System.Text;
 using MuxLib.MUtility.Collections.Errors;
 
-namespace MuxLib.MUtility.Collections.Tree
+namespace MuxLib.MUtility.Collections.Tree.SegmentTree
 {
     public sealed class SegmentTree<T>
     {
@@ -111,7 +111,7 @@ namespace MuxLib.MUtility.Collections.Tree
 
         public static void Tester()
         {
-            int?[] nums = {-2, 0, 3, -5, 2, -1};
+            int?[] nums = { -2, 0, 3, -5, 2, -1 };
 
             var segmentTree = new SegmentTree<int?>(
                 nums, (a, b) => a + b

@@ -1,7 +1,7 @@
 ﻿using MuxLib.MUtility.Collections.Errors;
 using MuxLib.MUtility.Collections.Metas.ABClass;
 
-namespace MuxLib.MUtility.Collections.UnionFind
+namespace MuxLib.MUtility.Collections.UnionFind.sketch
 {
     public class UnionFind1 :
         ABCUnionFind

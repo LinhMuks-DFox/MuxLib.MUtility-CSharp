@@ -1,7 +1,8 @@
-﻿namespace MuxLib.MUtility.Encoding
+﻿using System;
+
+namespace MuxLib.MUtility.Encoding
 {
     public class HuffmanTree
     {
-        
     }
 }

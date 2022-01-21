@@ -7,7 +7,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Algorithms\Algorithms.csproj" />
-    <ProjectReference Include="..\Encoding\Encoding.csproj" />
     <ProjectReference Include="..\Collections\Collections.csproj" />
     <ProjectReference Include="..\Com\Com.csproj" />
     <ProjectReference Include="..\GraphTheoryAlgorithm\GraphTheoryAlgorithm.csproj" />
