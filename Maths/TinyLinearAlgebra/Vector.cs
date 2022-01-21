@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using MuxLib.MUtility.Com.Error;
+using MuxLib.MUtility.Com.Errors;
 using MuxLib.MUtility.Maths.basic;
 namespace MuxLib.MUtility.Maths.TinyLinearAlgebra
 {

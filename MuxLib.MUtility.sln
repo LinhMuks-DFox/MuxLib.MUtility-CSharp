@@ -18,7 +18,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Com", "Com\Com.csproj", "{8
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GraphTheoryAlgorithm", "GraphTheoryAlgorithm\GraphTheoryAlgorithm.csproj", "{B0CB83E5-C975-474E-B341-5601489C5E31}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Encoding", "Encoding\Encoding.csproj", "{BD8299FE-3489-4436-BE59-F0B0C904DDDF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Encoding", "Encoding\Encoding.csproj", "{97D7C8DE-9787-429F-847C-24AB9DFFF486}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -50,10 +50,10 @@ Global
 		{B0CB83E5-C975-474E-B341-5601489C5E31}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B0CB83E5-C975-474E-B341-5601489C5E31}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B0CB83E5-C975-474E-B341-5601489C5E31}.Release|Any CPU.Build.0 = Release|Any CPU
-		{BD8299FE-3489-4436-BE59-F0B0C904DDDF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BD8299FE-3489-4436-BE59-F0B0C904DDDF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BD8299FE-3489-4436-BE59-F0B0C904DDDF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BD8299FE-3489-4436-BE59-F0B0C904DDDF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{97D7C8DE-9787-429F-847C-24AB9DFFF486}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{97D7C8DE-9787-429F-847C-24AB9DFFF486}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{97D7C8DE-9787-429F-847C-24AB9DFFF486}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{97D7C8DE-9787-429F-847C-24AB9DFFF486}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
