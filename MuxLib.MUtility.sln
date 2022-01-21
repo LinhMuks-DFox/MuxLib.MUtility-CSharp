@@ -18,6 +18,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Com", "Com\Com.csproj", "{8
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphTheoryAlgorithm", "GraphTheoryAlgorithm\GraphTheoryAlgorithm.csproj", "{B0CB83E5-C975-474E-B341-5601489C5E31}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Coding", "Coding\Coding.csproj", "{DDB13679-BD0B-4DA9-B781-FDE40D0A4F9B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -48,6 +50,10 @@ Global
 		{B0CB83E5-C975-474E-B341-5601489C5E31}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B0CB83E5-C975-474E-B341-5601489C5E31}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B0CB83E5-C975-474E-B341-5601489C5E31}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DDB13679-BD0B-4DA9-B781-FDE40D0A4F9B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DDB13679-BD0B-4DA9-B781-FDE40D0A4F9B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DDB13679-BD0B-4DA9-B781-FDE40D0A4F9B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DDB13679-BD0B-4DA9-B781-FDE40D0A4F9B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
