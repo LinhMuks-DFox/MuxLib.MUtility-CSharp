@@ -1,4 +1,4 @@
-﻿namespace MuxLib.MUtility.Coding
+﻿namespace MuxLib.MUtility.Encoding
 {
     public class HuffmanTree
     {

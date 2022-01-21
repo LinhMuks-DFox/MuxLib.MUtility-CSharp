@@ -18,7 +18,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Com", "Com\Com.csproj", "{8
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphTheoryAlgorithm", "GraphTheoryAlgorithm\GraphTheoryAlgorithm.csproj", "{B0CB83E5-C975-474E-B341-5601489C5E31}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Coding", "Coding\Coding.csproj", "{DDB13679-BD0B-4DA9-B781-FDE40D0A4F9B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Encoding", "Encoding\Encoding.csproj", "{DDB13679-BD0B-4DA9-B781-FDE40D0A4F9B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
